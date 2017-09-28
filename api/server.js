@@ -4,6 +4,10 @@
 // API url: http://localhost:3001/api/
 // User auth: Okta
 
+// Starten:
+// API: DB_USERNAME='Welkom12345' node api/server.js
+// Webserver: npm start
+
 'use strict';
 const express = require('express');
 const mongoose = require('mongoose');
@@ -17,7 +21,7 @@ const Event = require('./model/events');
 // mongoose.connect('mongodb://iris:Welkom12345@ds133044.mlab.com:33044/iris');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://iris:Welkom12345@ds133044.mlab.com:33044/iris', {
+mongoose.connect(`mongodb://iris:${process.env.DB_USERNAME}@ds133044.mlab.com:33044/iris`, {
     keepAlive: true,
     reconnectTries: Number.MAX_VALUE,
     useMongoClient: true
