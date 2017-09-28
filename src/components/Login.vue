@@ -27,11 +27,11 @@
             login () {
                 auth.login(this.email, this.pass, loggedIn => {
                     if (!loggedIn) {
-                    this.error = true
-                } else {
-                    this.$router.replace(this.$route.query.redirect || '/')
-                }
-            })
+                        this.error = true
+                    } else {
+                        this.$router.replace(this.$route.query.redirect || '/')
+                    }
+                })
             }
         }
     }
