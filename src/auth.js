@@ -10,19 +10,25 @@ export default {
             this.onChange(true)
             return
         }
+
         return authClient.signIn({
             username: email,
             password: pass
         }).then(response => {
             if (response.status === 'SUCCESS') {
-                localStorage.token = response.token
-                if (cb) cb(true)
-                this.onChange(true)
+                return authClient.token.getWithoutPrompt({
+                    clientId: `0oac6fqwf8RHuR0Dt0h7`,
+                    responseType: ['id_token', 'token'],
+                    scopes: ['openid', 'email', 'profile'],
+                    sessionToken: response.sessionToken,
+                    redirectUri: 'http://localhost:8080'
+                }).then(tokens => {
+                    localStorage.token = tokens[1].accessToken
+                    localStorage.idToken = tokens[0].idToken
+                    if (cb) cb(true)
+                    this.onChange(true)
+                })
             }
-        }).fail(err => {
-            console.error(err.message)
-            if (cb) cb(false)
-            this.onChange(false)
         })
     },
 

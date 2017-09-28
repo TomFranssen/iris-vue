@@ -10,6 +10,9 @@
                 <router-link to="/about">About</router-link>
             </li>
             <li>
+                <router-link to="/events">Events</router-link>
+            </li>
+            <li>
                 <router-link to="/dashboard">Dashboard</router-link>
                 (authenticated)
             </li>

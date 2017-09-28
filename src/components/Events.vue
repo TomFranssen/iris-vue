@@ -3,7 +3,7 @@
         <template>
             <b-table striped hover :items="events" :fields="fields">
                 <template slot="startDate" scope="data">
-                    {{data.item.eventDates[0].startDate}}
+                    {{data.item.eventDates[0].startDate | moment}}
                 </template>
                 <template slot="city" scope="data">
                     {{data.item.addressInformation.city}}
@@ -15,9 +15,20 @@
 
 <script>
     import axios from 'axios'
+    import moment from 'moment'
 
     export default {
         name: 'events',
+        methods: {
+            moment: function () {
+                return moment()
+            }
+        },
+        filters: {
+            moment: function (date) {
+                return moment(date).format('MMMM Do YYYY')
+            }
+        },
         data () {
             return {
                 fields: [
@@ -52,7 +63,7 @@
         },
 
         created () {
-            axios.get(`http://localhost:3001/api/events`)
+            axios.get('http://localhost:3001/api/events')
                 .then(response => {
                     console.log(response.data)
                     this.events = response.data

@@ -11,7 +11,7 @@ export default new Router({
     mode: 'history',
     base: __dirname,
     routes: [
-        { path: '/events', component: Events },
+        { path: '/events', component: Events, beforeEnter: requireAuth },
         { path: '/dashboard', component: Dashboard, beforeEnter: requireAuth },
         { path: '/login', component: Login },
         { path: '/logout',
