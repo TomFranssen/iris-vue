@@ -1,6 +1,6 @@
 /* globals localStorage */
 const OktaAuth = require('@okta/okta-auth-js')
-const authClient = new OktaAuth({url: 'https://dev-231800-admin.oktapreview.com'})
+const authClient = new OktaAuth({url: 'https://dev-231800-admin.com'})
 
 export default {
     login (email, pass, cb) {

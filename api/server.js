@@ -106,8 +106,6 @@ router.route('/events')
         event.eventDates = eval(req.body.eventDates);
         event.addressInformation.city = req.body.city;
 
-        console.log(eval(req.body.addressInformation));
-
         event.save(function (err) {
             if (err) {
                 return res.send(err);
