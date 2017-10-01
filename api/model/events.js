@@ -2,30 +2,45 @@
 //import dependency
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-//create new instance of the mongoose.schema. the schema takes an
-//object that shows the shape of your database entries.
 
 const EventSchema = new Schema({
     name: String,
+    startDate: {
+        type: Date,
+        required: true
+    },
+    startTime: {
+        type: String,
+        required: true
+    },
+    endTime: {
+        type: String,
+        required: true
+    },
+    maxSignupDate: {
+        type: Date,
+        required: true
+    },
+    gatherTime: {
+        type: String,
+        required: true
+    },
     eventDates:[{
-        startDate: {
-            type: Date,
-            required: true
-        },
-        endDate: {
-            type: Date,
-            required: true
-        }
+        type: Date,
+        required: true
     }],
     eventCoordinator: String,
     addressInformation: {
-        address: String,
+        street: String,
+        postcode: String,
+        houseNumber: String,
         city: {
             type: String,
             required: true
         }
     },
-    website: String,
+    forumUrl: String,
+    websiteUrl: String,
     facilities: {
         publiclyAccessible: Boolean,
         guestsAllowed: Boolean,
@@ -34,7 +49,8 @@ const EventSchema = new Schema({
         parking: Boolean,
         lunch: Boolean,
         drinks: Boolean
-    }
+    },
+    canRegisterGuests: Boolean
 });
 
 //export our module to use in server.js

@@ -13,9 +13,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
+const jwt = require('express-jwt');
+const jwks = require('jwks-rsa');
+const cors = require('cors');
 const router = express.Router();
 const port = process.env.API_PORT || 3001;
-const Comment = require('./model/comments');
 const Event = require('./model/events');
 
 // mongoose.connect('mongodb://iris:Welkom12345@ds133044.mlab.com:33044/iris');
@@ -51,49 +53,6 @@ app.listen(port, function () {
 router.get('/', function (req, res) {
     res.json({message: 'API Initialized!'});
 });
-
-router.route('/comments/:comment_id')
-    .put(function (req, res) {
-        Comment.findById(req.params.comment_id, function (err, comment) {
-            if (err)
-                res.send(err);
-            (req.body.author) ? comment.author = req.body.author : null;
-            (req.body.text) ? comment.text = req.body.text : null;
-            comment.save(function (err) {
-                if (err) {
-                    return res.send(err);
-                }
-                res.json({message: 'Comment has been updated'});
-            });
-        });
-    })
-    .delete(function (req, res) {
-        Comment.remove({_id: req.params.comment_id}, function (err, comment) {
-            if (err)
-                res.send(err);
-            res.json({message: 'Comment has been deleted'})
-        })
-    });
-
-router.route('/comments')
-    .get(function (req, res) {
-        Comment.find(function (err, comments) {
-            if (err)
-                res.send(err);
-            res.json(comments)
-        });
-    })
-    .post(function (req, res) {
-        var comment = new Comment();
-        comment.author = req.body.author;
-        comment.text = req.body.text;
-        comment.save(function (err) {
-            if (err) {
-                return res.send(err);
-            }
-            res.json({message: 'Comment successfully added!'});
-        });
-    });
 
 router.route('/events')
     .get(function (req, res) {

@@ -8,6 +8,9 @@
                 <template slot="city" scope="data">
                     {{data.item.addressInformation.city}}
                 </template>
+                <template slot="link" scope="data">
+                    <router-link :to="{ path: data.item._id}" append>DETAILS</router-link>
+                </template>
             </b-table>
         </template>
     </div>
@@ -42,6 +45,10 @@
                     },
                     {
                         key: 'city',
+                        sortable: true
+                    },
+                    {
+                        key: 'link',
                         sortable: true
                     }
                 ],

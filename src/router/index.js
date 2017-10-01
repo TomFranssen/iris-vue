@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import auth from '@/auth'
+import AddEvent from '@/components/AddEvent.vue'
 import Events from '@/components/Events.vue'
+import Event from '@/components/Event.vue'
 import Dashboard from '@/components/Dashboard.vue'
 import Login from '@/components/Login.vue'
 
@@ -11,7 +13,9 @@ export default new Router({
     mode: 'history',
     base: __dirname,
     routes: [
-        { path: '/events', component: Events, beforeEnter: requireAuth },
+        { path: '/add-event', component: AddEvent },
+        { path: '/events', component: Events },
+        { path: '/events/:id', component: Event },
         { path: '/dashboard', component: Dashboard, beforeEnter: requireAuth },
         { path: '/login', component: Login },
         { path: '/logout',
