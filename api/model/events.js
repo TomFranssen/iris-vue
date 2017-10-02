@@ -5,8 +5,12 @@ const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
     name: String,
-    startDate: {
+    eventDates:[{
         type: Date,
+        required: true
+    }],
+    gatherTime: {
+        type: String,
         required: true
     },
     startTime: {
@@ -21,35 +25,23 @@ const EventSchema = new Schema({
         type: Date,
         required: true
     },
-    gatherTime: {
+    eventCoordinator: String,
+    street: String,
+    postcode: String,
+    houseNumber: String,
+    city: {
         type: String,
         required: true
     },
-    eventDates:[{
-        type: Date,
-        required: true
-    }],
-    eventCoordinator: String,
-    addressInformation: {
-        street: String,
-        postcode: String,
-        houseNumber: String,
-        city: {
-            type: String,
-            required: true
-        }
-    },
     forumUrl: String,
     websiteUrl: String,
-    facilities: {
-        publiclyAccessible: Boolean,
-        guestsAllowed: Boolean,
-        dressingroomAvailable: Boolean,
-        travelRestitution: Boolean,
-        parking: Boolean,
-        lunch: Boolean,
-        drinks: Boolean
-    },
+    publiclyAccessible: Boolean,
+    guestsAllowed: Boolean,
+    dressingroomAvailable: Boolean,
+    travelRestitution: Boolean,
+    parking: Boolean,
+    lunch: Boolean,
+    drinks: Boolean,
     canRegisterGuests: Boolean
 });
 
