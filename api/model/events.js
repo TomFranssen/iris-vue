@@ -6,8 +6,14 @@ const Schema = mongoose.Schema;
 const EventSchema = new Schema({
     name: String,
     eventDates:[{
-        type: Date,
-        required: true
+        date: {
+            type: Date,
+            required: true
+        },
+        availableSpots: {
+            type: Number
+        },
+        listClosed: Boolean
     }],
     gatherTime: {
         type: String,
@@ -34,6 +40,7 @@ const EventSchema = new Schema({
         required: true
     },
     forumUrl: String,
+    facebookEvent: String,
     websiteUrl: String,
     publiclyAccessible: Boolean,
     guestsAllowed: Boolean,
@@ -42,7 +49,8 @@ const EventSchema = new Schema({
     parking: Boolean,
     lunch: Boolean,
     drinks: Boolean,
-    canRegisterGuests: Boolean
+    canRegisterGuests: Boolean,
+    maxSpotsAvailable: Number
 });
 
 //export our module to use in server.js

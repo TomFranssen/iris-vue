@@ -12,8 +12,15 @@
                 <b-row class="form-row">
                     <b-col sm="2"><label>Day {{ index + 1 }}</label></b-col>
                     <b-col sm="10">
-                        <datepicker v-model="eventDates[index]"></datepicker>
-                        <button v-if="canDeleteDate(index)" type="button" v-on:click="removeDate(index)">Remove day</button>
+                        <datepicker v-model="eventDates[index].date"></datepicker>
+                        <b-form-input v-model="eventDates[index].availableSpots" id="name" size="sm" type="number"></b-form-input>
+                        <b-form-checkbox id="event-closed"
+                                         v-model="eventDates[index].listClosed"
+                                         value="1"
+                                         unchecked-value="0">
+                            List closed
+                        </b-form-checkbox>
+                        <button v-if="canDeleteDate(index)" type="button" :click="removeDate(index)">Remove day</button>
                     </b-col>
                 </b-row>
             </div>
@@ -21,24 +28,24 @@
                 <b-row class="form-row">
                     <b-col sm="2"></b-col>
                     <b-col sm="10">
-                        <button type="button" v-on:click="addDate">Add day</button>
+                        <button type="button" :click="addDate">Add day</button>
                     </b-col>
                 </b-row>
             </div>
             <b-row class="form-row">
-                <b-col sm="2"><label for="gather-time">Gather Time:</label></b-col>
+                <b-col sm="2"><label for="gather-time">Gather time:</label></b-col>
                 <b-col sm="10">
                     <vue-timepicker :minute-interval="5" id="gather-time" v-model="gatherTime"></vue-timepicker>
                 </b-col>
             </b-row>
             <b-row class="form-row">
-                <b-col sm="2"><label for="start-time">Start Time:</label></b-col>
+                <b-col sm="2"><label for="start-time">Start time:</label></b-col>
                 <b-col sm="10">
                     <vue-timepicker :minute-interval="5" id="start-time" v-model="startTime"></vue-timepicker>
                 </b-col>
             </b-row>
             <b-row class="form-row">
-                <b-col sm="2"><label for="end-time">End Time:</label></b-col>
+                <b-col sm="2"><label for="end-time">End time:</label></b-col>
                 <b-col sm="10">
                     <vue-timepicker :minute-interval="5" id="end-time" v-model="endTime"></vue-timepicker>
                 </b-col>
@@ -86,6 +93,12 @@
                 </b-col>
             </b-row>
             <b-row class="form-row">
+                <b-col sm="2"><label for="facebook-event">Facebook event:</label></b-col>
+                <b-col sm="10">
+                    <b-form-input v-model="forumUrl" id="facebook-event" size="sm" type="text"></b-form-input>
+                </b-col>
+            </b-row>
+            <b-row class="form-row">
                 <b-col sm="2"><label for="website-url">Website URL:</label></b-col>
                 <b-col sm="10">
                     <b-form-input v-model="websiteUrl" id="website-url" size="sm" type="text"></b-form-input>
@@ -96,8 +109,8 @@
                 <b-col sm="10">
                     <b-form-checkbox id="publicly-accessible"
                                      v-model="publiclyAccessible"
-                                     value="accepted"
-                                     unchecked-value="not_accepted">
+                                     value="1"
+                                     unchecked-value="0">
                         Publicly accessible
                     </b-form-checkbox>
                 </b-col>
@@ -107,8 +120,8 @@
                 <b-col sm="10">
                     <b-form-checkbox id="dressingroom-available"
                                      v-model="dressingroomAvailable"
-                                     value="accepted"
-                                     unchecked-value="not_accepted">
+                                     value="1"
+                                     unchecked-value="0">
                         Dressingroom available
                     </b-form-checkbox>
                 </b-col>
@@ -118,8 +131,8 @@
                 <b-col sm="10">
                     <b-form-checkbox id="travel-restitution"
                                      v-model="travelRestitution"
-                                     value="accepted"
-                                     unchecked-value="not_accepted">
+                                     value="1"
+                                     unchecked-value="0">
                         Travel restitution
                     </b-form-checkbox>
                 </b-col>
@@ -129,8 +142,8 @@
                 <b-col sm="10">
                     <b-form-checkbox id="parking"
                                      v-model="parking"
-                                     value="accepted"
-                                     unchecked-value="not_accepted">
+                                     value="1"
+                                     unchecked-value="0">
                         Parking available
                     </b-form-checkbox>
                 </b-col>
@@ -140,8 +153,8 @@
                 <b-col sm="10">
                     <b-form-checkbox id="lunch"
                                      v-model="lunch"
-                                     value="accepted"
-                                     unchecked-value="not_accepted">
+                                     value="1"
+                                     unchecked-value="0">
                         Lunch available
                     </b-form-checkbox>
                 </b-col>
@@ -151,8 +164,8 @@
                 <b-col sm="10">
                     <b-form-checkbox id="drinks"
                                      v-model="drinks"
-                                     value="accepted"
-                                     unchecked-value="not_accepted">
+                                     value="1"
+                                     unchecked-value="0">
                         Drinks available
                     </b-form-checkbox>
                 </b-col>
@@ -162,8 +175,8 @@
                 <b-col sm="10">
                     <b-form-checkbox id="can-register-guests"
                                      v-model="canRegisterGuests"
-                                     value="accepted"
-                                     unchecked-value="not_accepted">
+                                     value="1"
+                                     unchecked-value="0">
                         Can register guests
                     </b-form-checkbox>
                 </b-col>
@@ -199,7 +212,11 @@ export default {
             return index >= 1
         },
         addDate: function () {
-            this.eventDates.push('')
+            this.eventDates.push({
+                date: '',
+                availableSpots: '',
+                listClosed: ''
+            })
         },
         removeDate: function (index) {
             console.log(index)
@@ -221,13 +238,18 @@ export default {
             },
             maxSignupDate: undefined,
             gatherTime: undefined,
-            eventDates: [''],
+            eventDates: [{
+                date: '',
+                availableSpots: '',
+                listClosed: ''
+            }],
             eventCoordinator: '',
             street: undefined,
             postcode: undefined,
             houseNumber: undefined,
             city: undefined,
             forumUrl: undefined,
+            facebookEvent: undefined,
             websiteUrl: undefined,
             publiclyAccessible: undefined,
             guestsAllowed: undefined,
