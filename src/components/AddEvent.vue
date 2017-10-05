@@ -1,26 +1,26 @@
 <template>
     <div class="add-event">
-        <form action="">
+        <form action="#">
             <h1>Add event</h1>
             <b-row class="form-row">
                 <b-col sm="2"><label for="name">Name:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="name" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required'" v-model.trim="name" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <div v-for="(eventDate, index) in eventDates">
                 <b-row class="form-row">
                     <b-col sm="2"><label>Day {{ index + 1 }}</label></b-col>
                     <b-col sm="10">
-                        <datepicker v-model="eventDates[index].date"></datepicker>
-                        <b-form-input v-model="eventDates[index].availableSpots" id="name" size="sm" type="number"></b-form-input>
+                        <datepicker v-model="eventDate.date"></datepicker>
+                        <b-form-input v-model="eventDate.availableSpots" id="name" size="sm" type="number"></b-form-input>
                         <b-form-checkbox id="event-closed"
-                                         v-model="eventDates[index].listClosed"
+                                         v-model="eventDate.listClosed"
                                          value="1"
                                          unchecked-value="0">
                             List closed
                         </b-form-checkbox>
-                        <button v-if="canDeleteDate(index)" type="button" :click="removeDate(index)">Remove day</button>
+                        <button v-if="canDeleteDate(index)" type="button" v-on:click="removeDate(index)">Remove day</button>
                     </b-col>
                 </b-row>
             </div>
@@ -28,7 +28,7 @@
                 <b-row class="form-row">
                     <b-col sm="2"></b-col>
                     <b-col sm="10">
-                        <button type="button" :click="addDate">Add day</button>
+                        <button type="button" v-on:click="addDate">Add day</button>
                     </b-col>
                 </b-row>
             </div>
@@ -59,49 +59,49 @@
             <b-row class="form-row">
                 <b-col sm="2"><label for="event-coordinator">Event coördinator:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="eventCoordinator" id="event-coordinator" size="sm" type="text"></b-form-input>
+                    <b-form-input v-model.trim="eventCoordinator" id="event-coordinator" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="street">Street:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="street" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-model.trim="street" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="postcode">Postcode:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="postcode" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-model.trim="postcode" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="housenumber">Housenumber:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="houseNumber" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-model.trim="houseNumber" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="city">City:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="city" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-model.trim="city" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="forum-url">Forum URL:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="forumUrl" id="forum-url" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required|url'" name="forum-url" v-model.trim="forumUrl" id="forum-url" size="sm" type="url"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="facebook-event">Facebook event:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="forumUrl" id="facebook-event" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required|url'" v-model.trim="facebookEvent" id="facebook-event" size="sm" type="url"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="website-url">Website URL:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model="websiteUrl" id="website-url" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required|url'" v-model.trim="websiteUrl" id="website-url" size="sm" type="url"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
@@ -184,7 +184,7 @@
             <b-row class="form-row">
                 <b-col sm="2"></b-col>
                 <b-col sm="10">
-                    <b-button size="lg" variant="primary">
+                    <b-button v-on:click="saveEvent" size="lg" variant="primary">
                         Save event
                     </b-button>
                 </b-col>
@@ -221,6 +221,10 @@ export default {
         removeDate: function (index) {
             console.log(index)
             this.$delete(this.eventDates, index)
+        },
+        saveEvent: function () {
+            console.log(123)
+            console.log(this)
         }
     },
     name: 'addEvent',
