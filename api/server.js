@@ -1,78 +1,148 @@
-// Tutorial: https://medium.com/@bryantheastronaut/react-getting-started-the-mern-stack-tutorial-feat-es6-de1a2886be50
-// DB: https://mlab.com
-// Site URL: http://localhost:3000/
-// API url: http://localhost:3001/api/
-// User auth: Okta
-
-// Starten:
-// API: DB_USERNAME='Welkom12345' node api/server.js
-// Webserver: npm start
-
 'use strict';
+
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const app = express();
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
 const cors = require('cors');
-const router = express.Router();
-const port = process.env.API_PORT || 3001;
-const Event = require('./model/events');
+const bodyParser = require('body-parser');
 
-// mongoose.connect('mongodb://iris:Welkom12345@ds133044.mlab.com:33044/iris');
-
-mongoose.Promise = global.Promise;
-mongoose.connect(`mongodb://iris:${process.env.DB_USERNAME}@ds133044.mlab.com:33044/iris`, {
-    keepAlive: true,
-    reconnectTries: Number.MAX_VALUE,
-    useMongoClient: true
-});
-
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-    res.setHeader('Cache-Control', 'no-cache');
-    next();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+
+const authCheck = jwt({
+    secret: jwks.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: "https://501st.eu.auth0.com/.well-known/jwks.json"
+    }),
+    // This is the identifier we set when we created the API
+    audience: 'https://iris.501st.nl',
+    issuer: 'https://501st.eu.auth0.com/',
+    algorithms: ['RS256']
 });
 
-router.get('/', function (req, res) {
-    res.json({message: 'API Initialized!'});
-});
+app.get('/api/battles/public', (req, res) => {
+    let publicBattles = [
+        {
+            id: 1111,
+            name: 'Startup NYC',
+            sponsor: 'Alec Pesola',
+            seedFund: '500k'
+        },
+        {
+            id: 1112,
+            name: 'Startup Ontario',
+            sponsor: 'Ryan Chenkie',
+            seedFund: '750k'
+        },
+        {
+            id: 1113,
+            name: 'Startup Uttah',
+            sponsor: 'Diego Poza',
+            seedFund: '550k'
+        },
+        {
+            id: 1114,
+            name: 'Startup Australia',
+            sponsor: 'Eugene Kogan',
+            seedFund: '500k'
+        },
+        {
+            id: 1115,
+            name: 'Startup Buenos Aires',
+            sponsor: 'Sebastian Peyrott',
+            seedFund: '600k'
+        },
+        {
+            id: 1116,
+            name: 'Startup Lagos',
+            sponsor: 'Prosper Otemuyiwa',
+            seedFund: '650k'
+        },
+        {
+            id: 1117,
+            name: 'Startup Oslo',
+            sponsor: 'Mark Fish',
+            seedFund: '600k'
+        },
+        {
+            id: 1118,
+            name: 'Startup Calabar',
+            sponsor: 'Christian Nwamba',
+            seedFund: '800k'
+        },
+        {
+            id: 1119,
+            name: 'Startup Nairobi',
+            sponsor: 'Aniedi Ubong',
+            seedFund: '700k'
+        }];
 
-app.use('/api', router);
+    res.json(publicBattles);
+})
 
-app.listen(port, function () {
-    console.log(`api running on port ${port}`);
-});
+app.get('/api/battles/private', authCheck, (req,res) => {
+    let privateBattles = [
+        {
+            id: 2111,
+            name: 'Startup Seattle',
+            sponsor: 'Mark Zuckerberg',
+            seedFund: '10M'
+        },
+        {
+            id: 2112,
+            name: 'Startup Vegas',
+            sponsor: 'Bill Gates',
+            seedFund: '20M'
+        },
+        {
+            id: 2113,
+            name: 'Startup Addis-Ababa',
+            sponsor: 'Aliko Dangote',
+            seedFund: '8M'
+        },
+        {
+            id: 2114,
+            name: 'Startup Abuja',
+            sponsor: 'Femi Otedola',
+            seedFund: '5M'
+        },
+        {
+            id: 2115,
+            name: 'Startup Paris',
+            sponsor: 'Jeff Bezos',
+            seedFund: '1.6M'
+        },
+        {
+            id: 2116,
+            name: 'Startup London',
+            sponsor: 'Dave McClure',
+            seedFund: '1M'
+        },
+        {
+            id: 2117,
+            name: 'Startup Oslo',
+            sponsor: 'Paul Graham',
+            seedFund: '2M'
+        },
+        {
+            id: 2118,
+            name: 'Startup Bangkok',
+            sponsor: 'Jeff Clavier',
+            seedFund: '5M'
+        },
+        {
+            id: 2119,
+            name: 'Startup Seoul',
+            sponsor: 'Paul Buchheit',
+            seedFund: '4M'
+        }];
 
-router.get('/', function (req, res) {
-    res.json({message: 'API Initialized!'});
-});
+    res.json(privateBattles);
+})
 
-router.route('/events')
-    .get(function (req, res) {
-        Event.find(function (err, events) {
-            if (err) {
-                res.send(err);
-            }
-            res.json(events)
-        });
-    })
-    .post(function (req, res) {
-        var event = new Event();
-        event.name = req.body.name;
-        event.eventDates = eval(req.body.eventDates);
-        event.addressInformation.city = req.body.city;
-
-        event.save(function (err) {
-            if (err) {
-                return res.send(err);
-            }
-            res.json({message: 'Event successfully added!'});
-        });
-    });
+app.listen(3333);
+console.log('Listening on localhost:3333');
