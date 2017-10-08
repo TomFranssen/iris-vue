@@ -1,6 +1,5 @@
 <template>
     <div>
-        <app-nav></app-nav>
         <h3 class="text-center">Secret Startup Battles</h3>
         <hr/>
 
@@ -26,15 +25,11 @@
 </template>
 
 <script>
-    import AppNav from './AppNav'
     import { isLoggedIn } from '../utils/auth'
     import { getPrivateStartupBattles } from '../utils/events-api'
 
     export default {
         name: 'privateBattles',
-        components: {
-            AppNav
-        },
         data () {
             return {
                 privateBattles: ''

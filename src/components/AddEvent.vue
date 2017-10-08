@@ -195,9 +195,11 @@
 
 
 <script>
-
+import Axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
 import VueTimepicker from 'vue2-timepicker'
+
+const MAX_EVENTS = 10
 
 export default {
     components: {
@@ -206,7 +208,7 @@ export default {
     },
     methods: {
         canAddDate: function () {
-            return this.eventDates.length < 10
+            return this.eventDates.length < MAX_EVENTS
         },
         canDeleteDate: function (index) {
             return index >= 1
@@ -223,46 +225,95 @@ export default {
             this.$delete(this.eventDates, index)
         },
         saveEvent: function () {
-            console.log(123)
-            console.log(this)
+            console.log('post this data: ', this.$data)
+            Axios.post('http://localhost:3333/api/events/private', this.$data)
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
         }
     },
     name: 'addEvent',
     data () {
+//        return {
+//            name: undefined,
+//            eventDates: [{
+//                date: '',
+//                availableSpots: '',
+//                listClosed: ''
+//            }],
+//            gatherTime: {
+//                HH: undefined,
+//                mm: undefined
+//            },
+//            startTime: {
+//                HH: undefined,
+//                mm: undefined
+//            },
+//            endTime: {
+//                HH: undefined,
+//                mm: undefined
+//            },
+//            maxSignupDate: undefined,
+//            eventCoordinator: '',
+//            street: undefined,
+//            postcode: undefined,
+//            houseNumber: undefined,
+//            city: undefined,
+//            forumUrl: undefined,
+//            facebookEvent: undefined,
+//            websiteUrl: undefined,
+//            publiclyAccessible: undefined,
+//            guestsAllowed: undefined,
+//            dressingroomAvailable: undefined,
+//            travelRestitution: undefined,
+//            parking: undefined,
+//            lunch: undefined,
+//            drinks: undefined,
+//            canRegisterGuests: undefined
+//        }
         return {
-            'name': undefined,
-            'startDate': undefined,
-            'startTime': {
-                HH: undefined,
-                mm: undefined
-            },
-            'endTime': {
-                HH: undefined,
-                mm: undefined
-            },
-            maxSignupDate: undefined,
-            gatherTime: undefined,
+            name: 'Star Wars Reads day',
             eventDates: [{
-                date: '',
-                availableSpots: '',
-                listClosed: ''
+                date: '2017-10-03T19:24:00.000Z',
+                availableSpots: 25,
+                listClosed: 0
+            }, {
+                date: '2017-10-04T19:24:00.000Z',
+                availableSpots: 15,
+                listClosed: 0
             }],
-            eventCoordinator: '',
-            street: undefined,
-            postcode: undefined,
-            houseNumber: undefined,
-            city: undefined,
-            forumUrl: undefined,
-            facebookEvent: undefined,
-            websiteUrl: undefined,
-            publiclyAccessible: undefined,
-            guestsAllowed: undefined,
-            dressingroomAvailable: undefined,
-            travelRestitution: undefined,
-            parking: undefined,
-            lunch: undefined,
-            drinks: undefined,
-            canRegisterGuests: undefined
+            gatherTime: {
+                HH: '08',
+                mm: '05'
+            },
+            startTime: {
+                HH: '09',
+                mm: '05'
+            },
+            endTime: {
+                HH: '20',
+                mm: '05'
+            },
+            maxSignupDate: '2017-10-01T19:24:00.000Z',
+            eventCoordinator: 'Richard',
+            street: 'Molenstraat',
+            postcode: '5611XJ',
+            houseNumber: '448',
+            city: 'Eindhoven',
+            forumUrl: 'https://www.nu.nl',
+            facebookEvent: 'https://www.facebook.nl',
+            websiteUrl: 'https://www.501st.nl',
+            publiclyAccessible: 1,
+            guestsAllowed: 0,
+            dressingroomAvailable: 1,
+            travelRestitution: 0,
+            parking: 1,
+            lunch: 1,
+            drinks: 0,
+            canRegisterGuests: 0
         }
     }
 

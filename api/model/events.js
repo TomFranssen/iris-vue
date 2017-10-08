@@ -15,22 +15,37 @@ const EventSchema = new Schema({
         },
         listClosed: Boolean
     }],
-    gatherTime: {
-        type: String,
-        required: true
-    },
-    startTime: {
-        type: String,
-        required: true
-    },
-    endTime: {
-        type: String,
-        required: true
-    },
-    maxSignupDate: {
-        type: Date,
-        required: true
-    },
+    gatherTime: [{
+        HH: {
+            type: String,
+            required: true
+        },
+        mm: {
+            type: String,
+            required: true
+        }
+    }],
+    startTime: [{
+        HH: {
+            type: String,
+            required: true
+        },
+        mm: {
+            type: String,
+            required: true
+        }
+    }],
+    endTime: [{
+        HH: {
+            type: String,
+            required: true
+        },
+        mm: {
+            type: String,
+            required: true
+        }
+    }],
+    maxSignupDate: String,
     eventCoordinator: String,
     street: String,
     postcode: String,
@@ -49,8 +64,7 @@ const EventSchema = new Schema({
     parking: Boolean,
     lunch: Boolean,
     drinks: Boolean,
-    canRegisterGuests: Boolean,
-    maxSpotsAvailable: Number
+    canRegisterGuests: Boolean
 });
 
 //export our module to use in server.js

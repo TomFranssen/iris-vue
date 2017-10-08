@@ -1,23 +1,14 @@
 <template>
-    <div class="events">
+    <div>
         <template>
-            <b-table striped hover :items="events" :fields="fields">
-                <template slot="startDate" scope="data">
-                    {{data.item.eventDates[0].startDate | moment}}
-                </template>
-                <template slot="city" scope="data">
-                    {{data.item.addressInformation.city}}
-                </template>
-                <template slot="link" scope="data">
-                    <router-link :to="{ path: data.item._id}" append>DETAILS</router-link>
-                </template>
+            <b-table striped hover :items="events">
             </b-table>
         </template>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
+//    import axios from 'axios'
     import moment from 'moment'
 
     export default {
@@ -67,18 +58,18 @@
                     }
                 ]
             }
-        },
-
-        created () {
-            axios.get('http://localhost:3001/api/events')
-                .then(response => {
-                    console.log(response.data)
-                    this.events = response.data
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                })
         }
+
+//        created () {
+//            axios.get('http://localhost:3001/api/events')
+//                .then(response => {
+//                    console.log(response.data)
+//                    this.events = response.data
+//                })
+//                .catch(e => {
+//                    this.errors.push(e)
+//                })
+//        }
 
     }
 </script>

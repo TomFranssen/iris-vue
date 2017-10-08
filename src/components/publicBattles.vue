@@ -1,6 +1,5 @@
 <template>
     <div>
-        <app-nav></app-nav>
         <h3 class="text-center">Daily Startup Battles</h3>
         <hr/>
 
@@ -29,15 +28,11 @@
 </template>
 
 <script>
-    import AppNav from './AppNav'
     import { isLoggedIn } from '../utils/auth'
     import { getPublicStartupBattles } from '../utils/events-api'
 
     export default {
         name: 'publicBattles',
-        components: {
-            AppNav
-        },
         data () {
             return {
                 publicBattles: ''

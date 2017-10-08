@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <app-nav></app-nav>
         <template v-if="$route.matched.length">
             <div class="container-fluid">
                 <router-view></router-view>
@@ -9,10 +10,14 @@
 </template>
 
 <script>
+    import AppNav from './components/AppNav'
     import { isLoggedIn, login, logout } from './utils/auth'
 
     export default {
-        name: 'app-nav',
+        name: 'app',
+        components: {
+            AppNav
+        },
         methods: {
             handleLogin () {
                 login()
