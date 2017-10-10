@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PrivateBattles from '@/components/privateBattles'
 import PublicBattles from '@/components/publicBattles'
 import AddEvent from '@/components/AddEvent'
 import Events from '@/components/Events'
@@ -17,12 +16,6 @@ export default new Router({
             path: '/',
             name: 'PublicBattles',
             component: PublicBattles
-        },
-        {
-            path: '/private-battles',
-            name: 'PrivateBattles',
-            component: PrivateBattles,
-            beforeEnter: requireAuth
         },
         {
             path: '/add-event',

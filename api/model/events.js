@@ -13,7 +13,7 @@ const EventSchema = new Schema({
         availableSpots: {
             type: Number
         },
-        listClosed: Boolean
+        open: Boolean
     }],
     gatherTime: [{
         HH: {

@@ -8,11 +8,10 @@ import App from './App'
 import router from './router'
 
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 const config = {
     errorBagName: 'errors', // change if property conflicts.
-    fieldsBagName: 'fields',
+    fieldsBagName: 'formFields',
     delay: 0,
     locale: 'en',
     dictionary: null,

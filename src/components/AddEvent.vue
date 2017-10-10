@@ -10,16 +10,34 @@
             </b-row>
             <div v-for="(eventDate, index) in eventDates">
                 <b-row class="form-row">
-                    <b-col sm="2"><label>Day {{ index + 1 }}</label></b-col>
+                    <b-col sm="2"><label><strong>Day {{ index + 1 }}</strong></label></b-col>
+                </b-row>
+                <b-row class="form-row">
+                    <b-col sm="2"><label>Date</label></b-col>
                     <b-col sm="10">
                         <datepicker v-model="eventDate.date"></datepicker>
+                    </b-col>
+                </b-row>
+                <b-row class="form-row">
+                    <b-col sm="2"><label>Available spots</label></b-col>
+                    <b-col sm="10">
                         <b-form-input v-model="eventDate.availableSpots" id="name" size="sm" type="number"></b-form-input>
-                        <b-form-checkbox id="event-closed"
-                                         v-model="eventDate.listClosed"
+                    </b-col>
+                </b-row>
+                <b-row class="form-row">
+                    <b-col sm="2"></b-col>
+                    <b-col sm="10">
+                        <b-form-checkbox id="open"
+                                         v-model="eventDate.open"
                                          value="1"
                                          unchecked-value="0">
-                            List closed
+                            Open for registration
                         </b-form-checkbox>
+                    </b-col>
+                </b-row>
+                <b-row class="form-row">
+                    <b-col sm="2"></b-col>
+                    <b-col sm="10">
                         <button v-if="canDeleteDate(index)" type="button" v-on:click="removeDate(index)">Remove day</button>
                     </b-col>
                 </b-row>
@@ -217,7 +235,7 @@ export default {
             this.eventDates.push({
                 date: '',
                 availableSpots: '',
-                listClosed: ''
+                open: ''
             })
         },
         removeDate: function (index) {
@@ -225,14 +243,16 @@ export default {
             this.$delete(this.eventDates, index)
         },
         saveEvent: function () {
-            console.log('post this data: ', this.$data)
-            Axios.post('http://localhost:3333/api/events/private', this.$data)
-                .then(function (response) {
-                    console.log(response)
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })
+            if (confirm('Do you want to add this event?')) {
+                Axios.post('http://localhost:3333/api/events/private', this.$data)
+                    .then(function (response) {
+                        console.log(response)
+                        window.location.href = '/events'
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            }
         }
     },
     name: 'addEvent',
@@ -242,7 +262,7 @@ export default {
 //            eventDates: [{
 //                date: '',
 //                availableSpots: '',
-//                listClosed: ''
+//                open: ''
 //            }],
 //            gatherTime: {
 //                HH: undefined,
@@ -279,11 +299,11 @@ export default {
             eventDates: [{
                 date: '2017-10-03T19:24:00.000Z',
                 availableSpots: 25,
-                listClosed: 0
+                open: 1
             }, {
                 date: '2017-10-04T19:24:00.000Z',
                 availableSpots: 15,
-                listClosed: 0
+                open: 1
             }],
             gatherTime: {
                 HH: '08',

@@ -12,7 +12,7 @@
             this.$nextTick(() => {
                 setAccessToken()
                 setIdToken()
-                window.location.href = '/'
+                window.location.href = '/events'
             })
         }
     }

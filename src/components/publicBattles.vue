@@ -1,29 +1,7 @@
 <template>
     <div>
-        <h3 class="text-center">Daily Startup Battles</h3>
-        <hr/>
-
-        <div class="col-sm-4" v-for="battle in publicBattles">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"> {{ battle.name }} </h3>
-                </div>
-                <div class="panel-body">
-                    <p><span class="badge alert-info"> Sponsor: </span> {{ battle.sponsor }} </p>
-                    <p><span class="badge alert-danger"> SeedFund: </span><strong> ${{ battle.seedFund }} </strong></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-12">
-            <div class="jumbotron text-center" v-if="isLoggedIn()">
-                <h2>View Private Startup Battles</h2>
-                <router-link class="btn btn-lg btn-success" to="/private-battles">Private Startup Battles</router-link>
-            </div>
-            <div class="jumbotron text-center" v-else>
-                <h2>Get Access to Private Startup Battles by Logging In</h2>
-            </div>
-        </div>
+        <h3 class="text-center">Login for events</h3>
+        <div style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/4oy6El408pM8o" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/ah-4oy6El408pM8o">via GIPHY</a></p>
     </div>
 </template>
 

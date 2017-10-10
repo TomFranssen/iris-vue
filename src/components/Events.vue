@@ -1,75 +1,41 @@
 <template>
     <div>
         <template>
-            <b-table striped hover :items="events">
-            </b-table>
+            <h1>All events</h1>
+            <b-table striped hover :items="events"></b-table>
         </template>
     </div>
 </template>
 
 <script>
-//    import axios from 'axios'
     import moment from 'moment'
+    import { isLoggedIn } from '../utils/auth'
+    import { getPrivateEvents } from '../utils/events-api'
 
     export default {
         name: 'events',
         methods: {
             moment: function () {
                 return moment()
-            }
-        },
-        filters: {
-            moment: function (date) {
-                return moment(date).format('MMMM Do YYYY')
+            },
+            isLoggedIn () {
+                return isLoggedIn()
+            },
+            getPrivateEvents () {
+                getPrivateEvents().then((events) => {
+                    this.events = events
+                })
             }
         },
         data () {
             return {
-                fields: [
-                    {
-                        key: 'name',
-                        sortable: true
-                    },
-                    {
-                        key: 'startDate',
-                        sortable: true
-                    },
-                    {
-                        key: 'city',
-                        sortable: true
-                    },
-                    {
-                        key: 'link',
-                        sortable: true
-                    }
-                ],
-                events: [
-                    {
-                        'name': '',
-                        'eventDates': [
-                            {
-                                'startDate': '',
-                                'endDate': ''
-                            }
-                        ],
-                        'addressInformation': {
-                            'city': ''
-                        }
-                    }
-                ]
+                events: []
             }
-        }
+        },
 
-//        created () {
-//            axios.get('http://localhost:3001/api/events')
-//                .then(response => {
-//                    console.log(response.data)
-//                    this.events = response.data
-//                })
-//                .catch(e => {
-//                    this.errors.push(e)
-//                })
-//        }
+        mounted () {
+            this.getPrivateEvents()
+        }
 
     }
 </script>

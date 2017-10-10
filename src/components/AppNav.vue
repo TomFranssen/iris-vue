@@ -5,6 +5,7 @@
         <b-collapse is-nav id="nav_collapse">
             <b-nav is-nav-bar>
                 <b-nav-item v-show="isLoggedIn()" href="/events">Events</b-nav-item>
+                <b-nav-item v-show="isLoggedIn()" href="/add-event">Add Event</b-nav-item>
             </b-nav>
             <b-nav is-nav-bar class="ml-auto">
                 <b-nav is-nav-bar right>

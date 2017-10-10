@@ -51,8 +51,11 @@ app.get('/api/battles/public', (req, res) => {
     })
 })
 
-app.get('/api/battles/private', authCheck, (req,res) => {
+app.get('/api/events/private', authCheck, (req,res) => {
     Event.find(function (err, events) {
+
+        console.log('events: ', events);
+
         if (err) {
             res.send(err);
         }
