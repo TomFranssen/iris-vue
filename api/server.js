@@ -42,15 +42,6 @@ const authCheck = jwt({
     algorithms: ['RS256']
 });
 
-app.get('/api/battles/public', (req, res) => {
-    Event.find(function (err, events) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(events)
-    })
-})
-
 app.get('/api/events/private', authCheck, (req,res) => {
     Event.find(function (err, events) {
 
