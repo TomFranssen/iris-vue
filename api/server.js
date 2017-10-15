@@ -41,7 +41,7 @@ const authCheck = jwt({
     algorithms: ['RS256']
 });
 
-app.get('/api/events/private', authCheck, (req,res) => {
+app.get('/api/private/events', authCheck, (req,res) => {
     Event.find(function (err, events) {
         if (err) {
             res.send(err);
@@ -50,7 +50,7 @@ app.get('/api/events/private', authCheck, (req,res) => {
     })
 })
 
-app.post('/api/events/private', (req, res) => {
+app.post('/api/private/events', (req, res) => {
     var event = new Event(req.body)
 
     event.save(function (err) {

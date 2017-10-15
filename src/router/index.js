@@ -34,7 +34,8 @@ export default new Router({
             path: '/event/:id',
             name: 'Event details',
             component: EventDetails,
-            beforeEnter: requireAuth
+            beforeEnter: requireAuth,
+            props: true
         },
         {
             path: '/dashboard',

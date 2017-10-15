@@ -1,9 +1,8 @@
 <template>
     <div>
         <template>
-            {{ this.$route.params }}
             <pre>
-                {{ events }}
+                {{ event }}
             </pre>
         </template>
     </div>
@@ -21,6 +20,7 @@
                 return moment(date).format('dddd MMMM Do YYYY')
             }
         },
+        props: ['id'],
         methods: {
             moment: function () {
                 return moment()
@@ -29,25 +29,30 @@
                 return isLoggedIn()
             },
             getPrivateEvents () {
+                var id = this.id
                 getPrivateEvents().then((events) => {
-                    this.events = events
+                    var vueComponent = this
+
+                    events.filter(function (event) {
+                        if (event._id === id) {
+                            vueComponent.event = event
+                        }
+                    })
                 })
             }
         },
         data () {
             return {
-                events: [
-                    {
-                        name: 'Loading events',
-                        eventDates: [
-                            {
-                                date: '2017-10-03T19:24:00.000Z',
-                                availableSpots: 25,
-                                open: 1
-                            }
-                        ]
-                    }
-                ]
+                event: {
+                    name: 'Loading events',
+                    eventDates: [
+                        {
+                            date: '2017-10-03T19:24:00.000Z',
+                            availableSpots: 25,
+                            open: 1
+                        }
+                    ]
+                }
             }
         },
 

@@ -255,7 +255,7 @@ export default {
             this.$validator.validateAll().then((result) => {
                 if (result) {
                     if (confirm('Do you want to add this event?')) {
-                        Axios.post('http://localhost:3333/api/events/private', this.$data)
+                        Axios.post('http://localhost:3333/api/private/events', this.$data)
                             .then(function (response) {
                                 console.log(response)
                                 window.location.href = '/events'
