@@ -7,5 +7,9 @@ export {getPrivateEvents}
 
 function getPrivateEvents () {
     const url = `${BASE_URL}/api/events/private`
-    return axios.get(url, {headers: { Authorization: `Bearer ${getAccessToken()}` }}).then(response => response.data)
+    return axios.get(url, {
+        headers: {
+            Authorization: `Bearer ${getAccessToken()}`
+        }
+    }).then(response => response.data)
 }

@@ -1,24 +1,10 @@
 <template>
     <div>
         <template>
-            <h1>All events</h1>
-            <ul id="example-1">
-                <li v-for="event in events">
-                    <div class="row">
-                        <div class="col">
-                            {{ event.name }}
-                        </div>
-                        <div class="col">
-                            {{ event.eventDates[0].date | moment }}
-                        </div>
-                        <div class="col">
-                            <router-link class="btn btn-primary" :to="'event/' + event._id">
-                                View Details
-                            </router-link>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+            {{ this.$route.params }}
+            <pre>
+                {{ events }}
+            </pre>
         </template>
     </div>
 </template>
@@ -85,5 +71,9 @@
     li {
         display: block;
         margin: 0 10px;
+    }
+
+    a {
+        color: #35495E;
     }
 </style>

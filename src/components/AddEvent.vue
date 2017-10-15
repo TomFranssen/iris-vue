@@ -5,7 +5,8 @@
             <b-row class="form-row">
                 <b-col sm="2"><label for="name">Name:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-validate="'required'" v-model.trim="name" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required'" name="name" v-model.trim="name" id="name" size="sm" type="text"></b-form-input>
+                    <p class="text-danger" v-if="errors.has('name')">{{ errors.first('name') }}</p>
                 </b-col>
             </b-row>
             <div v-for="(eventDate, index) in eventDates">
@@ -15,19 +16,21 @@
                 <b-row class="form-row">
                     <b-col sm="2"><label>Date</label></b-col>
                     <b-col sm="10">
-                        <datepicker v-model="eventDate.date"></datepicker>
+                        <datepicker v-validate="'required'" v-bind:name="'eventdate-' + index" v-model="eventDate.date"></datepicker>
+                        <p class="text-danger" v-if="errors.has('eventdate-' + index)">{{ errors.first('eventdate-' + index) }}</p>
                     </b-col>
                 </b-row>
                 <b-row class="form-row">
                     <b-col sm="2"><label>Available spots</label></b-col>
                     <b-col sm="10">
-                        <b-form-input v-model="eventDate.availableSpots" id="name" size="sm" type="number"></b-form-input>
+                        <b-form-input v-validate="'required'" v-model="eventDate.availableSpots" v-bind:name="'eventdate-availablespots-' + index" id="available-spots" size="sm" type="number"></b-form-input>
+                        <p class="text-danger" v-if="errors.has('eventdate-availablespots-' + index)">{{ errors.first('eventdate-availablespots-' + index) }}</p>
                     </b-col>
                 </b-row>
                 <b-row class="form-row">
                     <b-col sm="2"></b-col>
                     <b-col sm="10">
-                        <b-form-checkbox id="open"
+                        <b-form-checkbox v-validate="'required'" id="open"
                                          v-model="eventDate.open"
                                          value="1"
                                          unchecked-value="0">
@@ -53,61 +56,67 @@
             <b-row class="form-row">
                 <b-col sm="2"><label for="gather-time">Gather time:</label></b-col>
                 <b-col sm="10">
-                    <vue-timepicker :minute-interval="5" id="gather-time" v-model="gatherTime"></vue-timepicker>
+                    <vue-timepicker v-validate="'required'" name="gather-time" :minute-interval="5" id="gather-time" v-model="gatherTime"></vue-timepicker>
+                    <p class="text-danger" v-if="errors.has('gather-time')">{{ errors.first('gather-time') }}</p>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="start-time">Start time:</label></b-col>
                 <b-col sm="10">
-                    <vue-timepicker :minute-interval="5" id="start-time" v-model="startTime"></vue-timepicker>
+                    <vue-timepicker v-validate="'required'" name="start-time" :minute-interval="5" id="start-time" v-model="startTime"></vue-timepicker>
+                    <p class="text-danger" v-if="errors.has('start-time')">{{ errors.first('start-time') }}</p>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="end-time">End time:</label></b-col>
                 <b-col sm="10">
-                    <vue-timepicker :minute-interval="5" id="end-time" v-model="endTime"></vue-timepicker>
+                    <vue-timepicker v-validate="'required'" name="end-time" :minute-interval="5" id="end-time" v-model="endTime"></vue-timepicker>
+                    <p class="text-danger" v-if="errors.has('end-time')">{{ errors.first('end-time') }}</p>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="max-signup-date">Max signup date:</label></b-col>
                 <b-col sm="10">
-                    <datepicker id="max-signup-date" v-model="maxSignupDate"></datepicker>
+                    <datepicker v-validate="'required'" name="max-signup-date" id="max-signup-date" v-model="maxSignupDate"></datepicker>
+                    <p class="text-danger" v-if="errors.has('max-signup-date')">{{ errors.first('max-signup-date') }}</p>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="event-coordinator">Event coördinator:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model.trim="eventCoordinator" id="event-coordinator" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required'" v-model.trim="eventCoordinator" name="event-coordinator" id="event-coordinator" size="sm" type="text"></b-form-input>
+                    <p class="text-danger" v-if="errors.has('event-coordinator')">{{ errors.first('event-coordinator') }}</p>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="street">Street:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model.trim="street" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required'" v-model.trim="street" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="postcode">Postcode:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model.trim="postcode" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required'" v-model.trim="postcode" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="housenumber">Housenumber:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model.trim="houseNumber" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required'" v-model.trim="houseNumber" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="city">City:</label></b-col>
                 <b-col sm="10">
-                    <b-form-input v-model.trim="city" id="name" size="sm" type="text"></b-form-input>
+                    <b-form-input v-validate="'required'" v-model.trim="city" id="name" size="sm" type="text"></b-form-input>
                 </b-col>
             </b-row>
             <b-row class="form-row">
                 <b-col sm="2"><label for="forum-url">Forum URL:</label></b-col>
                 <b-col sm="10">
                     <b-form-input v-validate="'required|url'" name="forum-url" v-model.trim="forumUrl" id="forum-url" size="sm" type="url"></b-form-input>
+                    <p class="text-danger" v-if="errors.has('forum-url')">{{ errors.first('forum-url') }}</p>
                 </b-col>
             </b-row>
             <b-row class="form-row">
@@ -243,16 +252,23 @@ export default {
             this.$delete(this.eventDates, index)
         },
         saveEvent: function () {
-            if (confirm('Do you want to add this event?')) {
-                Axios.post('http://localhost:3333/api/events/private', this.$data)
-                    .then(function (response) {
-                        console.log(response)
-                        window.location.href = '/events'
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
-            }
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    if (confirm('Do you want to add this event?')) {
+                        Axios.post('http://localhost:3333/api/events/private', this.$data)
+                            .then(function (response) {
+                                console.log(response)
+                                window.location.href = '/events'
+                            })
+                            .catch(function (error) {
+                                console.log(error)
+                            })
+                    }
+                    return
+                }
+                alert('Please correctly fill in all the fields.')
+                this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
+            })
         }
     },
     name: 'addEvent',
@@ -323,7 +339,7 @@ export default {
             postcode: '5611XJ',
             houseNumber: '448',
             city: 'Eindhoven',
-            forumUrl: 'https://www.nu.nl',
+            forumUrl: 'https://forum.501st.nl',
             facebookEvent: 'https://www.facebook.nl',
             websiteUrl: 'https://www.501st.nl',
             publiclyAccessible: 1,

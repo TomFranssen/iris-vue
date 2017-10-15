@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
 });
 
 mongoose.Promise = global.Promise;
-mongoose.connect(`mongodb://iris:${process.env.DB_USERNAME}@ds133044.mlab.com:33044/iris`, {
+mongoose.connect(`mongodb://iris:${process.env.DB_PASSWORD}@ds133044.mlab.com:33044/iris`, {
     keepAlive: true,
     reconnectTries: Number.MAX_VALUE,
     useMongoClient: true
@@ -36,7 +36,6 @@ const authCheck = jwt({
         jwksRequestsPerMinute: 5,
         jwksUri: "https://501st.eu.auth0.com/.well-known/jwks.json"
     }),
-    // This is the identifier we set when we created the API
     audience: 'https://iris.501st.nl',
     issuer: 'https://501st.eu.auth0.com/',
     algorithms: ['RS256']
@@ -44,9 +43,6 @@ const authCheck = jwt({
 
 app.get('/api/events/private', authCheck, (req,res) => {
     Event.find(function (err, events) {
-
-        console.log('events: ', events);
-
         if (err) {
             res.send(err);
         }
