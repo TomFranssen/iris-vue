@@ -7,7 +7,7 @@ const ACCESS_TOKEN_KEY = 'access_token'
 const CLIENT_ID = '1ySh5N0sOXxMkcAslnuhRfxO5BloY56t'
 const CLIENT_DOMAIN = '501st.eu.auth0.com'
 const REDIRECT = 'http://localhost:8080/callback'
-const SCOPE = 'openid profile email app_metadata'
+const SCOPE = 'openid profile email user_metadata app_metadata groups permissions roles'
 const AUDIENCE = 'https://iris.501st.nl'
 
 const auth = new auth0.WebAuth({

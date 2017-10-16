@@ -1,10 +1,14 @@
 'use strict';
-//import dependency
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const EventSchema = new Schema({
     name: String,
+    allegiances: {
+        type: [String],
+        enum: ['Dutch Garrison', 'Dune Sea Base'],
+        required: true
+    },
     eventDates:[{
         date: {
             type: Date,
@@ -13,6 +17,22 @@ const EventSchema = new Schema({
         availableSpots: {
             type: Number
         },
+        signedUpUsers: [
+            {
+                username: {
+                    type: String,
+                    required: true
+                },
+                signUpDate: {
+                    type: Date,
+                    required: true
+                },
+                costume: {
+                    type: String,
+                    required: true
+                }
+            }
+        ],
         open: Boolean
     }],
     gatherTime: [{
@@ -65,7 +85,6 @@ const EventSchema = new Schema({
     lunch: Boolean,
     drinks: Boolean,
     canRegisterGuests: Boolean
-});
+})
 
-//export our module to use in server.js
-module.exports = mongoose.model('Event', EventSchema);
+module.exports = mongoose.model('Event', EventSchema)

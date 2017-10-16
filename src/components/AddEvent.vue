@@ -9,6 +9,21 @@
                     <p class="text-danger" v-if="errors.has('name')">{{ errors.first('name') }}</p>
                 </b-col>
             </b-row>
+
+            <b-row>
+                <b-col sm="2">
+                    Event for
+                </b-col>
+                <b-col sm="10">
+                    <div id='example-3'>
+                        <input v-validate="'required'" name="allegiances" type="checkbox" id="dutch-garrison" value="Dutch Garrison" v-model="allegiances">
+                        <label for="dutch-garrison">Dutch Garrison</label>
+                        <input v-validate="'required'" type="checkbox" name="allegiances"  id="dune-sea-base" value="Dune Sea Base" v-model="allegiances">
+                        <label for="dune-sea-base">Dune Sea Base</label>
+                        <p class="text-danger" v-if="errors.has('allegiances')">{{ errors.first('allegiances') }}</p>
+                    </div>
+                </b-col>
+            </b-row>
             <div v-for="(eventDate, index) in eventDates">
                 <b-row class="form-row">
                     <b-col sm="2"><label><strong>Day {{ index + 1 }}</strong></label></b-col>
@@ -257,8 +272,11 @@ export default {
                     if (confirm('Do you want to add this event?')) {
                         Axios.post('http://localhost:3333/api/private/events', this.$data)
                             .then(function (response) {
-                                console.log(response)
-                                window.location.href = '/events'
+                                if (response.data.message) {
+                                    alert(response.data.message)
+                                } else {
+                                    this.$router.push('events')
+                                }
                             })
                             .catch(function (error) {
                                 console.log(error)
@@ -312,6 +330,7 @@ export default {
 //        }
         return {
             name: 'Star Wars Reads day',
+            allegiances: ['Dutch Garrison', 'Dune Sea Base'],
             eventDates: [{
                 date: '2017-10-03T19:24:00.000Z',
                 availableSpots: 25,

@@ -4,11 +4,15 @@
             <pre>
                 {{ event }}
             </pre>
+            <b-button v-on:click="signupForEvent" size="lg" variant="primary">
+                Sign up for event
+            </b-button>
         </template>
     </div>
 </template>
 
 <script>
+    import Axios from 'axios'
     import moment from 'moment'
     import { isLoggedIn } from '../utils/auth'
     import { getPrivateEvents } from '../utils/events-api'
@@ -39,6 +43,21 @@
                         }
                     })
                 })
+            },
+            signupForEvent () {
+                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+
+                Axios.put('http://localhost:3333/api/private/event/signup', this.$data)
+                    .then(function (response) {
+                        if (response.data.message) {
+                            alert(response.data.message)
+                        } else {
+                            this.$router.push('events')
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
             }
         },
         data () {
