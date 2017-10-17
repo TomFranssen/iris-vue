@@ -4,11 +4,16 @@ const express = require('express')
 const app = express()
 const jwt = require('express-jwt')
 const jwks = require('jwks-rsa')
+const jwtAuthz = require('express-jwt-authz')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const Event = require('./model/events')
 const mongoose = require('mongoose')
-const guard = require('express-jwt-permissions')()
+require('dotenv').config()
+
+if (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_AUDIENCE) {
+    throw 'Make sure you have AUTH0_DOMAIN, and AUTH0_AUDIENCE in your .env file';
+}
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -35,24 +40,14 @@ const authCheck = jwt({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: 'https://501st.eu.auth0.com/.well-known/jwks.json'
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
     }),
-    audience: 'https://iris.501st.nl',
-    issuer: 'https://501st.eu.auth0.com/',
+    audience: process.env.AUTH0_AUDIENCE,
+    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
     algorithms: ['RS256']
 })
 
-// authorization check
-function authorizationCheck(req, res, next) {
-    console.log(req)
-
-    if (!req.user.admin) {
-        return res.sendStatus(401);
-    } else {
-        // move to the next middleware, cause it's ok
-        next();
-    }
-}
+const checkScopes = jwtAuthz(['create:dgevent'])
 
 app.get('/api/private/events', authCheck, (req,res) => {
     Event.find(function (err, events) {
@@ -63,8 +58,8 @@ app.get('/api/private/events', authCheck, (req,res) => {
     })
 })
 
-app.put('/api/private/event/signup', authCheck, authorizationCheck, (req, res) => {
-    console.log(req)
+app.put('/api/private/event/signup', authCheck, checkScopes, (req, res) => {
+    console.log(req.user)
     // console.log(guard.check(['user:read']))
 
     // Event.findById(req.params.todoId, (err, todo) => {

@@ -1,3 +1,4 @@
+// try this: https://github.com/auth0-samples/auth0-express-api-samples/blob/master/01-Authorization-RS256/package.json
 import decode from 'jwt-decode'
 import auth0 from 'auth0-js'
 import Router from 'vue-router'
@@ -14,8 +15,6 @@ const auth = new auth0.WebAuth({
     clientID: CLIENT_ID,
     domain: CLIENT_DOMAIN
 })
-
-// const Authentication = new auth0.Authentication()
 
 export function login () {
     auth.authorize({
