@@ -8,7 +8,7 @@ const ACCESS_TOKEN_KEY = 'access_token'
 const CLIENT_ID = '1ySh5N0sOXxMkcAslnuhRfxO5BloY56t'
 const CLIENT_DOMAIN = '501st.eu.auth0.com'
 const REDIRECT = 'http://localhost:8080/callback'
-const SCOPE = 'openid profile email user_metadata app_metadata groups permissions roles'
+const SCOPE = 'openid profile email groups permissions roles'
 const AUDIENCE = 'https://iris.501st.nl'
 
 const auth = new auth0.WebAuth({
@@ -32,12 +32,11 @@ export function getProfile () {
         console.log('Access token must exist to fetch profile')
     }
 
-    console.log(auth.client.userInfo)
     auth.client.userInfo(accessToken, function (err, profile) {
         if (err) {
             console.log(err.stack)
         }
-        console.log(profile)
+        console.log('log user profile: ', profile)
     })
 }
 

@@ -47,9 +47,15 @@ const authCheck = jwt({
     algorithms: ['RS256']
 })
 
-const checkScopes = jwtAuthz(['create:dgevent'])
+// const checkScopes = jwtAuthz(['create:dgevent'])
 
-app.get('/api/private/events', authCheck, (req,res) => {
+let checkScopes = function (req) {
+    console.log('this is: ',req.user['http://iris.501st.nl/claims/permissions'])
+    return jwtAuthz(['create:dgevent']);
+}
+
+
+app.get('/api/private/events', authCheck, (req, res) => {
     Event.find(function (err, events) {
         if (err) {
             res.send(err)
