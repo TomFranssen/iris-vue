@@ -3,6 +3,13 @@
         <template>
             <pre>
                 {{ event }}
+
+                <ul>
+                    <li v-for="eventDate in event.eventDates">
+                        Sign up for {{eventDate}}
+                    </li>
+                </ul>
+
             </pre>
             <b-button v-on:click="signupForEvent" size="lg" variant="primary">
                 Sign up for event

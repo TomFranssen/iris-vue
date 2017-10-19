@@ -9,7 +9,7 @@ const EventSchema = new Schema({
         enum: ['Dutch Garrison', 'Dune Sea Base'],
         required: true
     },
-    eventDates:[{
+    eventDates: [{
         date: {
             type: Date,
             required: true

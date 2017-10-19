@@ -263,7 +263,6 @@ export default {
             })
         },
         removeDate: function (index) {
-            console.log(index)
             this.$delete(this.eventDates, index)
         },
         saveEvent: function () {

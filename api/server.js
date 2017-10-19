@@ -4,7 +4,9 @@ const express = require('express')
 const app = express()
 const jwt = require('express-jwt')
 const jwks = require('jwks-rsa')
-const jwtAuthz = require('express-jwt-authz')
+const guard = require('express-jwt-permissions')({
+    permissionsProperty: 'http://iris.501st.nl/claims/permissions'
+})
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const Event = require('./model/events')
@@ -47,13 +49,6 @@ const authCheck = jwt({
     algorithms: ['RS256']
 })
 
-// const checkScopes = jwtAuthz(['create:dgevent'])
-
-let checkScopes = function (req) {
-    console.log('this is: ',req.user['http://iris.501st.nl/claims/permissions'])
-    return jwtAuthz(['create:dgevent']);
-}
-
 
 app.get('/api/private/events', authCheck, (req, res) => {
     Event.find(function (err, events) {
@@ -64,31 +59,26 @@ app.get('/api/private/events', authCheck, (req, res) => {
     })
 })
 
-app.put('/api/private/event/signup', authCheck, checkScopes, (req, res) => {
-    console.log(req.user)
+app.post('/api/private/events', (req, res) => {
+    var event = new Event(req.body)
+
+    event.save(function (err) {
+        if (err) {
+            return res.send(err);
+        }
+        res.json({message: 'Event successfully added!'});
+    });
+})
+
+app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (req, res) => {
+    console.log('YAY!!!', req.body.event._id)
     // console.log(guard.check(['user:read']))
 
-    // Event.findById(req.params.todoId, (err, todo) => {
-    //     // Handle any possible database errors
-    //     if (err) {
-    //         res.status(500).send(err)
-    //     } else {
-    //         // Update each attribute with any possible attribute that may have been submitted in the body of the request
-    //         // If that attribute isn't in the request body, default back to whatever it was before.
-    //         todo.title = req.body.title || todo.title
-    //         todo.description = req.body.description || todo.description
-    //         todo.price = req.body.price || todo.price
-    //         todo.completed = req.body.completed || todo.completed
-    //
-    //         // Save the updated document back to the database
-    //         todo.save((err, todo) => {
-    //             if (err) {
-    //                 res.status(500).send(err)
-    //             }
-    //             res.status(200).send(todo)
-    //         })
-    //     }
-    // })
+    Event.findOne({'_id': req.body.event._id}, function (err, events) {
+        console.log(events);
+    })
+
+
 })
 
 app.listen(3333)
