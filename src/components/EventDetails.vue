@@ -3,17 +3,16 @@
         <template>
             <pre>
                 {{ event }}
+            </pre>
 
                 <ul>
-                    <li v-for="eventDate in event.eventDates">
-                        Sign up for {{eventDate}}
+                    <li v-for="(eventDate, index) in event.eventDates">
+                        Sign up for {{eventDate}} {{index}}
+                        <b-button v-on:click="signupForEvent(index)" size="lg" variant="primary">
+                            Sign up for event
+                        </b-button>
                     </li>
                 </ul>
-
-            </pre>
-            <b-button v-on:click="signupForEvent" size="lg" variant="primary">
-                Sign up for event
-            </b-button>
         </template>
     </div>
 </template>
@@ -51,10 +50,16 @@
                     })
                 })
             },
-            signupForEvent () {
-                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+            signupForEvent (index) {
+                const signUpData = {
+                    id: this.$data.event._id,
+                    eventDatesIndex: index
+                }
 
-                Axios.put('http://localhost:3333/api/private/event/signup', this.$data)
+                console.log(this.$data)
+
+                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+                Axios.put('http://localhost:3333/api/private/event/signup', signUpData)
                     .then(function (response) {
                         if (response.data.message) {
                             alert(response.data.message)

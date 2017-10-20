@@ -71,14 +71,19 @@ app.post('/api/private/events', (req, res) => {
 })
 
 app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (req, res) => {
-    console.log('YAY!!!', req.body.event._id)
+    console.log('YAY!!!', req.body)
     // console.log(guard.check(['user:read']))
 
-    Event.findOne({'_id': req.body.event._id}, function (err, events) {
-        console.log(events);
+    Event.findOne({'_id': req.body.id}, function (err, event) {
+        console.log(event);
+        const signUp = {
+            signUpDate: new Date(),
+            username: 'Tom',
+            costume: 'Stormtrooper'
+        }
+        event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUp);
+        event.save()
     })
-
-
 })
 
 app.listen(3333)

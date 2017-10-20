@@ -266,6 +266,7 @@ export default {
             this.$delete(this.eventDates, index)
         },
         saveEvent: function () {
+            const self = this
             this.$validator.validateAll().then((result) => {
                 if (result) {
                     if (confirm('Do you want to add this event?')) {
@@ -273,8 +274,9 @@ export default {
                             .then(function (response) {
                                 if (response.data.message) {
                                     alert(response.data.message)
+                                    self.$router.push('events')
                                 } else {
-                                    this.$router.push('events')
+                                    console.log(response)
                                 }
                             })
                             .catch(function (error) {
