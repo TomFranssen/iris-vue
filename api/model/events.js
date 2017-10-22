@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 
 const EventSchema = new Schema({
     name: String,
+    description: String,
     allegiances: {
         type: [String],
         enum: ['Dutch Garrison', 'Dune Sea Base'],

@@ -33,8 +33,4 @@
 </script>
 
 <style>
-    html, body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        color: #2c3e50;
-    }
 </style>

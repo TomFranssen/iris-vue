@@ -26,17 +26,23 @@ export function login () {
 }
 
 export function getProfile () {
-    var accessToken = localStorage.getItem('access_token')
+    const accessToken = localStorage.getItem('access_token')
 
     if (!accessToken) {
         console.log('Access token must exist to fetch profile')
     }
 
-    auth.client.userInfo(accessToken, function (err, profile) {
-        if (err) {
-            console.log(err.stack)
-        }
-        console.log('log user profile: ', profile)
+    return new Promise((resolve, reject) => {
+        auth.client.userInfo(accessToken, function (err, profileData) {
+            if (err) {
+                console.log(err.stack)
+            }
+            if (profileData) {
+                resolve(profileData)
+            } else {
+                reject(Error('Cannot get profile data'))
+            }
+        })
     })
 }
 

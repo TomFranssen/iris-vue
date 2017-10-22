@@ -7,7 +7,8 @@ import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
 
-import 'bootstrap/dist/css/bootstrap.css'
+require('./scss/styles.scss')
+require('../node_modules/font-awesome/scss/font-awesome.scss')
 
 const config = {
     fieldsBagName: 'formFields',

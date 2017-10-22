@@ -10,6 +10,19 @@
                 </b-col>
             </b-row>
 
+            <b-row class="form-row">
+                <b-col sm="2">
+                    <label for="description">Description:</label>
+                </b-col>
+                <b-col sm="10">
+                    <b-form-textarea id="description"
+                                     v-model="description"
+                                     :rows="3"
+                                     :max-rows="6">
+                    </b-form-textarea>
+                </b-col>
+            </b-row>
+
             <b-row>
                 <b-col sm="2">
                     Event for
@@ -294,6 +307,7 @@ export default {
     data () {
 //        return {
 //            name: undefined,
+//            description: '',
 //            eventDates: [{
 //                date: '',
 //                availableSpots: '',
@@ -331,7 +345,8 @@ export default {
 //        }
         return {
             name: 'Star Wars Reads day',
-            allegiances: ['Dutch Garrison', 'Dune Sea Base'],
+            description: '',
+            allegiances: ['Dutch Garrison'],
             eventDates: [{
                 date: '2017-10-03T19:24:00.000Z',
                 availableSpots: 25,

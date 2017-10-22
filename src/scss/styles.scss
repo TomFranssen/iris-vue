@@ -1,0 +1,41 @@
+@import "variables.scss";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+
+
+h1 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+
+.date-square {
+    display: inline-block;
+    text-align: center;
+    border: 1px solid $gray-400;
+    width: 50px;
+    text-transform: uppercase;
+    margin-right: .5rem;
+    .month {
+        color: $red;
+    }
+}
+
+.times {
+    margin-bottom: 1rem;
+}
+
+.map {
+    margin-top: .5rem;
+}
+
+.btn-toggle-map {
+    margin-top: .5rem;
+}
+
+h1 {
+    small + small {
+        &:before {
+            content: '&';
+        }
+    }
+}
