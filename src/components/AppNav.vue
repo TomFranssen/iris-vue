@@ -38,9 +38,11 @@
                 logout()
             },
             getProfile () {
-                getProfile().then((profile) => {
-                    this.profile = profile
-                })
+                if (this.isLoggedIn()) {
+                    getProfile().then((profile) => {
+                        this.profile = profile
+                    })
+                }
             },
             isLoggedIn () {
                 return isLoggedIn()

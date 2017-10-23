@@ -32,18 +32,20 @@ export function getProfile () {
         console.log('Access token must exist to fetch profile')
     }
 
-    return new Promise((resolve, reject) => {
-        auth.client.userInfo(accessToken, function (err, profileData) {
-            if (err) {
-                console.log(err.stack)
-            }
-            if (profileData) {
-                resolve(profileData)
-            } else {
-                reject(Error('Cannot get profile data'))
-            }
+    if (accessToken) {
+        return new Promise((resolve, reject) => {
+            auth.client.userInfo(accessToken, function (err, profileData) {
+                if (err) {
+                    console.log(err.stack)
+                }
+                if (profileData) {
+                    resolve(profileData)
+                } else {
+                    reject(Error('Cannot get profile data'))
+                }
+            })
         })
-    })
+    }
 }
 
 const router = new Router({

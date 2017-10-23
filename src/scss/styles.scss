@@ -39,3 +39,26 @@ h1 {
         }
     }
 }
+
+.fa-ul {
+    margin-left: 1.6em;
+    .fa-times {
+        color: red;
+    }
+    .fa-check {
+        color: green;
+    }
+}
+
+
+.sign-up-heading {
+    margin: 25px 0 10px 0;
+}
+
+.progress {
+    margin: 20px 0;
+}
+
+.spots-left {
+    line-height: 46px;
+}

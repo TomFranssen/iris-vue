@@ -26,13 +26,10 @@
             </span>
             <div class="times">
                 <div>
-                    Gather time: {{event.gatherTime[0].HH}}:{{event.gatherTime[0].mm}}
-                </div>
-                <div>
-                    Start time: {{event.startTime[0].HH}}:{{event.startTime[0].mm}}
-                </div>
-                <div>
-                    End time: {{event.endTime[0].HH}}:{{event.endTime[0].mm}}
+                    <div>
+                        Gather time: {{event.gatherTime[0].HH}}:{{event.gatherTime[0].mm}}
+                    </div>
+                    From {{event.startTime[0].HH}}:{{event.startTime[0].mm}} untill {{event.endTime[0].HH}}:{{event.endTime[0].mm}}
                 </div>
             </div>
             <address>
@@ -56,66 +53,97 @@
                 </div>
             </address>
 
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">Details</h2>
-                    <div class="card-text">
-                        <p>
-                            {{event.description}}
-                        </p>
-                    </div>
-                    <ul class="fa-ul">
-                        <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check-circle': event.publiclyAccessible, 'fa-times-circle': !event.publiclyAccessible }"></i>
-                            Publicly accessible
-                        </li>
-                        <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check-circle': event.guestsAllowed, 'fa-times-circle': !event.guestsAllowed }"></i>
-                            Guests allowed
-                        </li>
-                        <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check-circle': event.dressingroomAvailable, 'fa-times-circle': !event.dressingroomAvailable }"></i>
-                            Dressingroom available
-                        </li>
-                        <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check-circle': event.travelRestitution, 'fa-times-circle': !event.travelRestitution }"></i>
-                            Travel restitution
-                        </li>
-                        <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check-circle': event.parking, 'fa-times-circle': !event.parking }"></i>
-                            Parking
-                        </li>
-                        <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check-circle': event.lunch, 'fa-times-circle': !event.lunch }"></i>
-                            Lunch
-                        </li>
-                        <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check-circle': event.drinks, 'fa-times-circle': !event.drinks }"></i>
-                            Drinks
-                        </li>
-                        <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check-circle': event.canRegisterGuests, 'fa-times-circle': !event.canRegisterGuests }"></i>
-                            Guests allowed
-                        </li>
-                    </ul>
-                    <a v-bind:href="event.websiteUrl" class="card-link">Website: {{event.websiteUrl}}</a>
+            <div>
+                <h2>Details</h2>
+                <div>
+                    <p>
+                        {{event.description}}
+                    </p>
                 </div>
+                <ul class="fa-ul">
+                    <li>
+                        <i class="fa-li fa" v-bind:class="{ 'fa-check': event.publiclyAccessible, 'fa-times': !event.publiclyAccessible }"></i>
+                        Publicly accessible
+                    </li>
+                    <li>
+                        <i class="fa-li fa" v-bind:class="{ 'fa-check': event.guestsAllowed, 'fa-times': !event.guestsAllowed }"></i>
+                        Guests allowed
+                    </li>
+                    <li>
+                        <i class="fa-li fa" v-bind:class="{ 'fa-check': event.dressingroomAvailable, 'fa-times': !event.dressingroomAvailable }"></i>
+                        Dressingroom available
+                    </li>
+                    <li>
+                        <i class="fa-li fa" v-bind:class="{ 'fa-check': event.travelRestitution, 'fa-times': !event.travelRestitution }"></i>
+                        Travel restitution
+                    </li>
+                    <li>
+                        <i class="fa-li fa" v-bind:class="{ 'fa-check': event.parking, 'fa-times': !event.parking }"></i>
+                        Parking
+                    </li>
+                    <li>
+                        <i class="fa-li fa" v-bind:class="{ 'fa-check': event.lunch, 'fa-times': !event.lunch }"></i>
+                        Lunch
+                    </li>
+                    <li>
+                        <i class="fa-li fa" v-bind:class="{ 'fa-check': event.drinks, 'fa-times': !event.drinks }"></i>
+                        Drinks
+                    </li>
+                    <li>
+                        <i class="fa-li fa" v-bind:class="{ 'fa-check': event.canRegisterGuests, 'fa-times': !event.canRegisterGuests }"></i>
+                        Guests allowed
+                    </li>
+                </ul>
+                <a v-bind:href="event.websiteUrl" target="_blank" class="card-link">Website: {{event.websiteUrl}}</a> <i class="fa fa-external-link" aria-hidden="true"></i>
             </div>
 
+            <div v-for="(eventDate, index) in event.eventDates">
+                <h2 class="sign-up-heading">
+                    Signups for {{eventDate.date | humanreadableDate}}
+                </h2>
 
+                <div v-if="!hasSignedUpUsers(eventDate)" class="alert alert-secondary" role="alert">
+                    No users signed up! Want to be the first?
+                </div>
+                <div class="progress" v-if="hasSignedUpUsers(eventDate)">
+                    <div
+                        class="progress-bar progress-bar-striped progress-bar-animated"
+                        role="progressbar"
+                        v-bind:style="{ width: getProgressBarWidth(eventDate) + '%'}"
+                    >{{getProgressBarWidth(eventDate)}}%</div>
+                </div>
+                <div v-for="(user, index) in eventDate.signedUpUsers">
+                    <div class="row">
+                        <div class="col-2">
+                            {{user.username}}
+                        </div>
+                        <div class="col">
+                            {{user.signUpDate | humanreadableDate}}
+                        </div>
+                        <div class="col">
+                            {{user.costume}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <b-button v-on:click="signupForEvent(index)" size="lg" variant="primary">
+                            Sign up for event
+                        </b-button>
+                    </div>
+                    <div class="col text-muted">
+                        <span class="spots-left">
+                            {{getSpotsLeft(eventDate)}} spots left
+                        </span>
+                    </div>
+                </div>
+            </div>
 
             <pre>
                 {{ event }}
             </pre>
 
-            <ul>
-                <li v-for="(eventDate, index) in event.eventDates">
-                    Sign up for {{eventDate}} {{index}}
-                    <b-button v-on:click="signupForEvent(index)" size="lg" variant="primary">
-                        Sign up for event
-                    </b-button>
-                </li>
-            </ul>
+
         </template>
     </div>
 </template>
@@ -144,6 +172,24 @@
         },
         props: ['id'],
         methods: {
+            getProgressBarWidth: function (eventDate) {
+                if (eventDate.signedUpUsers) {
+                    return Math.round((eventDate.signedUpUsers.length / eventDate.availableSpots) * 100)
+                }
+            },
+            getSpotsLeft: function (eventDate) {
+                if (eventDate.signedUpUsers) {
+                    return (eventDate.availableSpots - eventDate.signedUpUsers.length)
+                }
+            },
+            hasSignedUpUsers: function (eventDate) {
+                if (eventDate && eventDate.signedUpUsers) {
+                    if (eventDate.signedUpUsers.length > 0) {
+                        return true
+                    }
+                }
+                return false
+            },
             toggleMap: function () {
                 this.isMapVisible = !this.isMapVisible
             },
