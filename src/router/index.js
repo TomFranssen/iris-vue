@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PublicBattles from '@/components/publicBattles'
 import AddEvent from '@/components/AddEvent'
 import Events from '@/components/Events'
 import EventDetails from '@/components/EventDetails'
@@ -15,8 +14,8 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'PublicBattles',
-            component: PublicBattles
+            name: 'Dashboard',
+            component: Dashboard
         },
         {
             path: '/add-event',
@@ -36,12 +35,6 @@ export default new Router({
             component: EventDetails,
             beforeEnter: requireAuth,
             props: true
-        },
-        {
-            path: '/dashboard',
-            name: 'Dashboard',
-            component: Dashboard,
-            beforeEnter: requireAuth
         },
         {
             path: '/callback',

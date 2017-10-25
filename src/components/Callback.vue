@@ -12,7 +12,7 @@
             this.$nextTick(() => {
                 setAccessToken()
                 setIdToken()
-                this.$router.push('events')
+                this.$router.push('/')
             })
         }
     }
