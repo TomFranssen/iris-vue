@@ -49,7 +49,6 @@ const authCheck = jwt({
     algorithms: ['RS256']
 })
 
-
 app.get('/api/private/events', authCheck, (req, res) => {
     Event.find(function (err, events) {
         if (err) {
@@ -71,11 +70,7 @@ app.post('/api/private/events', (req, res) => {
 })
 
 app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (req, res) => {
-    console.log('YAY!!!', req.body)
-    // console.log(guard.check(['user:read']))
-
     Event.findOne({'_id': req.body.id}, function (err, event) {
-        console.log(event);
         const signUp = {
             signUpDate: new Date(),
             username: 'Tom',

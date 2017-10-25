@@ -1,6 +1,6 @@
 <template>
     <div>
-        CALLBACK!!!
+        Welcome to IRIS
     </div>
 </template>
 <script>
