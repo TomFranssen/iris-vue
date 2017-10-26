@@ -4,6 +4,7 @@ import AddEvent from '@/components/AddEvent'
 import Events from '@/components/Events'
 import EventDetails from '@/components/EventDetails'
 import Dashboard from '@/components/Dashboard'
+import Profile from '@/components/Profile'
 import Callback from '@/components/Callback'
 import { requireAuth } from '../utils/auth'
 
@@ -16,6 +17,11 @@ export default new Router({
             path: '/',
             name: 'Dashboard',
             component: Dashboard
+        },
+        {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile
         },
         {
             path: '/add-event',

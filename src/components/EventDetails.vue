@@ -102,7 +102,7 @@
                     Signups for {{eventDate.date | humanreadableDate}}
                 </h2>
 
-                <div v-if="!hasSignedUpUsers(eventDate)" class="alert alert-secondary" role="alert">
+                <div v-if="!hasSignedUpUsers(eventDate) && signupPossible(eventDate)" class="alert alert-secondary" role="alert">
                     No users signed up! Want to be the first?
                 </div>
                 <div class="progress" v-if="hasSignedUpUsers(eventDate)">
@@ -116,6 +116,7 @@
                     <div class="row">
                         <div class="col-2">
                             {{user.username}}
+                            {{user.userId}}
                         </div>
                         <div class="col">
                             {{user.signUpDate | humanreadableDate}}
@@ -125,7 +126,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <p v-if="!signupPossible(eventDate)">Signup not possible</p>
+                <div class="row" v-if="signupPossible(eventDate)">
                     <div class="col">
                         <b-button v-on:click="signupForEvent(index)" size="lg" variant="primary">
                             Sign up for event
@@ -172,6 +174,15 @@
         },
         props: ['id'],
         methods: {
+            signupPossible: function (eventDate) {
+                var eventDateMoment = moment(eventDate.date)
+                var isInPast = moment().diff(eventDateMoment, 'day') > 7
+
+                if (isInPast) {
+                    return false
+                }
+                return true
+            },
             getProgressBarWidth: function (eventDate) {
                 if (eventDate.signedUpUsers) {
                     return Math.round((eventDate.signedUpUsers.length / eventDate.availableSpots) * 100)

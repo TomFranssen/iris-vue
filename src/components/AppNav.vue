@@ -1,5 +1,8 @@
 <template>
     <b-navbar toggleable="sm" variant="primary">
+
+        {{profile}}
+
         <b-nav-toggle target="nav_collapse"></b-nav-toggle>
         <b-navbar-brand to="/">IRIS</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">
@@ -17,7 +20,7 @@
                         {{profile.given_name}}
                         <img v-bind:src="profile['https://iris.501st.nl/legion_thumbnail']" width="30" alt="">
                     </template>
-                    <b-dropdown-item href="#">Profile</b-dropdown-item>
+                    <b-dropdown-item to="/profile">Profile</b-dropdown-item>
                     <b-dropdown-item href="#" v-show="isLoggedIn()" @click="handleLogout()">Signout</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-nav>

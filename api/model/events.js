@@ -31,6 +31,10 @@ const EventSchema = new Schema({
                 costume: {
                     type: String,
                     required: true
+                },
+                userId: {
+                    type: String,
+                    required: true
                 }
             }
         ],

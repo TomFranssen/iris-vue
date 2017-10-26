@@ -59,7 +59,7 @@ app.get('/api/private/events', authCheck, (req, res) => {
 })
 
 app.post('/api/private/events', (req, res) => {
-    var event = new Event(req.body)
+    let event = new Event(req.body)
 
     event.save(function (err) {
         if (err) {
@@ -71,10 +71,13 @@ app.post('/api/private/events', (req, res) => {
 
 app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (req, res) => {
     Event.findOne({'_id': req.body.id}, function (err, event) {
+
+        // console.log(req)
         const signUp = {
             signUpDate: new Date(),
             username: 'Tom',
-            costume: 'Stormtrooper'
+            costume: 'Bla',
+            userId: req.user.sub
         }
         event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUp);
         event.save()
