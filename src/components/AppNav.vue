@@ -1,14 +1,11 @@
 <template>
     <b-navbar toggleable="sm" variant="primary">
-
-        {{profile}}
-
         <b-nav-toggle target="nav_collapse"></b-nav-toggle>
         <b-navbar-brand to="/">IRIS</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">
             <b-nav is-nav-bar>
-                <b-nav-item v-show="isLoggedIn()" href="/events">Events</b-nav-item>
-                <b-nav-item v-show="isLoggedIn()" href="/add-event">Add Event</b-nav-item>
+                <b-nav-item v-show="isLoggedIn()" to="events">Events</b-nav-item>
+                <b-nav-item v-show="isLoggedIn()" to="add-event">Add Event</b-nav-item>
             </b-nav>
             <b-nav is-nav-bar class="ml-auto">
                 <b-nav v-show="!isLoggedIn()" is-nav-bar right>
@@ -20,8 +17,8 @@
                         {{profile.given_name}}
                         <img v-bind:src="profile['https://iris.501st.nl/legion_thumbnail']" width="30" alt="">
                     </template>
-                    <b-dropdown-item to="/profile">Profile</b-dropdown-item>
-                    <b-dropdown-item href="#" v-show="isLoggedIn()" @click="handleLogout()">Signout</b-dropdown-item>
+                    <b-dropdown-item to="profile">Profile</b-dropdown-item>
+                    <b-dropdown-item v-show="isLoggedIn()" @click="handleLogout()">Signout</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-nav>
         </b-collapse>
