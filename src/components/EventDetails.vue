@@ -166,7 +166,7 @@
                 return moment(date).format('d')
             },
             humanreadableDate: function (date) {
-                return moment(date).format('MMMM Do')
+                return moment(date).format('MMMM Do YYYY')
             },
             fromNowDate: function (date) {
                 return moment(date, 'YYYYMMDD').fromNow()
@@ -226,12 +226,14 @@
                 return isLoggedIn()
             },
             getPrivateEvents () {
-                var id = this.id
+                var id = this.$route.params.id
                 getPrivateEvents().then((events) => {
                     var vueComponent = this
 
                     events.filter(function (event) {
+                        console.log('eee', event._id, id)
                         if (event._id === id) {
+                            console.log('eee', event)
                             vueComponent.event = event
                         }
                     })

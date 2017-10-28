@@ -7,13 +7,17 @@
     import { setIdToken, setAccessToken } from '../utils/auth'
 
     export default {
-        name: '',
-        mounted () {
-            this.$nextTick(() => {
-                setAccessToken()
-                setIdToken()
-                this.$router.push('/')
-            })
+        name: 'Callback',
+        created () {
+            setAccessToken()
+            setIdToken()
+            this.$router.replace('/')
+            this.getProfile()
+        },
+        methods: {
+            getProfile () {
+                this.$store.dispatch('getProfile')
+            }
         }
     }
 </script>

@@ -18,6 +18,9 @@
         components: {
             AppNav
         },
+        created () {
+            this.getProfile()
+        },
         methods: {
             handleLogin () {
                 login()
@@ -27,6 +30,9 @@
             },
             isLoggedIn () {
                 return isLoggedIn()
+            },
+            getProfile () {
+                this.$store.dispatch('getProfile')
             }
         }
     }

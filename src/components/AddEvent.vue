@@ -348,11 +348,11 @@ export default {
             description: '',
             allegiances: ['Dutch Garrison'],
             eventDates: [{
-                date: '2017-10-03T19:24:00.000Z',
+                date: '2018-10-03T19:24:00.000Z',
                 availableSpots: 25,
                 open: 1
             }, {
-                date: '2017-10-04T19:24:00.000Z',
+                date: '2018-10-04T19:24:00.000Z',
                 availableSpots: 15,
                 open: 1
             }],
@@ -368,7 +368,7 @@ export default {
                 HH: '20',
                 mm: '05'
             },
-            maxSignupDate: '2017-10-01T19:24:00.000Z',
+            maxSignupDate: '2018-10-01T19:24:00.000Z',
             eventCoordinator: 'Richard',
             street: 'Molenstraat',
             postcode: '5611XJ',

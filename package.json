@@ -36,7 +36,7 @@
     "vue-router": "^2.3.1",
     "vue2-timepicker": "^0.1.4",
     "vuejs-datepicker": "^0.9.16",
-    "vuex": "^2.4.1"
+    "vuex": "^2.5.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

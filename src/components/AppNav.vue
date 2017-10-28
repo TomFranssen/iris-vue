@@ -26,10 +26,15 @@
 </template>
 
 <script>
-    import { isLoggedIn, login, logout, getProfile } from '../utils/auth'
+    import { isLoggedIn, login, logout } from '../utils/auth'
 
     export default {
         name: 'app-nav',
+        computed: {
+            profile () {
+                return this.$store.state.profile
+            }
+        },
         methods: {
             handleLogin () {
                 login()
@@ -37,28 +42,12 @@
             handleLogout () {
                 logout()
             },
-            getProfile () {
-                if (this.isLoggedIn()) {
-                    getProfile().then((profile) => {
-                        this.profile = profile
-                    })
-                }
-            },
             isLoggedIn () {
                 return isLoggedIn()
-            }
-        },
-        mounted () {
-            this.getProfile()
-        },
-        data () {
-            return {
-                profile: ''
+            },
+            getProfile () {
+                this.$store.dispatch('getProfile')
             }
         }
     }
 </script>
-
-<style scoped lang="scss">
-
-</style>

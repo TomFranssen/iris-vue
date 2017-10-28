@@ -11,31 +11,21 @@
 
 <script>
     import AppNav from './AppNav'
-    import { isLoggedIn, getProfile } from '../utils/auth'
+    import { isLoggedIn } from '../utils/auth'
 
     export default {
         name: 'profile',
+        computed: {
+            profile () {
+                return this.$store.state.profile
+            }
+        },
         components: {
             AppNav
         },
         methods: {
             isLoggedIn () {
                 return isLoggedIn()
-            },
-            getProfile () {
-                if (this.isLoggedIn()) {
-                    getProfile().then((profile) => {
-                        this.profile = profile
-                    })
-                }
-            }
-        },
-        mounted () {
-            this.getProfile()
-        },
-        data () {
-            return {
-                profile: ''
             }
         }
     }

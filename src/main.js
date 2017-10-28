@@ -6,6 +6,7 @@ import VeeValidate from 'vee-validate'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
+import VuexStore from './vuex/store'
 
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
@@ -25,18 +26,13 @@ Vue.use(VeeValidate, config)
 Vue.use(BootstrapVue)
 Vue.use(Vuex)
 
-Vue.directive('focus', {
-    // When the bound element is inserted into the DOM...
-    inserted: function (el) {
-        // Focus the element
-        el.focus()
-    }
-})
+const store = new Vuex.Store(VuexStore)
 
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
     router,
+    store,
     template: '<App/>',
     components: { App }
 })
