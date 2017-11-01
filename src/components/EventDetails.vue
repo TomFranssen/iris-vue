@@ -1,6 +1,7 @@
 <template>
     <div>
         <template>
+
             <div class="date-square float-left">
                 <div class="month">
                     {{ getFirstDate() | shortMonthDate }}
@@ -140,12 +141,6 @@
                     </div>
                 </div>
             </div>
-
-            <pre>
-                {{ event }}
-            </pre>
-
-
         </template>
     </div>
 </template>
@@ -226,14 +221,12 @@
                 return isLoggedIn()
             },
             getPrivateEvents () {
-                var id = this.$route.params.id
+                const id = this.$route.params.id
                 getPrivateEvents().then((events) => {
                     var vueComponent = this
 
                     events.filter(function (event) {
-                        console.log('eee', event._id, id)
                         if (event._id === id) {
-                            console.log('eee', event)
                             vueComponent.event = event
                         }
                     })
@@ -267,9 +260,9 @@
                     description: '',
                     eventDates: [
                         {
-                            date: '2017-10-03T19:24:00.000Z',
-                            availableSpots: 25,
-                            open: 1
+                            date: '',
+                            availableSpots: 0,
+                            open: 0
                         }
                     ],
                     gatherTime: [
@@ -304,11 +297,12 @@
                 }
             }
         },
-
         mounted () {
             this.getPrivateEvents()
+        },
+        beforeRouteUpdate (to, from, next) {
+            console.log(to, from, next)
         }
-
     }
 </script>
 

@@ -22,6 +22,9 @@ export default {
     mutations: {
         setProfile (state, profile) {
             state.profile = profile
+        },
+        setLocale (state, locale) {
+            state.profile.locale = locale
         }
     },
     actions: {

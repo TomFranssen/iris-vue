@@ -39,7 +39,7 @@ export default new Router({
             path: '/event/:id',
             name: 'Event details',
             component: EventDetails,
-            beforeEnter: requireAuth
+            alias: 'test'
         },
         {
             path: '/callback',

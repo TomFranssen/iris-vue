@@ -7,11 +7,14 @@ import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
 import VuexStore from './vuex/store'
+import translations from './i18n/i18n'
+import VueI18n from 'vue-i18n'
 
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
 
-const config = {
+Vue.config.productionTip = false
+Vue.use(VeeValidate, {
     fieldsBagName: 'formFields',
     delay: 1000,
     locale: 'en',
@@ -19,17 +22,21 @@ const config = {
     strict: true,
     classes: false,
     aria: true
-}
-
-Vue.config.productionTip = false
-Vue.use(VeeValidate, config)
+})
 Vue.use(BootstrapVue)
 Vue.use(Vuex)
+Vue.use(VueI18n)
 
 const store = new Vuex.Store(VuexStore)
 
+const i18n = new VueI18n({
+    locale: 'nl',
+    messages: translations
+})
+
 /* eslint-disable no-new */
 new Vue({
+    i18n,
     el: '#app',
     router,
     store,
