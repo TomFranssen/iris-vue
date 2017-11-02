@@ -9,6 +9,7 @@ import router from './router'
 import VuexStore from './vuex/store'
 import translations from './i18n/i18n'
 import VueI18n from 'vue-i18n'
+import VueGoodTable from 'vue-good-table'
 
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
@@ -26,6 +27,7 @@ Vue.use(VeeValidate, {
 Vue.use(BootstrapVue)
 Vue.use(Vuex)
 Vue.use(VueI18n)
+Vue.use(VueGoodTable)
 
 const store = new Vuex.Store(VuexStore)
 

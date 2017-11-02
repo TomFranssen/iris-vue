@@ -34,7 +34,8 @@ const translations = {
         'available-spots': 'Available spots',
         'open-for-registration': 'Open for registration',
         'add-day': 'Add extra day',
-        'save-event': 'Save event'
+        'save-event': 'Save event',
+        'signups': 'Signups'
 
     },
     nl: {
@@ -70,9 +71,10 @@ const translations = {
         'remove-day': 'Verwijder dag',
         'date': 'Datum',
         'available-spots': 'Beschikbare plekken',
-        'open-for-registration': 'Mogelijk om in te schrijven',
+        'open-for-registration': 'Inschrijven toestaan',
         'add-day': 'Voeg extra dag toe',
-        'save-event': 'Evenement opslaan'
+        'save-event': 'Evenement opslaan',
+        'signups': 'Inschrijvingen'
 
     }
 }

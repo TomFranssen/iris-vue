@@ -1,38 +1,15 @@
 <template>
     <div>
         <template>
-            <h1>All events</h1>
-
-            <input type="checkbox" id="dutch-garrison" value="Dutch Garrison" v-model="filteredAllegiances">
-            <label for="dutch-garrison">Dutch Garrison</label>
-
-            <input type="checkbox" id="dune-sea-base" value="Dune Sea Base" v-model="filteredAllegiances">
-            <label for="dune-sea-base">Dune Sea Base</label>
-
-
-
-            {{filteredAllegiances}}
-
-            <ul id="example-1">
-                <li v-for="event in filteredEvents">
-                    <div class="row">
-                        <div class="col">
-                            {{ event.name }}
-                        </div>
-                        <div>
-                            {{ event.allegiances }}
-                        </div>
-                        <div class="col">
-                            {{ event.eventDates[0].date | moment }}
-                        </div>
-                        <div class="col">
-                            <router-link class="btn btn-primary" :to="'event/' + event._id">
-                                View Details
-                            </router-link>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+            <vue-good-table
+                title="Events"
+                :columns="columns"
+                :rows="rows"
+                :sortable="false"
+                :onClick="showEventDetails"
+                styleClass="table condensed table-bordered table-striped"
+            >
+            </vue-good-table>
         </template>
     </div>
 </template>
@@ -49,35 +26,24 @@
                 return moment(date).format('dddd MMMM Do YYYY')
             }
         },
-        computed: {
-            filteredEvents: function () {
-                const that = this
-                let returnEvents = []
-
-                function containsAny (source, target) {
-                    var result = source.filter(function (item) { return target.indexOf(item) > -1 })
-                    return (result.length > 0)
-                }
-
-                console.log(this.filteredAllegiances.length)
-                if (this.filteredAllegiances.length === 0) {
-                    return that.events
-                }
-                for (var i = 0; i < that.events.length; i++) {
-//                    console.log(that.events[i].allegiances)
-//                    console.log(containsAny(this.filteredAllegiances, that.events[i].allegiances))
-
-                    if (containsAny(this.filteredAllegiances, that.events[i].allegiances)) {
-                        console.log(that.events[i])
-
-                        returnEvents.push(that.events[i])
-                    }
-                }
-
-                return returnEvents
-            }
-        },
         methods: {
+            getSignups: function (rowObject) {
+                let totalAvailableSpots = 0
+                let totalTakenSpots = 0
+
+                for (let eventDate of rowObject.eventDates) {
+                    totalAvailableSpots = totalAvailableSpots + eventDate.availableSpots
+                    totalTakenSpots = totalTakenSpots + eventDate.signedUpUsers.length
+                }
+
+                return totalTakenSpots + ' / ' + totalAvailableSpots
+            },
+            getAllegiancesText: function (rowObject) {
+                return rowObject.allegiances.join()
+            },
+            getFirstDate: function (rowObject) {
+                return rowObject.eventDates[0].date
+            },
             moment: function () {
                 return moment()
             },
@@ -86,28 +52,56 @@
             },
             getPrivateEvents () {
                 getPrivateEvents().then((events) => {
-                    this.events = events
+                    this.rows = events
                 })
+            },
+            showEventDetails: function (row, index) {
+                this.$router.push('event/' + row._id)
             }
         },
         data () {
             return {
-                filteredAllegiances: [],
-                events: [
+                columns: [
                     {
-                        name: 'Loading events',
-                        eventDates: [
-                            {
-                                date: '2017-10-03T19:24:00.000Z',
-                                availableSpots: 25,
-                                open: 1
-                            }
+                        label: this.$t('type'),
+                        field: this.getAllegiancesText,
+                        filterable: true,
+                        filterDropdown: true,
+                        filterOptions: [
+                            { value: 'Dutch Garrison', text: 'Dutch Garrison' },
+                            { value: 'Dune Sea Base', text: 'Dune Sea Base' }
                         ]
+                    },
+                    {
+                        label: this.$t('date'),
+                        field: this.getFirstDate,
+                        type: 'date',
+                        outputFormat: 'D-MM-YYYY',
+                        inputFormat: 'YYYY-MM-DD',
+                        tdClass: 'text-right',
+                        width: '130px'
+                    },
+                    {
+                        label: this.$t('name'),
+                        field: 'name',
+                        tdClass: 'text-right',
+                        filterable: true
+                    },
+                    {
+                        label: this.$t('location'),
+                        tdClass: 'text-right',
+                        field: 'city',
+                        filterable: true
+                    },
+                    {
+                        label: this.$t('signups'),
+                        tdClass: 'text-center',
+                        field: this.getSignups
                     }
-                ]
+                ],
+                rows: []
             }
         },
-
         mounted () {
             this.getPrivateEvents()
         }

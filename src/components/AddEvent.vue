@@ -221,8 +221,7 @@
                                 </b-col>
                             </b-row>
                             <b-row class="form-row">
-                                <b-col sm="3"></b-col>
-                                <b-col sm="9">
+                                <b-col>
                                     <b-form-checkbox v-validate="'required'" id="open"
                                                      v-model="eventDate.open"
                                                      value="1"
