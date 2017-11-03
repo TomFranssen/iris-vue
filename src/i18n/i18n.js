@@ -27,7 +27,7 @@ const translations = {
         'lunch-available': 'Lunch available',
         'drinks-available': 'Drinks available',
         'guests-allowed': 'Guests allowed',
-        'days': 'Dayen',
+        'days': 'Days',
         'day': 'Day',
         'remove-day': 'Remove day',
         'date': 'Date',
@@ -35,7 +35,10 @@ const translations = {
         'open-for-registration': 'Open for registration',
         'add-day': 'Add extra day',
         'save-event': 'Save event',
-        'signups': 'Signups'
+        'signups': 'Signups',
+        'events': 'Events',
+        'log-in': 'Login',
+        'profile': 'Profile'
 
     },
     nl: {
@@ -74,7 +77,10 @@ const translations = {
         'open-for-registration': 'Inschrijven toestaan',
         'add-day': 'Voeg extra dag toe',
         'save-event': 'Evenement opslaan',
-        'signups': 'Inschrijvingen'
+        'signups': 'Inschrijvingen',
+        'events': 'Evenementen',
+        'log-in': 'Inloggen',
+        'profile': 'Profiel'
 
     }
 }

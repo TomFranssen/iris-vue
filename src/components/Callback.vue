@@ -8,7 +8,7 @@
 
     export default {
         name: 'Callback',
-        beforeCreate () {
+        created () {
             setAccessToken()
             setIdToken()
             this.$router.replace('/')

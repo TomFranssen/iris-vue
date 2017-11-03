@@ -6,9 +6,17 @@
                 :columns="columns"
                 :rows="rows"
                 :sortable="false"
+                :defaultSortBy="{field: getFirstDate, type: 'asc'}"
                 :onClick="showEventDetails"
                 styleClass="table condensed table-bordered table-striped"
             >
+                <template slot="table-row" scope="props">
+                    <td>{{ getAllegiancesText(props.row) }}</td>
+                    <td class="text-right">{{ props.row.eventDates[0].date | moment}}</td>
+                    <td class="text-right">{{ props.row.name }}</td>
+                    <td class="text-right">{{ props.row.city }}</td>
+                    <td class="text-right">{{ getSignups(props.row) }}</td>
+                </template>
             </vue-good-table>
         </template>
     </div>
@@ -23,7 +31,7 @@
         name: 'events',
         filters: {
             moment: function (date) {
-                return moment(date).format('dddd MMMM Do YYYY')
+                return moment(date).format('D-MM-YYYY')
             }
         },
         methods: {
