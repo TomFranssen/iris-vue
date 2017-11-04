@@ -38,7 +38,11 @@ const translations = {
         'signups': 'Signups',
         'events': 'Events',
         'log-in': 'Login',
-        'profile': 'Profile'
+        'profile': 'Profile',
+        'email': 'E-mail',
+        'users': 'Users',
+        'allegiances': 'Allegiances',
+        '501st-legion-id': '501st Legion ID'
 
     },
     nl: {
@@ -80,7 +84,11 @@ const translations = {
         'signups': 'Inschrijvingen',
         'events': 'Evenementen',
         'log-in': 'Inloggen',
-        'profile': 'Profiel'
+        'profile': 'Profiel',
+        'email': 'E-mail',
+        'users': 'Gebruikers',
+        'allegiances': 'Loyaliteiten',
+        '501st-legion-id': '501st Legion ID'
 
     }
 }

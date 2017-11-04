@@ -3,8 +3,10 @@ import Router from 'vue-router'
 import AddEvent from '@/components/AddEvent'
 import Events from '@/components/Events'
 import EventDetails from '@/components/EventDetails'
-import Dashboard from '@/components/Dashboard'
+import Home from '@/components/Home'
 import Profile from '@/components/Profile'
+import Users from '@/components/Users'
+import UserDetails from '@/components/UserDetails'
 import Callback from '@/components/Callback'
 import { requireAuth } from '../utils/auth'
 
@@ -15,8 +17,8 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'Dashboard',
-            component: Dashboard
+            name: 'Home',
+            component: Home
         },
         {
             path: '/profile',
@@ -38,8 +40,18 @@ export default new Router({
         {
             path: '/event/:id',
             name: 'Event details',
-            component: EventDetails,
-            alias: 'test'
+            component: EventDetails
+        },
+        {
+            path: '/users',
+            name: 'Users',
+            component: Users,
+            beforeEnter: requireAuth
+        },
+        {
+            path: '/user/:user_id',
+            name: 'User details',
+            component: UserDetails
         },
         {
             path: '/callback',

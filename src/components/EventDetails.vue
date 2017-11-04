@@ -152,7 +152,7 @@
     import { getPrivateEvents } from '../utils/events-api'
 
     export default {
-        name: 'events',
+        name: 'event-details',
         filters: {
             shortMonthDate: function (date) {
                 return moment(date).format('MMM')

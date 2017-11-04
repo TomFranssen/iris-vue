@@ -13,6 +13,14 @@ const Event = require('./model/events')
 const mongoose = require('mongoose')
 require('dotenv').config()
 
+const ManagementClient = require('auth0').ManagementClient;
+const managementClientInstance = new ManagementClient({
+    domain: process.env.AUTH0_DOMAIN,
+    clientId: 'zG8vKejPzQd5wXuEsueG5Zw9E4SHHJbK',
+    clientSecret: 'tTG3GbuF4gghPyIxb2RTWWb2Jrci2P96vUCw-U__IMpT_Vw3MPsiR6w9H5uPra4r',
+    scope: 'read:users update:users'
+});
+
 if (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_AUDIENCE) {
     throw 'Make sure you have AUTH0_DOMAIN, and AUTH0_AUDIENCE in your .env file';
 }
@@ -55,6 +63,25 @@ app.get('/api/private/events', authCheck, (req, res) => {
             res.send(err)
         }
         res.json(events)
+    })
+})
+
+app.get('/api/private/users', (req, res) => {
+    managementClientInstance.getUsers(function (err, users) {
+        if (err) {
+            console.log(err);
+        }
+        res.json(users);
+    })
+})
+
+app.get('/api/private/user', (req, res) => {
+    const userId = req.headers.userid.replace('-', '|')
+    managementClientInstance.getUser(userId, function (err, users) {
+        if (err) {
+            console.log(err);
+        }
+        res.json(users);
     })
 })
 
