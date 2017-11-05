@@ -36,12 +36,18 @@ export function getProfile () {
         return new Promise((resolve, reject) => {
             auth.client.userInfo(accessToken, function (err, profileData) {
                 if (err) {
-                    console.log(err.stack)
+                    if (err.stack) {
+                        console.log(err.stack)
+                    } else {
+                        console.log(err)
+                    }
                 }
                 if (profileData) {
                     resolve(profileData)
                 } else {
                     reject(Error('Cannot get profile data'))
+                    console.log('Logging out!')
+                    logout()
                 }
             })
         })
@@ -53,6 +59,7 @@ const router = new Router({
 })
 
 export function logout () {
+    console.log(12382838)
     clearIdToken()
     clearAccessToken()
     router.go('/')
