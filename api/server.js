@@ -57,15 +57,6 @@ const authCheck = jwt({
     algorithms: ['RS256']
 })
 
-app.get('/api/private/events', authCheck, (req, res) => {
-    Event.find(function (err, events) {
-        if (err) {
-            res.send(err)
-        }
-        res.json(events)
-    })
-})
-
 app.get('/api/private/users', (req, res) => {
     managementClientInstance.getUsers(function (err, users) {
         if (err) {
@@ -77,11 +68,23 @@ app.get('/api/private/users', (req, res) => {
 
 app.get('/api/private/user', (req, res) => {
     const userId = req.headers.userid.replace('-', '|')
-    managementClientInstance.getUser(userId, function (err, users) {
+    console.log(userId)
+    managementClientInstance.getUser({ id: userId }, function (err, user) {
+
         if (err) {
             console.log(err);
         }
-        res.json(users);
+        res.json(user);
+    })
+})
+
+app.get('/api/private/events', authCheck, (req, res) => {
+    console.log(authCheck)
+    Event.find(function (err, events) {
+        if (err) {
+            res.send(err)
+        }
+        res.json(events)
     })
 })
 
@@ -110,6 +113,13 @@ app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (
         event.save()
     })
 })
+
+app.use(function (err, req, res, next) {
+    console.log(err)
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).send('invalid token...');
+    }
+});
 
 app.listen(3333)
 console.log('Listening on localhost:3333')
