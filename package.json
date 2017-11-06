@@ -37,6 +37,7 @@
     "vue-good-table": "^1.15.2",
     "vue-i18n": "^7.3.2",
     "vue-router": "^2.3.1",
+    "vue-typeahead": "^2.3.2",
     "vue2-timepicker": "^0.1.4",
     "vuejs-datepicker": "^0.9.16",
     "vuex": "^2.5.0"

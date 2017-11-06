@@ -78,8 +78,21 @@ app.get('/api/private/user', (req, res) => {
     })
 })
 
+app.patch('/api/private/user', (req, res) => {
+    const userId = req.body.user.user_id
+    const userMetadata = req.body.user.user_metadata
+
+    managementClientInstance.updateUserMetadata({ id: userId }, userMetadata, function (err, user) {
+        console.log(user)
+
+        if (err) {
+            console.log(err);
+        }
+        res.json(user);
+    })
+})
+
 app.get('/api/private/events', authCheck, (req, res) => {
-    console.log(authCheck)
     Event.find(function (err, events) {
         if (err) {
             res.send(err)
