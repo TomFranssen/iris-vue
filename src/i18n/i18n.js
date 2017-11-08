@@ -42,7 +42,11 @@ const translations = {
         'email': 'E-mail',
         'users': 'Users',
         'allegiances': 'Allegiances',
-        '501st-legion-id': '501st Legion ID'
+        '501st-legion-id': '501st Legion ID',
+        'save-user': 'Save user',
+        'costume': 'costume',
+        'add-costume': 'Add costume',
+        'remove-costume': 'Remove costume'
 
     },
     nl: {
@@ -88,7 +92,11 @@ const translations = {
         'email': 'E-mail',
         'users': 'Gebruikers',
         'allegiances': 'Loyaliteiten',
-        '501st-legion-id': '501st Legion ID'
+        '501st-legion-id': '501st Legion ID',
+        'save-user': 'Gebruiker opslaan',
+        'costume': 'Kostuum',
+        'add-costume': 'Kostuum toevoegen',
+        'remove-costume': 'Kostuum verwijderen'
 
     }
 }

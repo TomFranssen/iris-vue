@@ -1,5 +1,6 @@
 <template>
     <div>
+        <b-breadcrumb :items="breadcrumbs"/>
         <h1>{{ $t("info") }}</h1>
         <div v-show="isLoggedIn()">
             <div class="container">
@@ -58,6 +59,13 @@
         },
         data () {
             return {
+                breadcrumbs: [{
+                    text: 'Home',
+                    to: '/'
+                }, {
+                    text: 'Profile',
+                    active: true
+                }],
                 languageOptions: [
                     { text: 'English', value: 'en' },
                     { text: 'Nederlands', value: 'nl' }

@@ -1,8 +1,8 @@
 <template>
     <div class="add-event">
+        <b-breadcrumb :items="breadcrumbs"/>
         <form action="#">
             <h1>{{$t('add-event')}}</h1>
-
             <b-row>
                 <b-col lg>
                     <h2>{{$t('basic-info')}}</h2>
@@ -286,7 +286,7 @@ export default {
             this.$validator.validateAll().then((result) => {
                 if (result) {
                     if (confirm('Do you want to add this event?')) {
-                        Axios.post('http://localhost:3333/api/private/events', this.$data)
+                        Axios.post(`${process.env.API_URL}/api/private/events`, this.$data)
                             .then(function (response) {
                                 if (response.data.message) {
                                     alert(response.data.message)
@@ -347,6 +347,13 @@ export default {
 //            canRegisterGuests: undefined
 //        }
         return {
+            breadcrumbs: [{
+                text: 'Home',
+                to: '/'
+            }, {
+                text: 'Add event',
+                active: true
+            }],
             name: 'Star Wars Reads day',
             description: '',
             allegiances: ['Dutch Garrison'],

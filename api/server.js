@@ -1,5 +1,10 @@
 'use strict'
 
+require('dotenv-safe').load({
+    path: './api/.env',
+    sample: './api/.env.example'
+})
+
 const express = require('express')
 const app = express()
 const jwt = require('express-jwt')
@@ -11,19 +16,14 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const Event = require('./model/events')
 const mongoose = require('mongoose')
-require('dotenv').config()
 
-const ManagementClient = require('auth0').ManagementClient;
+const ManagementClient = require('auth0').ManagementClient
 const managementClientInstance = new ManagementClient({
     domain: process.env.AUTH0_DOMAIN,
-    clientId: 'zG8vKejPzQd5wXuEsueG5Zw9E4SHHJbK',
-    clientSecret: 'tTG3GbuF4gghPyIxb2RTWWb2Jrci2P96vUCw-U__IMpT_Vw3MPsiR6w9H5uPra4r',
+    clientId: process.env.MANAGEMENT_CLIENT_ID,
+    clientSecret: process.env.MANAGEMENT_CLIENT_SECRET,
     scope: 'read:users update:users'
-});
-
-if (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_AUDIENCE) {
-    throw 'Make sure you have AUTH0_DOMAIN, and AUTH0_AUDIENCE in your .env file';
-}
+})
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -33,7 +33,10 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Credentials', 'true')
     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE')
-    res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers')
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+    )
     res.setHeader('Cache-Control', 'no-cache')
     next()
 })
@@ -60,35 +63,36 @@ const authCheck = jwt({
 app.get('/api/private/users', (req, res) => {
     managementClientInstance.getUsers(function (err, users) {
         if (err) {
-            console.log(err);
+            console.log(err)
         }
-        res.json(users);
+        res.json(users)
     })
 })
 
 app.get('/api/private/user', (req, res) => {
     const userId = req.headers.userid.replace('-', '|')
-    console.log(userId)
     managementClientInstance.getUser({ id: userId }, function (err, user) {
 
         if (err) {
-            console.log(err);
+            console.log(err)
         }
-        res.json(user);
+        res.json(user)
     })
 })
 
 app.patch('/api/private/user', (req, res) => {
     const userId = req.body.user.user_id
-    const userMetadata = req.body.user.user_metadata
+    const userData = {
+        user_metadata: req.body.user.user_metadata
+    }
 
-    managementClientInstance.updateUserMetadata({ id: userId }, userMetadata, function (err, user) {
+    managementClientInstance.updateUser({ id: userId }, userData, function (err, user) {
         console.log(user)
 
         if (err) {
-            console.log(err);
+            console.log(err)
         }
-        res.json(user);
+        res.json(user)
     })
 })
 
@@ -106,23 +110,23 @@ app.post('/api/private/events', (req, res) => {
 
     event.save(function (err) {
         if (err) {
-            return res.send(err);
+            return res.send(err)
         }
-        res.json({message: 'Event successfully added!'});
-    });
+        res.json({message: 'Event successfully added!'})
+    })
 })
 
 app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (req, res) => {
-    Event.findOne({'_id': req.body.id}, function (err, event) {
+    console.log(req.body)
 
-        // console.log(req)
+    Event.findOne({'_id': req.body.id}, function (err, event) {
         const signUp = {
             signUpDate: new Date(),
             username: 'Tom',
-            costume: 'Bla',
+            costume: req.body.costume,
             userId: req.user.sub
         }
-        event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUp);
+        event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUp)
         event.save()
     })
 })
@@ -130,9 +134,9 @@ app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (
 app.use(function (err, req, res, next) {
     console.log(err)
     if (err.name === 'UnauthorizedError') {
-        res.status(401).send('invalid token...');
+        res.status(401).send('invalid token...')
     }
-});
+})
 
-app.listen(3333)
-console.log('Listening on localhost:3333')
+app.listen(process.env.PORT)
+console.log(`Listening on localhost:${process.env.PORT}`)

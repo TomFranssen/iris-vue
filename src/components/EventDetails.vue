@@ -140,6 +140,21 @@
                         </span>
                     </div>
                 </div>
+
+                <b-btn v-b-modal="'myModal'">Show Modal</b-btn>
+
+                <b-modal id="myModal" title="Sign up for event">
+                    Are you sure you want to sign up for the event?
+
+                    <!--<b-row class="form-row">-->
+                        <!--<b-col sm="3"><label for="name">{{$t('choose-your-costume')}}:</label></b-col>-->
+                        <!--<b-col sm="9">-->
+                            <!--<b-form-input name="choose-your-costume" v-model.trim="user.user_metadata.costumes" id="choose-your-costume" size="sm" type="text"></b-form-input>-->
+                            <!--<p class="text-danger" v-if="errors.has('choose-your-costume')">{{ errors.first('choose-your-costume') }}</p>-->
+                        <!--</b-col>-->
+                    <!--</b-row>-->
+                </b-modal>
+
             </div>
         </template>
     </div>
@@ -235,11 +250,12 @@
             signupForEvent (index) {
                 const signUpData = {
                     id: this.$data.event._id,
-                    eventDatesIndex: index
+                    eventDatesIndex: index,
+                    costume: 'Darth Vader'
                 }
 
                 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
-                Axios.put('http://localhost:3333/api/private/event/signup', signUpData)
+                Axios.put(`${process.env.API_URL}/api/private/event/signup`, signUpData)
                     .then(function (response) {
                         if (response.data.message) {
                             alert(response.data.message)

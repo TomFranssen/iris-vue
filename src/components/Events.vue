@@ -1,5 +1,6 @@
 <template>
     <div>
+        <b-breadcrumb :items="breadcrumbs"/>
         <template>
             <vue-good-table
                 title="Events"
@@ -69,6 +70,13 @@
         },
         data () {
             return {
+                breadcrumbs: [{
+                    text: 'Home',
+                    to: '/'
+                }, {
+                    text: 'Events',
+                    active: true
+                }],
                 columns: [
                     {
                         label: this.$t('type'),

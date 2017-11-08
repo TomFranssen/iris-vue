@@ -3,7 +3,7 @@
         <b-breadcrumb :items="breadcrumbs"/>
         <h1>User details</h1>
         <div>
-            {{user.name}}
+            {{user.username}}
         </div>
         <div>
             {{user.email}}
@@ -18,22 +18,33 @@
             <img v-bind:src="getLegionThumbnail(user)" alt="">
         </div>
         <div>
-
             <form action="">
                 <b-row class="form-row">
-                    <b-col sm="3"><label for="name">{{$t('name')}}:</label></b-col>
-                    <b-col sm="9">
-                        <b-form-input v-validate="'required'" name="name" v-model.trim="user.name" id="name" size="sm" type="text"></b-form-input>
-                        <p class="text-danger" v-if="errors.has('name')">{{ errors.first('name') }}</p>
-                    </b-col>
-                </b-row>
-                <b-row class="form-row">
-                    <b-col sm="3"><label for="name">{{$t('501st-legion-id')}}:</label></b-col>
+                    <b-col sm="3"><label for="legion-id">{{$t('501st-legion-id')}}:</label></b-col>
                     <b-col sm="9">
                         <b-form-input name="legion-id" v-model.trim="user.user_metadata.legion_id" id="legion-id" size="sm" type="text"></b-form-input>
                         <p class="text-danger" v-if="errors.has('legion-id')">{{ errors.first('legion-id') }}</p>
                     </b-col>
                 </b-row>
+                <div v-for="(costume, index) in user.user_metadata.costumes">
+                    <b-row class="form-row">
+                        <b-col sm="3"><label>{{$t('costume')}} {{index + 1}}</label></b-col>
+                        <b-col sm="7">
+                            <b-form-input v-validate="'required'" v-model="costume.name" v-bind:name="'costume-' + index" id="costume" size="sm" type="text"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('costume-' + index)">{{ errors.first('costume-' + index + 1) }}</p>
+                        </b-col>
+                        <b-col sm="2">
+                            <button class="pull-right btn btn-block btn-default" type="button" v-on:click="removeCostume(index)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                {{$t('remove-costume')}}
+                            </button>
+                        </b-col>
+                    </b-row>
+                </div>
+                <button class="btn btn-primary" type="button" v-on:click="addCostume">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    {{$t('add-costume')}}
+                </button>
                 <b-row class="form-row">
                     <b-col>
                         <b-button v-on:click="saveUser" size="lg" variant="primary">
@@ -41,27 +52,6 @@
                         </b-button>
                     </b-col>
                 </b-row>
-
-                <!-- the input field -->
-                <input type="text"
-                       placeholder="..."
-                       autocomplete="off"
-                       v-model="costumes"
-                       @keydown.down="down"
-                       @keydown.up="up"
-                       @keydown.enter="hit"
-                       @keydown.esc="reset"
-                       @blur="reset"
-                       @input="update"/>
-
-                <!-- the list -->
-                <ul v-show="hasItems">
-                    <!-- for vue@1.0 use: ($item, item) -->
-                    <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
-                        <span v-text="item.name"></span>
-                    </li>
-                </ul>
-
             </form>
         </div>
     </div>
@@ -70,13 +60,24 @@
 <script>
     import Axios from 'axios'
     import { getPrivateUser } from '../utils/users-api'
-    import VueTypeahead from 'vue-typeahead'
 
     export default {
-        extends: VueTypeahead,
         name: 'user-details',
         props: ['id'],
         methods: {
+            addCostume: function () {
+                console.log(typeof this.user.user_metadata.costumes)
+                if (typeof this.user.user_metadata.costumes === 'undefined') {
+                    this.$set(this.user.user_metadata, 'costumes', [])
+                }
+                this.user.user_metadata.costumes.push({
+                    name: ''
+                })
+                console.log(this.user.user_metadata.costumes)
+            },
+            removeCostume: function (index) {
+                this.$delete(this.user.user_metadata.costumes, index)
+            },
             getLegionId: function (user) {
                 if (user.user_metadata && user.user_metadata.legion_id) {
                     return user.user_metadata.legion_id
@@ -106,7 +107,7 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         if (confirm('Do you want to change this user?')) {
-                            Axios.patch('http://localhost:3333/api/private/user', this.$data)
+                            Axios.patch(`${process.env.API_URL}/api/private/user`, this.$data)
                                 .then(function (response) {
                                     if (response.data.message) {
                                         alert(response.data.message)
@@ -140,7 +141,10 @@
                 }],
                 user: {
                     user_metadata: {
-                        legion_id: ''
+                        legion_id: '',
+                        costumes: [{
+                            name: ''
+                        }]
                     }
                 },
                 costumes: [
