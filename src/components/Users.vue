@@ -17,6 +17,7 @@
                     <td>{{props.row.email}}</td>
                     <td>{{getAllegiancesText(props.row)}}</td>
                     <td>{{getLegionId(props.row)}}</td>
+                    <td>{{getCostumeCount(props.row)}}</td>
                 </template>
             </vue-good-table>
         </template>
@@ -50,6 +51,11 @@
                     return rowObject.user_metadata.legion_id
                 }
                 return ''
+            },
+            getCostumeCount: function (rowObject) {
+                if (rowObject.user_metadata && rowObject.user_metadata.costumes) {
+                    return rowObject.user_metadata.costumes.length
+                }
             },
             showUserDetails: function (row, index) {
                 this.$router.push('user/' + row.user_id.replace('|', '-'))
@@ -98,6 +104,11 @@
                         tdClass: 'text-right',
                         field: 'legion',
                         filterable: true
+                    },
+                    {
+                        label: 'Costumes',
+                        tdClass: 'text-right',
+                        field: 'costumes'
                     }
                 ],
                 rows: []

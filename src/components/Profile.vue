@@ -8,6 +8,9 @@
                     <div>
                         <img v-bind:src="enhancedPicture" alt="" class="img-fluid">
                     </div>
+                    <pre>
+                        {{profile['https://iris.501st.nl/user_metadata'].costumes}}
+                    </pre>
                     <div>
                         {{profile.name}}
                     </div>

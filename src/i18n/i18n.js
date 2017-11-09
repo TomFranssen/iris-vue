@@ -46,7 +46,8 @@ const translations = {
         'save-user': 'Save user',
         'costume': 'costume',
         'add-costume': 'Add costume',
-        'remove-costume': 'Remove costume'
+        'remove-costume': 'Remove costume',
+        'choose-your-costume': 'Choose your costume'
 
     },
     nl: {
@@ -96,7 +97,8 @@ const translations = {
         'save-user': 'Gebruiker opslaan',
         'costume': 'Kostuum',
         'add-costume': 'Kostuum toevoegen',
-        'remove-costume': 'Kostuum verwijderen'
+        'remove-costume': 'Kostuum verwijderen',
+        'choose-your-costume': 'Kies je kostuum'
 
     }
 }

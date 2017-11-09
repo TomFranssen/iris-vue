@@ -130,9 +130,39 @@
                 <p v-if="!signupPossible(eventDate)">Signup not possible</p>
                 <div class="row" v-if="signupPossible(eventDate)">
                     <div class="col">
-                        <b-button v-on:click="signupForEvent(index)" size="lg" variant="primary">
+                        <b-button v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
                             Sign up for event
                         </b-button>
+
+                        <b-modal v-bind:id="'choose-costume-' + index" title="Sign up for event" @ok="signupForEvent(index)">
+                            <p>Are you sure you want to sign up for this event? Be sure to check your agenda before you sign up.</p>
+                            <b-row class="form-row">
+                                <b-col sm="5">{{$t('date')}}:</b-col>
+                                <b-col sm="7">
+                                    <p>
+                                        {{eventDate.date | humanreadableDate}}
+                                    </p>
+                                </b-col>
+                            </b-row>
+                            <b-row class="form-row">
+                                <b-col sm="5"><label for="select-costume">{{$t('choose-your-costume')}}:</label></b-col>
+                                <b-col sm="7">
+                                    <form action="#" @submit.stop.prevent="handleSubmit">
+                                        <b-form-select id="select-costume" v-bind:name="'selected-costume-' + index"  v-validate="'required'" v-model="selectedCostume" :options="profileCostumes" class="mb-3">
+                                            <template slot="first">
+                                                <option :value="null" disabled>Please select a costume</option>
+                                            </template>
+                                        </b-form-select>
+                                        <p class="text-danger" v-if="errors.has('selected-costume-' + index)">{{ errors.first('selected-costume-' + index) }}</p>
+                                    </form>
+                                </b-col>
+                            </b-row>
+                            <div slot="modal-footer" class="w-100">
+                                <b-btn size="sm" class="float-right" variant="primary" @click="signupForEvent(index)">
+                                    Sign Up
+                                </b-btn>
+                            </div>
+                        </b-modal>
                     </div>
                     <div class="col text-muted">
                         <span class="spots-left">
@@ -140,21 +170,6 @@
                         </span>
                     </div>
                 </div>
-
-                <b-btn v-b-modal="'myModal'">Show Modal</b-btn>
-
-                <b-modal id="myModal" title="Sign up for event">
-                    Are you sure you want to sign up for the event?
-
-                    <!--<b-row class="form-row">-->
-                        <!--<b-col sm="3"><label for="name">{{$t('choose-your-costume')}}:</label></b-col>-->
-                        <!--<b-col sm="9">-->
-                            <!--<b-form-input name="choose-your-costume" v-model.trim="user.user_metadata.costumes" id="choose-your-costume" size="sm" type="text"></b-form-input>-->
-                            <!--<p class="text-danger" v-if="errors.has('choose-your-costume')">{{ errors.first('choose-your-costume') }}</p>-->
-                        <!--</b-col>-->
-                    <!--</b-row>-->
-                </b-modal>
-
             </div>
         </template>
     </div>
@@ -183,10 +198,27 @@
             }
         },
         props: ['id'],
+        computed: {
+            profile () {
+                return this.$store.state.profile
+            },
+            profileCostumes () {
+                let costumeOptions = []
+                if (this.$store.state.profile['https://iris.501st.nl/user_metadata'] !== undefined) {
+                    for (let costume of this.$store.state.profile['https://iris.501st.nl/user_metadata'].costumes) {
+                        costumeOptions.push({
+                            text: costume.name,
+                            value: costume.name
+                        })
+                    }
+                }
+                return costumeOptions
+            }
+        },
         methods: {
             signupPossible: function (eventDate) {
-                var eventDateMoment = moment(eventDate.date)
-                var isInPast = moment().diff(eventDateMoment, 'day') > 7
+                const eventDateMoment = moment(eventDate.date)
+                const isInPast = moment().diff(eventDateMoment, 'day') > 7
 
                 if (isInPast) {
                     return false
@@ -251,25 +283,34 @@
                 const signUpData = {
                     id: this.$data.event._id,
                     eventDatesIndex: index,
-                    costume: 'Darth Vader'
+                    costume: this.$data.selectedCostume
                 }
 
-                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
-                Axios.put(`${process.env.API_URL}/api/private/event/signup`, signUpData)
-                    .then(function (response) {
-                        if (response.data.message) {
-                            alert(response.data.message)
-                        } else {
-                            this.$router.push('events')
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        console.log(result)
+
+                        Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+                        Axios.put(`${process.env.API_URL}/api/private/event/signup`, signUpData)
+                            .then(function (response) {
+                                if (response.data.message) {
+                                    alert(response.data.message)
+                                } else {
+                                    this.$router.push('events')
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error)
+                            })
+
+                        return
+                    }
+                })
             }
         },
         data () {
             return {
+                selectedCostume: null,
                 isMapVisible: false,
                 event: {
                     name: '',
@@ -315,9 +356,6 @@
         },
         mounted () {
             this.getPrivateEvents()
-        },
-        beforeRouteUpdate (to, from, next) {
-            console.log(to, from, next)
         }
     }
 </script>
