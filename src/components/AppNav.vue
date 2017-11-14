@@ -7,6 +7,7 @@
                 <b-nav-item v-show="isLoggedIn()" to="/events">{{$t('events')}}</b-nav-item>
                 <b-nav-item v-show="isLoggedIn()" to="/add-event">{{$t('add-event')}}</b-nav-item>
                 <b-nav-item v-show="isLoggedIn()" to="/users">{{$t('users')}}</b-nav-item>
+                <b-nav-item v-show="isLoggedIn()" to="/costumes">{{$t('costumes')}}</b-nav-item>
             </b-nav>
             <b-nav is-nav-bar class="ml-auto">
                 <b-nav v-show="!isLoggedIn()" is-nav-bar right>

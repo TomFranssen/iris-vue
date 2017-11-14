@@ -10,7 +10,9 @@ import VuexStore from './vuex/store'
 import translations from './i18n/i18n'
 import VueI18n from 'vue-i18n'
 import VueGoodTable from 'vue-good-table'
+import VueInstant from 'vue-instant'
 
+import 'vue-instant/dist/vue-instant.css'
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
 
@@ -28,6 +30,7 @@ Vue.use(BootstrapVue)
 Vue.use(Vuex)
 Vue.use(VueI18n)
 Vue.use(VueGoodTable)
+Vue.use(VueInstant)
 
 const store = new Vuex.Store(VuexStore)
 

@@ -1,9 +1,9 @@
 <template>
     <div>
         <b-breadcrumb :items="breadcrumbs"/>
+        <h1>{{$t('events')}}</h1>
         <template>
             <vue-good-table
-                title="Events"
                 :columns="columns"
                 :rows="rows"
                 :sortable="false"
@@ -12,10 +12,10 @@
                 styleClass="table condensed table-bordered table-striped"
             >
                 <template slot="table-row" scope="props">
-                    <td>{{ getAllegiancesText(props.row) }}</td>
                     <td class="text-right">{{ props.row.eventDates[0].date | moment}}</td>
                     <td class="text-right">{{ props.row.name }}</td>
                     <td class="text-right">{{ props.row.city }}</td>
+                    <td class="text-right">{{ getDaysCount(props.row) }}</td>
                     <td class="text-right">{{ getSignups(props.row) }}</td>
                 </template>
             </vue-good-table>
@@ -47,11 +47,11 @@
 
                 return totalTakenSpots + ' / ' + totalAvailableSpots
             },
-            getAllegiancesText: function (rowObject) {
-                return rowObject.allegiances.join()
-            },
             getFirstDate: function (rowObject) {
                 return rowObject.eventDates[0].date
+            },
+            getDaysCount: function (rowObject) {
+                return rowObject.eventDates.length
             },
             moment: function () {
                 return moment()
@@ -79,16 +79,6 @@
                 }],
                 columns: [
                     {
-                        label: this.$t('type'),
-                        field: this.getAllegiancesText,
-                        filterable: true,
-                        filterDropdown: true,
-                        filterOptions: [
-                            { value: 'Dutch Garrison', text: 'Dutch Garrison' },
-                            { value: 'Dune Sea Base', text: 'Dune Sea Base' }
-                        ]
-                    },
-                    {
                         label: this.$t('date'),
                         field: this.getFirstDate,
                         type: 'date',
@@ -108,6 +98,11 @@
                         tdClass: 'text-right',
                         field: 'city',
                         filterable: true
+                    },
+                    {
+                        label: this.$t('days'),
+                        tdClass: 'text-center',
+                        field: this.getDaysCount
                     },
                     {
                         label: this.$t('signups'),

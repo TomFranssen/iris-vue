@@ -7,6 +7,7 @@ import Home from '@/components/Home'
 import Profile from '@/components/Profile'
 import Users from '@/components/Users'
 import UserDetails from '@/components/UserDetails'
+import Costumes from '@/components/Costumes'
 import Callback from '@/components/Callback'
 import { requireAuth } from '../utils/auth'
 
@@ -52,6 +53,12 @@ export default new Router({
             path: '/user/:user_id',
             name: 'User details',
             component: UserDetails
+        },
+        {
+            path: '/costumes',
+            name: 'Costumes',
+            component: Costumes,
+            beforeEnter: requireAuth
         },
         {
             path: '/callback',

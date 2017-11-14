@@ -10,7 +10,7 @@ const translations = {
         'gather-time': 'Gather time',
         'start-time': 'Start time',
         'end-time': 'Start time',
-        'max-signup-time': 'Maximale inschrijfdatum',
+        'max-signup-time': 'Max sign-up date',
         'event-coordinator': 'Event coördinator',
         'location': 'Location',
         'street': 'Street',
@@ -35,7 +35,7 @@ const translations = {
         'open-for-registration': 'Open for registration',
         'add-day': 'Add extra day',
         'save-event': 'Save event',
-        'signups': 'Signups',
+        'signups': 'Sign-ups',
         'events': 'Events',
         'log-in': 'Login',
         'profile': 'Profile',
@@ -47,7 +47,21 @@ const translations = {
         'costume': 'costume',
         'add-costume': 'Add costume',
         'remove-costume': 'Remove costume',
-        'choose-your-costume': 'Choose your costume'
+        'choose-your-costume': 'Choose your costume',
+        'save-costume': 'Save costume',
+        'costumes': 'Costumes',
+        'signup-date': 'Sign-up date',
+        'till': 'till',
+        'from': 'From',
+        'untill': 'untill',
+        'open-in-google-maps': 'Open in Google Maps',
+        'details': 'Details',
+        'signups-for': 'Sign-ups for',
+        'no-users-signed-up-want-to-be-the-first': 'No users signed up! Want to be the first?',
+        'sign-up-not-possible': 'Sign-up not possible',
+        'sign-out': 'Sign out',
+        'sign-up': 'Sign up',
+        'username': 'User name'
 
     },
     nl: {
@@ -98,7 +112,22 @@ const translations = {
         'costume': 'Kostuum',
         'add-costume': 'Kostuum toevoegen',
         'remove-costume': 'Kostuum verwijderen',
-        'choose-your-costume': 'Kies je kostuum'
+        'choose-your-costume': 'Kies je kostuum',
+        'save-costume': 'Kostuum opslaan',
+        'costumes': 'Kostuums',
+        'signup-date': 'Inschrijfdatum',
+        'till': 'tot',
+        'from': 'Van',
+        'untill': 'tot',
+        'open-in-google-maps': 'Openen in Google Maps',
+        'details': 'Details',
+        'signups-for': 'Inschrijvingen voor',
+        'spots-left': 'plekken beschikbaar',
+        'no-users-signed-up-want-to-be-the-first': 'Nog geen inschrijvingen, wil je de eerste zijn?',
+        'sign-up-not-possible': 'Inschrijven niet meer mogelijk',
+        'sign-out': 'Uitschrijven',
+        'sign-up': 'Inschrijven',
+        'username': 'Gebruikersnaam'
 
     }
 }

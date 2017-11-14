@@ -1,6 +1,8 @@
 <template>
     <div>
-        Welcome to IRIS
+        <h1>
+            Welcome to IRIS
+        </h1>
     </div>
 </template>
 <script>

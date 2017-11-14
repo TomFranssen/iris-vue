@@ -15,6 +15,7 @@ const guard = require('express-jwt-permissions')({
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const Event = require('./model/events')
+const Costume = require('./model/costumes')
 const mongoose = require('mongoose')
 
 const ManagementClient = require('auth0').ManagementClient
@@ -87,8 +88,6 @@ app.patch('/api/private/user', (req, res) => {
     }
 
     managementClientInstance.updateUser({ id: userId }, userData, function (err, user) {
-        console.log(user)
-
         if (err) {
             console.log(err)
         }
@@ -117,17 +116,37 @@ app.post('/api/private/events', (req, res) => {
 })
 
 app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (req, res) => {
-    console.log(req.body)
+    console.log(authCheck)
 
     Event.findOne({'_id': req.body.id}, function (err, event) {
         const signUp = {
             signUpDate: new Date(),
-            username: 'Tom',
+            username: req.body.username,
             costume: req.body.costume,
             userId: req.user.sub
         }
         event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUp)
         event.save()
+    })
+})
+
+app.get('/api/private/costumes', authCheck, (req, res) => {
+    Costume.find(function (err, costumes) {
+        if (err) {
+            res.send(err)
+        }
+        res.json(costumes)
+    })
+})
+
+app.post('/api/private/costumes', (req, res) => {
+    let costume = new Costume(req.body)
+
+    costume.save(function (err) {
+        if (err) {
+            return res.send(err)
+        }
+        res.json({message: 'Costume successfully added!'})
     })
 })
 

@@ -5,6 +5,9 @@
         <div v-show="isLoggedIn()">
             <div class="container">
                 <div class="text-center">
+                    <pre>
+                        {{profile}}
+                    </pre>
                     <div>
                         <img v-bind:src="enhancedPicture" alt="" class="img-fluid">
                     </div>

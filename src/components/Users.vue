@@ -1,9 +1,9 @@
 <template>
     <div>
         <b-breadcrumb :items="breadcrumbs"/>
+        <h1>{{$t('users')}}</h1>
         <template>
             <vue-good-table
-                title="Users"
                 :columns="columns"
                 :rows="rows"
                 :onClick="showUserDetails"
@@ -106,7 +106,7 @@
                         filterable: true
                     },
                     {
-                        label: 'Costumes',
+                        label: this.$t('costumes'),
                         tdClass: 'text-right',
                         field: 'costumes'
                     }
