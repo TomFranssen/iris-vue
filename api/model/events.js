@@ -38,6 +38,26 @@ const EventSchema = new Schema({
                 }
             }
         ],
+        cancelledUsers: [
+            {
+                username: {
+                    type: String,
+                    required: true
+                },
+                signUpDate: {
+                    type: Date,
+                    required: true
+                },
+                costume: {
+                    type: String,
+                    required: true
+                },
+                userId: {
+                    type: String,
+                    required: true
+                }
+            }
+        ],
         open: Boolean
     }],
     gatherTime: [{

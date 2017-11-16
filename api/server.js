@@ -9,6 +9,7 @@ const express = require('express')
 const app = express()
 const jwt = require('express-jwt')
 const jwks = require('jwks-rsa')
+const jwtDecode = require('jwt-decode')
 const guard = require('express-jwt-permissions')({
     permissionsProperty: 'http://iris.501st.nl/claims/permissions'
 })
@@ -116,18 +117,39 @@ app.post('/api/private/events', (req, res) => {
 })
 
 app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (req, res) => {
-    console.log(authCheck)
+    const signUpData = {
+        signUpDate: new Date(),
+        username: req.body.username,
+        costume: req.body.costume,
+        userId: req.user.sub
+    }
 
-    Event.findOne({'_id': req.body.id}, function (err, event) {
-        const signUp = {
-            signUpDate: new Date(),
-            username: req.body.username,
-            costume: req.body.costume,
-            userId: req.user.sub
-        }
-        event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUp)
-        event.save()
+    Event.findById(req.body.eventId, function (err, event) {
+        event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUpData)
+        event.save(function (err) {
+            if (err) {
+                return res.send(err)
+            }
+            res.json({success: true})
+        })
     })
+})
+
+app.post('/api/private/event/signout', authCheck, guard.check('signup:dgevent'), (req, res) => {
+    var userSub = jwtDecode(req.headers.authorization).sub
+    if (userSub === req.body.userId) { // check if front-end user ID matched the JWT user ID
+        Event.findById(req.body.eventId, function (err, event) {
+            event.eventDates[req.body.eventDateIndex].signedUpUsers.splice(req.body.indexToMoveToCancelled, 1)
+            event.save(function (err) {
+                if (err) {
+                    return res.send(err)
+                }
+                res.json({message: 'You have been signed out!'})
+            })
+        })
+    } else {
+        console.log('User ID from signed up user does not match that from JWT')
+    }
 })
 
 app.get('/api/private/costumes', authCheck, (req, res) => {
@@ -141,7 +163,6 @@ app.get('/api/private/costumes', authCheck, (req, res) => {
 
 app.post('/api/private/costumes', (req, res) => {
     let costume = new Costume(req.body)
-
     costume.save(function (err) {
         if (err) {
             return res.send(err)

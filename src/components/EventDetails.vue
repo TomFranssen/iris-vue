@@ -126,7 +126,7 @@
                     >
                         <template slot="table-row-after" scope="props">
                             <td width="50px">
-                                <button class="btn btn-secondary btn-block btn-sm" v-on:click="signOut(props)">
+                                <button v-if="props.row.userId === profile.sub" class="btn btn-secondary btn-block btn-sm" v-on:click="signOut(props, index)">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                     {{$t('sign-out')}}
                                 </button>
@@ -143,7 +143,7 @@
                                 {{$t('sign-up')}}
                             </b-button>
 
-                            <b-modal v-bind:id="'choose-costume-' + index" title="Sign up for event" v-on:k="signupForEvent(index)">
+                            <b-modal ref="myModalRef"  v-bind:id="'choose-costume-' + index" title="Sign up for event" v-on:k="signupForEvent(index)">
                                 <p>Are you sure you want to sign up for this event? Be sure to check your agenda before you sign up.</p>
                                 <b-row class="form-row">
                                     <b-col sm="5">{{$t('date')}}:</b-col>
@@ -224,18 +224,12 @@
             }
         },
         methods: {
-
-            signOut: function (props) {
-//                console.log(props)
-            },
             formatDateForRow (rowObject) {
                 return moment(rowObject.signUpDate).format('D-M-YYYY h:mm')
             },
             signupPossible: function (eventDate) {
                 const eventDateMoment = moment(eventDate.date)
                 const isInPast = moment().diff(eventDateMoment, 'day') > 7
-
-                console.log(eventDate.availableSpots)
 
                 if (eventDate.availableSpots <= eventDate.signedUpUsers.length) {
                     return false
@@ -297,11 +291,13 @@
                     })
                 })
             },
+            hideModal () {
+                this.$root.$emit('bv::hide::modal', 'modal1')
+            },
             signupForEvent (index) {
-                console.log(this.$store.state.profile['https://iris.501st.nl/user_metadata'].username)
-
+                const that = this
                 const signUpData = {
-                    id: this.$data.event._id,
+                    eventId: this.$data.event._id,
                     eventDatesIndex: index,
                     costume: this.$data.selectedCostume,
                     username: this.$store.state.profile['https://iris.501st.nl/user_metadata'].username
@@ -312,10 +308,11 @@
                         Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
                         Axios.put(`${process.env.API_URL}/api/private/event/signup`, signUpData)
                             .then(function (response) {
-                                if (response.data.message) {
-                                    alert(response.data.message)
+                                if (response.data.success) {
+                                    that.hideModal()
+                                    that.showSuccessMsg()
                                 } else {
-                                    this.$router.push('events')
+                                    that.$router.push('events')
                                 }
                             })
                             .catch(function (error) {
@@ -325,6 +322,16 @@
                     }
                     alert('Please choose your costume.')
                 })
+            },
+            signOut: function (props, eventDataIndex) {
+                const signOutData = {
+                    eventId: this.$data.event._id,
+                    eventDateIndex: eventDataIndex,
+                    userId: props.row.userId,
+                    indexToMoveToCancelled: props.index
+                }
+                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+                Axios.post(`${process.env.API_URL}/api/private/event/signout`, signOutData)
             }
         },
         data () {
@@ -393,6 +400,13 @@
                     }
                 ],
                 rows: []
+            }
+        },
+        notifications: {
+            showSuccessMsg: {
+                type: 'success',
+                title: 'Hello there',
+                message: 'That\'s the success!'
             }
         },
         mounted () {
