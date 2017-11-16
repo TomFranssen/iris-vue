@@ -143,7 +143,7 @@
                                 {{$t('sign-up')}}
                             </b-button>
 
-                            <b-modal ref="myModalRef"  v-bind:id="'choose-costume-' + index" title="Sign up for event" v-on:k="signupForEvent(index)">
+                            <b-modal v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" title="Sign up for event" v-on:k="signupForEvent(index)">
                                 <p>Are you sure you want to sign up for this event? Be sure to check your agenda before you sign up.</p>
                                 <b-row class="form-row">
                                     <b-col sm="5">{{$t('date')}}:</b-col>
@@ -154,10 +154,10 @@
                                     </b-col>
                                 </b-row>
                                 <b-row class="form-row">
-                                    <b-col sm="5"><label for="select-costume">{{$t('choose-your-costume')}}:</label></b-col>
+                                    <b-col sm="5"><label v-bind:for="'selected-costume-' + index" >{{$t('choose-your-costume')}}:</label></b-col>
                                     <b-col sm="7">
                                         <form action="#" v-on:submit.stop.prevent="handleSubmit">
-                                            <b-form-select id="select-costume" v-bind:name="'selected-costume-' + index"  v-validate="'required'" v-model="selectedCostume" :options="profileCostumes" class="mb-3">
+                                            <b-form-select v-bind:id="'selected-costume-' + index" v-bind:name="'selected-costume-' + index"  v-validate="'required'" v-model="selectedCostume" :options="profileCostumes" class="mb-3">
                                                 <template slot="first">
                                                     <option :value="null" disabled>Please select a costume</option>
                                                 </template>
@@ -178,6 +178,17 @@
                 </div>
             </b-col>
         </b-row>
+
+        <b-button @click="showModal">
+            Open Modal
+        </b-button>
+        <b-modal ref="myModalRef" hide-footer title="Using Component Methods">
+            <div class="d-block text-center">
+                <h3>Hello From My Modal!</h3>
+            </div>
+            <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-btn>
+        </b-modal>
+
     </div>
 </template>
 
@@ -291,8 +302,14 @@
                     })
                 })
             },
-            hideModal () {
-                this.$root.$emit('bv::hide::modal', 'modal1')
+            showModal () {
+                this.$refs.myModalRef.show()
+            },
+            hideModal (index) {
+                console.log('HiDE!!!', index)
+                console.log('HiDE!!!', this.$refs)
+                console.log('HiDE!!!', this.$refs['modal-0'])
+                this.$refs[`modal${index}`][0].hide()
             },
             signupForEvent (index) {
                 const that = this
@@ -309,7 +326,7 @@
                         Axios.put(`${process.env.API_URL}/api/private/event/signup`, signUpData)
                             .then(function (response) {
                                 if (response.data.success) {
-                                    that.hideModal()
+                                    that.hideModal(index)
                                     that.showSuccessMsg()
                                 } else {
                                     that.$router.push('events')
