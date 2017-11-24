@@ -26,20 +26,6 @@
                             </b-form-textarea>
                         </b-col>
                     </b-row>
-                    <b-row>
-                        <b-col sm="3">
-                            {{$t('type')}}
-                        </b-col>
-                        <b-col sm="9">
-                            <div id='example-3'>
-                                <input v-validate="'required'" name="allegiances" type="checkbox" id="dutch-garrison" value="Dutch Garrison" v-model="allegiances">
-                                <label for="dutch-garrison">Dutch Garrison</label>
-                                <input v-validate="'required'" type="checkbox" name="allegiances"  id="dune-sea-base" value="Dune Sea Base" v-model="allegiances">
-                                <label for="dune-sea-base">Dune Sea Base</label>
-                                <p class="text-danger" v-if="errors.has('allegiances')">{{ errors.first('allegiances') }}</p>
-                            </div>
-                        </b-col>
-                    </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="gather-time">{{$t('gather-time')}}:</label></b-col>
                         <b-col sm="9">
@@ -158,6 +144,16 @@
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('parking-available')}}
+                            </b-form-checkbox>
+                        </b-col>
+                    </b-row>
+                    <b-row class="form-row">
+                        <b-col>
+                            <b-form-checkbox id="parking-restitution"
+                                             v-model="parkingRestitution"
+                                             value="1"
+                                             unchecked-value="0">
+                                {{$t('parking-restitution')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
@@ -342,6 +338,7 @@ export default {
 //            dressingroomAvailable: undefined,
 //            travelRestitution: undefined,
 //            parking: undefined,
+//            parkingRestitution: undefined,
 //            lunch: undefined,
 //            drinks: undefined,
 //            canRegisterGuests: undefined
@@ -392,6 +389,7 @@ export default {
             dressingroomAvailable: 1,
             travelRestitution: 0,
             parking: 1,
+            parkingRestitution: 1,
             lunch: 1,
             drinks: 0,
             canRegisterGuests: 0

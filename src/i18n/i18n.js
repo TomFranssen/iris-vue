@@ -24,6 +24,7 @@ const translations = {
         'dressingroom-available': 'Dressingroom available',
         'travel-restitution': 'Travel restitution',
         'parking-available': 'Parking available',
+        'parking-restitution': 'Parkeervergoeding',
         'lunch-available': 'Lunch available',
         'drinks-available': 'Drinks available',
         'guests-allowed': 'Guests allowed',
@@ -44,7 +45,7 @@ const translations = {
         'allegiances': 'Allegiances',
         '501st-legion-id': '501st Legion ID',
         'save-user': 'Save user',
-        'costume': 'costume',
+        'costume': 'Costume',
         'add-costume': 'Add costume',
         'remove-costume': 'Remove costume',
         'choose-your-costume': 'Choose your costume',
@@ -61,7 +62,9 @@ const translations = {
         'sign-up-not-possible': 'Sign-up not possible',
         'sign-out': 'Sign out',
         'sign-up': 'Sign up',
-        'username': 'User name'
+        'username': 'User name',
+        'sign-up-agreement': 'I will sign up for this event and make sure I show up on the corresponding day',
+        'signed-up-success': 'Your are signed up!'
 
     },
     nl: {
@@ -88,7 +91,8 @@ const translations = {
         'publicly-accessible': 'Publiekelijk toegankelijk',
         'dressingroom-available': 'Omkleedruimte beschikbaar',
         'travel-restitution': 'Reisonkosten vergoeding',
-        'parking-available': 'Parkeren beschikbaar',
+        'parking-available': 'Parkeerplaats aanwezig',
+        'parking-restitution': 'Parkeervergoeding',
         'lunch-available': 'Lunch beschikbaar',
         'drinks-available': 'Drinken beschikbaar',
         'guests-allowed': 'Gasten toegestaan',
@@ -127,7 +131,9 @@ const translations = {
         'sign-up-not-possible': 'Inschrijven niet meer mogelijk',
         'sign-out': 'Uitschrijven',
         'sign-up': 'Inschrijven',
-        'username': 'Gebruikersnaam'
+        'username': 'Gebruikersnaam',
+        'sign-up-agreement': 'Ik schrijf mijzelf in voor dit event',
+        'signed-up-success': 'Je bent ingeschreven voor dit evenement!'
 
     }
 }

@@ -15,7 +15,6 @@
                     </td>
                     <td>{{props.row.name}}</td>
                     <td>{{props.row.email}}</td>
-                    <td>{{getAllegiancesText(props.row)}}</td>
                     <td>{{getLegionId(props.row)}}</td>
                     <td>{{getCostumeCount(props.row)}}</td>
                 </template>
@@ -87,17 +86,6 @@
                         tdClass: 'text-right',
                         field: 'email',
                         filterable: true
-                    },
-                    {
-                        label: this.$t('allegiances'),
-                        tdClass: 'text-right',
-                        field: this.getAllegiancesText,
-                        filterable: true,
-                        filterDropdown: true,
-                        filterOptions: [
-                            { value: 'Dutch Garrison', text: 'Dutch Garrison' },
-                            { value: 'Dune Sea Base', text: 'Dune Sea Base' }
-                        ]
                     },
                     {
                         label: this.$t('501st-legion-id'),

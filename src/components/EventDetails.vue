@@ -19,7 +19,7 @@
             </h1>
         </div>
         <b-row>
-            <b-col cols="4">
+            <b-col md="4">
                 <h2>{{$t('basic-info')}}</h2>
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
                 {{ getFirstDate() | humanreadableDate }}
@@ -82,6 +82,10 @@
                             {{$t('parking-available')}}
                         </li>
                         <li>
+                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.parkingRestitution, 'fa-times': !event.parkingRestitution }"></i>
+                            {{$t('parking-restitution')}}
+                        </li>
+                        <li>
                             <i class="fa-li fa" v-bind:class="{ 'fa-check': event.lunch, 'fa-times': !event.lunch }"></i>
                             {{$t('lunch-available')}}
                         </li>
@@ -97,8 +101,8 @@
                     <a v-bind:href="event.websiteUrl" target="_blank" class="card-link">{{$t('website')}}: {{event.websiteUrl}}</a> <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
             </b-col>
-            <b-col cols="5">
-                <div class="mb-3" v-for="(eventDate, index) in event.eventDates">
+            <b-col md="5">
+                <div class="mb-5" v-for="(eventDate, index) in event.eventDates">
                     <h2>
                         {{$t('signups-for')}} {{eventDate.date | humanreadableDate}}
                         <small class="col text-muted" v-if="signupPossible(eventDate)">
@@ -134,61 +138,82 @@
                         </template>
                     </vue-good-table>
 
-                    <b-alert show variant="warning" v-if="!signupPossible(eventDate)">
-                        {{$t('sign-up-not-possible')}}
-                    </b-alert>
-                    <div class="row" v-if="signupPossible(eventDate)">
-                        <div class="col mt-3">
-                            <b-button v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
-                                {{$t('sign-up')}}
-                            </b-button>
+                    <div v-if="isSignedUp(eventDate)">
+                        <b-alert show variant="success">
+                            {{$t('signed-up-success')}}
+                        </b-alert>
+                    </div>
+                    <div v-if="!isSignedUp(eventDate)">
+                        <b-alert show variant="warning" v-if="!signupPossible(eventDate)">
+                            {{$t('sign-up-not-possible')}}
+                        </b-alert>
+                        <div class="row" v-if="signupPossible(eventDate)">
+                            <div class="col mt-3">
+                                <b-button v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
+                                    {{$t('sign-up')}}
+                                </b-button>
 
-                            <b-modal v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" title="Sign up for event" v-on:k="signupForEvent(index)">
-                                <p>Are you sure you want to sign up for this event? Be sure to check your agenda before you sign up.</p>
-                                <b-row class="form-row">
-                                    <b-col sm="5">{{$t('date')}}:</b-col>
-                                    <b-col sm="7">
-                                        <p>
-                                            {{eventDate.date | humanreadableDate}}
-                                        </p>
-                                    </b-col>
-                                </b-row>
-                                <b-row class="form-row">
-                                    <b-col sm="5"><label v-bind:for="'selected-costume-' + index" >{{$t('choose-your-costume')}}:</label></b-col>
-                                    <b-col sm="7">
-                                        <form action="#" v-on:submit.stop.prevent="handleSubmit">
-                                            <b-form-select v-bind:id="'selected-costume-' + index" v-bind:name="'selected-costume-' + index"  v-validate="'required'" v-model="selectedCostume" :options="profileCostumes" class="mb-3">
-                                                <template slot="first">
-                                                    <option :value="null" disabled>Please select a costume</option>
-                                                </template>
-                                            </b-form-select>
-                                            <p class="text-danger" v-if="errors.has('selected-costume-' + index)">{{ errors.first('eventdate-availablespots-' + index) }}</p>
-                                        </form>
-                                    </b-col>
-                                </b-row>
-                                <div slot="modal-footer" class="w-100">
-                                    <b-btn size="sm" class="float-right" variant="primary" v-on:click="signupForEvent(index)">
-                                        Sign Up
-                                    </b-btn>
-                                </div>
-                            </b-modal>
+                                <b-modal v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" title="Sign up for event" v-on:k="signupForEvent(index)">
+                                    <b-row class="form-row">
+                                        <b-col sm="5">{{$t('date')}}:</b-col>
+                                        <b-col sm="7">
+                                            <p>
+                                                {{eventDate.date | humanreadableDate}}
+                                            </p>
+                                        </b-col>
+                                    </b-row>
+                                    <b-row class="form-row">
+                                        <b-col sm="5">
+                                            <label v-bind:for="'selected-costume-' + index" >
+                                                {{$t('choose-your-costume')}}:
+                                            </label>
+                                        </b-col>
+                                        <b-col sm="7">
+                                            <form action="#" v-on:submit.stop.prevent="handleSubmit">
+                                                <b-form-select
+                                                    v-bind:id="'selected-costume-' + index"
+                                                    v-bind:name="'selected-costume-' + index"
+                                                    v-validate="'required'"
+                                                    v-model="selectedCostume"
+                                                    :options="profileCostumes"
+                                                    class="mb-3"
+                                                >
+                                                    <template slot="first">
+                                                        <option :value="null" disabled>Please select a costume</option>
+                                                    </template>
+                                                </b-form-select>
+                                                <p class="text-danger" v-if="errors.has('selected-costume-' + index)">
+                                                    {{ errors.first('selected-costume-' + index) }}
+                                                </p>
+                                            </form>
+                                        </b-col>
+                                    </b-row>
+
+                                    <b-row class="form-row">
+                                        <b-col>
+                                            <label class="checkbox">
+                                                <input name="terms" v-validate="'required'" type="checkbox">
+                                                {{$t('sign-up-agreement')}}
+                                            </label>
+                                            <p class="text-danger" v-show="errors.has('terms')">
+                                                {{ errors.first('terms') }}
+                                            </p>
+                                        </b-col>
+                                    </b-row>
+
+                                    <div slot="modal-footer" class="w-100">
+                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="signupForEvent(index)">
+                                            Sign Up
+                                        </b-btn>
+                                    </div>
+                                </b-modal>
+                            </div>
                         </div>
                     </div>
                     <hr>
                 </div>
             </b-col>
         </b-row>
-
-        <b-button @click="showModal">
-            Open Modal
-        </b-button>
-        <b-modal ref="myModalRef" hide-footer title="Using Component Methods">
-            <div class="d-block text-center">
-                <h3>Hello From My Modal!</h3>
-            </div>
-            <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-btn>
-        </b-modal>
-
     </div>
 </template>
 
@@ -238,6 +263,14 @@
             formatDateForRow (rowObject) {
                 return moment(rowObject.signUpDate).format('D-M-YYYY h:mm')
             },
+            isSignedUp: function (eventDate) {
+                for (let user of eventDate.signedUpUsers) {
+                    if (user.userId === this.$store.state.profile.sub) {
+                        return true
+                    }
+                }
+                return false
+            },
             signupPossible: function (eventDate) {
                 const eventDateMoment = moment(eventDate.date)
                 const isInPast = moment().diff(eventDateMoment, 'day') > 7
@@ -249,6 +282,7 @@
                 if (isInPast) {
                     return false
                 }
+
                 return true
             },
             getProgressBarWidth: function (eventDate) {
@@ -337,7 +371,6 @@
                             })
                         return
                     }
-                    alert('Please choose your costume.')
                 })
             },
             signOut: function (props, eventDataIndex) {

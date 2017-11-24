@@ -107,6 +107,7 @@ const EventSchema = new Schema({
     dressingroomAvailable: Boolean,
     travelRestitution: Boolean,
     parking: Boolean,
+    parkingRestitution: Boolean,
     lunch: Boolean,
     drinks: Boolean,
     canRegisterGuests: Boolean

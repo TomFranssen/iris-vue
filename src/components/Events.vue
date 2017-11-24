@@ -12,11 +12,11 @@
                 styleClass="table condensed table-bordered table-striped"
             >
                 <template slot="table-row" scope="props">
-                    <td class="text-right">{{ props.row.eventDates[0].date | moment}}</td>
-                    <td class="text-right">{{ props.row.name }}</td>
+                    <td class="text-left">{{ props.row.name }}</td>
                     <td class="text-right">{{ props.row.city }}</td>
                     <td class="text-right">{{ getDaysCount(props.row) }}</td>
                     <td class="text-right">{{ getSignups(props.row) }}</td>
+                    <td class="text-right">{{ props.row.eventDates[0].date | moment}}</td>
                 </template>
             </vue-good-table>
         </template>
@@ -79,15 +79,6 @@
                 }],
                 columns: [
                     {
-                        label: this.$t('date'),
-                        field: this.getFirstDate,
-                        type: 'date',
-                        outputFormat: 'D-MM-YYYY',
-                        inputFormat: 'YYYY-MM-DD',
-                        tdClass: 'text-right',
-                        width: '130px'
-                    },
-                    {
                         label: this.$t('name'),
                         field: 'name',
                         tdClass: 'text-right',
@@ -108,6 +99,15 @@
                         label: this.$t('signups'),
                         tdClass: 'text-center',
                         field: this.getSignups
+                    },
+                    {
+                        label: this.$t('date'),
+                        field: this.getFirstDate,
+                        type: 'date',
+                        outputFormat: 'D-MM-YYYY',
+                        inputFormat: 'YYYY-MM-DD',
+                        tdClass: 'text-right',
+                        width: '130px'
                     }
                 ],
                 rows: []
