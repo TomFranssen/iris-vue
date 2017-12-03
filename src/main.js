@@ -11,8 +11,10 @@ import translations from './i18n/i18n'
 import VueI18n from 'vue-i18n'
 import VueGoodTable from 'vue-good-table'
 import VueInstant from 'vue-instant'
+import AddToCalendar from 'vue-add-to-calendar'
 import VueNotifications from 'vue-notifications'
-import swal from 'sweetalert'
+import Noty from 'noty'
+import 'noty/lib/noty.css'
 import 'vue-instant/dist/vue-instant.css'
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
@@ -32,10 +34,11 @@ Vue.use(Vuex)
 Vue.use(VueI18n)
 Vue.use(VueGoodTable)
 Vue.use(VueInstant)
+Vue.use(AddToCalendar)
 
 function toast ({title, message, type, timeout, cb}) {
     if (type === VueNotifications.types.warn) type = 'warning'
-    return swal(title, message, type)
+    return new Noty({text: message, timeout, type}).show()
 }
 
 const options = {

@@ -16,7 +16,10 @@ export default {
             'nickname': '',
             'picture': '',
             'sub': '',
-            'updated_at': ''
+            'updated_at': '',
+            'https://iris.501st.nl/user_metadata': {
+                username: ''
+            }
         }
     },
     mutations: {

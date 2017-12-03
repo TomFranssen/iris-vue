@@ -5,11 +5,11 @@ const Schema = mongoose.Schema
 const EventSchema = new Schema({
     name: String,
     description: String,
-    allegiances: {
-        type: [String],
-        enum: ['Dutch Garrison', 'Dune Sea Base'],
-        required: true
-    },
+    // allegiances: {
+    //     type: [String],
+    //     enum: ['Dutch Garrison', 'Dune Sea Base'],
+    //     required: true
+    // },
     eventDates: [{
         date: {
             type: Date,

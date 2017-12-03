@@ -126,6 +126,16 @@ app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (
 
     Event.findById(req.body.eventId, function (err, event) {
         event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUpData)
+
+        // if (event.eventDates[req.body.eventDateIndex].cancelledUsers.length > 0) {
+        //     for(let cancelledUser of event.eventDates[req.body.eventDateIndex].cancelledUsers.length) {
+        //         console.log(cancelledUser)
+        //         // if (cancelledUser) {
+        //         //
+        //         // }
+        //     }
+        // }
+
         event.save(function (err) {
             if (err) {
                 return res.send(err)
@@ -139,7 +149,9 @@ app.post('/api/private/event/signout', authCheck, guard.check('signup:dgevent'),
     var userSub = jwtDecode(req.headers.authorization).sub
     if (userSub === req.body.userId) { // check if front-end user ID matched the JWT user ID
         Event.findById(req.body.eventId, function (err, event) {
-            event.eventDates[req.body.eventDateIndex].signedUpUsers.splice(req.body.indexToMoveToCancelled, 1)
+            const signUpToRemove = event.eventDates[req.body.eventDateIndex].signedUpUsers.splice(req.body.indexToMoveToCancelled, 1)
+            event.eventDates[req.body.eventDateIndex].cancelledUsers.push(signUpToRemove[0])
+
             event.save(function (err) {
                 if (err) {
                     return res.send(err)

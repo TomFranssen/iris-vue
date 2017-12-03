@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>
+        <div class="clearfix mb-4">
             <div class="date-square float-left">
                 <div class="month">
                     {{ getFirstDate() | shortMonthDate }}
@@ -21,19 +21,19 @@
         <b-row>
             <b-col md="4">
                 <h2>{{$t('basic-info')}}</h2>
-                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <i class="fa fa-calendar" aria-hidden="true"></i>
                 {{ getFirstDate() | humanreadableDate }}
                 {{$t('till')}}
                 {{ getLastDate() | humanreadableDate }}
-                <span class="text-muted">
-                    ({{ getFirstDate() | fromNowDate }})
-                </span>
                 <div class="times">
                     <div>
-                        <div>
-                            {{$t('gather-time')}} {{event.gatherTime[0].HH}}:{{event.gatherTime[0].mm}}
-                        </div>
-                        {{$t('from')}} {{event.startTime[0].HH}}:{{event.startTime[0].mm}} {{$t('untill')}} {{event.endTime[0].HH}}:{{event.endTime[0].mm}}
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        {{$t('from')}} {{event.startTime[0].HH}}:{{event.startTime[0].mm}}
+                        {{$t('untill')}}
+                        {{event.endTime[0].HH}}:{{event.endTime[0].mm}}
+                        <span class="text-muted text-lowercase">
+                            ({{event.gatherTime[0].HH}}:{{event.gatherTime[0].mm}} {{$t('gather-time')}})
+                        </span>
                     </div>
                 </div>
                 <address>
@@ -98,17 +98,70 @@
                             {{$t('guests-allowed')}}
                         </li>
                     </ul>
-                    <a v-bind:href="event.websiteUrl" target="_blank" class="card-link">{{$t('website')}}: {{event.websiteUrl}}</a> <i class="fa fa-external-link" aria-hidden="true"></i>
+
+                    <h2>{{$t('more-info')}}</h2>
+                    <div>
+                        {{$t('website')}}:
+                        <a v-bind:href="event.websiteUrl" target="_blank" class="card-link">
+                            {{event.websiteUrl}}
+                        </a>
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        {{$t('forum-url')}}:
+                        <a v-bind:href="event.forumUrl" target="_blank" class="card-link">
+                            {{event.forumUrl}}
+                        </a>
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        {{$t('facebook-event')}}:
+                        <a v-bind:href="event.facebookEvent" target="_blank" class="card-link">
+                            {{event.facebookEvent}}
+                        </a>
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </div>
                 </div>
             </b-col>
             <b-col md="5">
                 <div class="mb-5" v-for="(eventDate, index) in event.eventDates">
                     <h2>
                         {{$t('signups-for')}} {{eventDate.date | humanreadableDate}}
-                        <small class="col text-muted" v-if="signupPossible(eventDate)">
+                        <br>
+                        <small class="text-muted" v-if="signupPossible(eventDate)">
                             {{getSpotsLeft(eventDate)}} {{$t('spots-left')}}
                         </small>
                     </h2>
+                    {{getEventStartTimeForCalendar(eventDate.date)}}
+                    <div>
+                        {{getEventEndTimeForCalendar(eventDate.date)}}
+                    </div>
+
+                    <div v-if="isSignedUp(eventDate)">
+                        <add-to-calendar
+                            v-bind:title="event.name"
+                            v-bind:location="event.street + ' ' + event.houseNumber + ' ' + event.postcode + ' ' + event.city"
+                            v-bind:start="getEventStartTimeForCalendar(eventDate.date)"
+                            v-bind:end="getEventEndTimeForCalendar(eventDate.date)"
+                            details="The first Official Vue.js Conference in the world!"
+                            inline-template
+                        >
+                            <div>
+                                <div>
+                                    <google-calendar id="google-calendar">
+                                        <i class="fa fa-google"></i>
+                                        {{$t('add-to-google-calendar')}}
+                                    </google-calendar>
+                                </div>
+                                <div>
+                                    <microsoft-calendar id="microsoft-calendar">
+                                        <i class="fa fa-windows"></i>
+                                        {{$t('add-to-microsoft-calendar')}}
+                                    </microsoft-calendar>
+                                </div>
+                            </div>
+                        </add-to-calendar>
+                    </div>
 
                     <div v-if="!hasSignedUpUsers(eventDate) && signupPossible(eventDate)" class="alert alert-secondary" role="alert">
                         {{$t('no-users-signed-up-want-to-be-the-first')}}
@@ -122,27 +175,29 @@
                     </div>
 
                     <vue-good-table
-                        v-if="eventDate.signedUpUsers.length > 0"
-                        v-bind:columns="columns"
-                        v-bind:rows="eventDate.signedUpUsers"
-                        sortable="true"
-                        styleClass="table table-bordered condensed"
+                            v-if="eventDate.signedUpUsers.length > 0"
+                            v-bind:columns="columns"
+                            v-bind:rows="eventDate.signedUpUsers"
+                            sortable="true"
+                            styleClass="table table-bordered condensed"
                     >
                         <template slot="table-row-after" scope="props">
-                            <td width="50px">
-                                <button v-if="props.row.userId === profile.sub" class="btn btn-secondary btn-block btn-sm" v-on:click="signOut(props, index)">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                    {{$t('sign-out')}}
-                                </button>
-                            </td>
-                        </template>
+                        <td width="50px">
+                            <button v-if="props.row.userId === profile.sub" class="btn btn-secondary btn-block btn-sm" v-on:click="signOut(props, index)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                {{$t('sign-out')}}
+                            </button>
+                        </td>
+                    </template>
                     </vue-good-table>
 
-                    <div v-if="isSignedUp(eventDate)">
-                        <b-alert show variant="success">
-                            {{$t('signed-up-success')}}
-                        </b-alert>
+                    <div class="mt-2" v-if="eventDate.cancelledUsers.length > 0">
+                        {{$t('sign-outs')}}:
+                        <span v-for="(cancelledUser, index) in eventDate.cancelledUsers">
+                            {{cancelledUser.username}}
+                        </span>
                     </div>
+
                     <div v-if="!isSignedUp(eventDate)">
                         <b-alert show variant="warning" v-if="!signupPossible(eventDate)">
                             {{$t('sign-up-not-possible')}}
@@ -150,10 +205,11 @@
                         <div class="row" v-if="signupPossible(eventDate)">
                             <div class="col mt-3">
                                 <b-button v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
                                     {{$t('sign-up')}}
                                 </b-button>
 
-                                <b-modal v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" title="Sign up for event" v-on:k="signupForEvent(index)">
+                                <b-modal v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" v-bind:title="$t('sign-up')" v-on:k="signUp(index)">
                                     <b-row class="form-row">
                                         <b-col sm="5">{{$t('date')}}:</b-col>
                                         <b-col sm="7">
@@ -179,7 +235,7 @@
                                                     class="mb-3"
                                                 >
                                                     <template slot="first">
-                                                        <option :value="null" disabled>Please select a costume</option>
+                                                        <option :value="null" disabled>{{$t('choose-your-costume')}}</option>
                                                     </template>
                                                 </b-form-select>
                                                 <p class="text-danger" v-if="errors.has('selected-costume-' + index)">
@@ -188,22 +244,12 @@
                                             </form>
                                         </b-col>
                                     </b-row>
-
-                                    <b-row class="form-row">
-                                        <b-col>
-                                            <label class="checkbox">
-                                                <input name="terms" v-validate="'required'" type="checkbox">
-                                                {{$t('sign-up-agreement')}}
-                                            </label>
-                                            <p class="text-danger" v-show="errors.has('terms')">
-                                                {{ errors.first('terms') }}
-                                            </p>
-                                        </b-col>
-                                    </b-row>
-
+                                    <div>
+                                        {{$t('sign-up-agreement')}}
+                                    </div>
                                     <div slot="modal-footer" class="w-100">
-                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="signupForEvent(index)">
-                                            Sign Up
+                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="signUp(index)">
+                                            {{$t('sign-up')}}
                                         </b-btn>
                                     </div>
                                 </b-modal>
@@ -222,11 +268,15 @@
     import moment from 'moment'
     import { isLoggedIn } from '../utils/auth'
     import { getPrivateEvents } from '../utils/events-api'
+    import EventForm from './EventForm.vue'
 
     moment.locale('nl')
 
     export default {
         name: 'event-details',
+        components: {
+            EventForm
+        },
         filters: {
             shortMonthDate: function (date) {
                 return moment(date).format('MMM')
@@ -236,9 +286,6 @@
             },
             humanreadableDate: function (date) {
                 return moment(date).format('MMMM Do YYYY')
-            },
-            fromNowDate: function (date) {
-                return moment(date, 'YYYYMMDD').fromNow()
             }
         },
         props: ['id'],
@@ -260,6 +307,26 @@
             }
         },
         methods: {
+            getEventStartTimeForCalendar (date) {
+                if (date) {
+                    const dateForCalendar = moment(date).set(
+                        {
+                            hour: parseInt(this.$data.event.gatherTime[0].HH),
+                            minute: parseInt(this.$data.event.gatherTime[0].mm)
+                        }
+                    )
+                    return dateForCalendar.toDate()
+                }
+            },
+            getEventEndTimeForCalendar (date) {
+                if (date) {
+                    var eventDate = new Date(date)
+                    eventDate.setHours(this.$data.event.endTime[0].HH + 1)
+                    eventDate.setMinutes(this.$data.event.endTime[0].mm)
+
+                    return eventDate
+                }
+            },
             formatDateForRow (rowObject) {
                 return moment(rowObject.signUpDate).format('D-M-YYYY h:mm')
             },
@@ -340,12 +407,9 @@
                 this.$refs.myModalRef.show()
             },
             hideModal (index) {
-                console.log('HiDE!!!', index)
-                console.log('HiDE!!!', this.$refs)
-                console.log('HiDE!!!', this.$refs['modal-0'])
                 this.$refs[`modal${index}`][0].hide()
             },
-            signupForEvent (index) {
+            signUp (index) {
                 const that = this
                 const signUpData = {
                     eventId: this.$data.event._id,
@@ -361,7 +425,10 @@
                             .then(function (response) {
                                 if (response.data.success) {
                                     that.hideModal(index)
-                                    that.showSuccessMsg()
+                                    that.showSuccessSignup({
+                                        message: that.$t('sign-up-success')
+                                    })
+                                    that.getPrivateEvents()
                                 } else {
                                     that.$router.push('events')
                                 }
@@ -374,6 +441,7 @@
                 })
             },
             signOut: function (props, eventDataIndex) {
+                const that = this
                 const signOutData = {
                     eventId: this.$data.event._id,
                     eventDateIndex: eventDataIndex,
@@ -382,6 +450,9 @@
                 }
                 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
                 Axios.post(`${process.env.API_URL}/api/private/event/signout`, signOutData)
+                    .then(function () {
+                        that.getPrivateEvents()
+                    })
             }
         },
         data () {
@@ -395,7 +466,8 @@
                             date: '',
                             availableSpots: 0,
                             open: 0,
-                            signedUpUsers: []
+                            signedUpUsers: [],
+                            cancelledUsers: []
                         }
                     ],
                     gatherTime: [
@@ -453,10 +525,10 @@
             }
         },
         notifications: {
-            showSuccessMsg: {
+            showSuccessSignup: {
                 type: 'success',
-                title: 'Hello there',
-                message: 'That\'s the success!'
+                title: 'Signed up',
+                message: 'Success!'
             }
         },
         mounted () {

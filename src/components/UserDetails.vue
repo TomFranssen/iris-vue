@@ -4,6 +4,9 @@
         <div class="row">
             <div class="col">
                 <h1>User details</h1>
+                <pre>
+                    {{user}}
+                </pre>
                 <div>
                     {{user.user_metadata.username}}
                 </div>

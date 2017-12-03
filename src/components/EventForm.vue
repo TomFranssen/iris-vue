@@ -1,6 +1,5 @@
 <template>
-    <div class="add-event">
-        <b-breadcrumb :items="breadcrumbs"/>
+    <div>
         <form action="#">
             <h1>{{$t('add-event')}}</h1>
             <b-row>
@@ -9,7 +8,15 @@
                     <b-row class="form-row">
                         <b-col sm="3"><label for="name">{{$t('name')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" name="name" v-model.trim="name" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input
+                                v-validate="'required'"
+                                name="name"
+                                v-model.trim="event.name"
+                                id="name"
+                                size="sm"
+                                type="text"
+                            >
+                            </b-form-input>
                             <p class="text-danger" v-if="errors.has('name')">{{ errors.first('name') }}</p>
                         </b-col>
                     </b-row>
@@ -19,45 +26,53 @@
                             <label for="description">{{$t('description')}}:</label>
                         </b-col>
                         <b-col sm="9">
-                            <b-form-textarea id="description"
-                                             v-model="description"
-                                             :rows="3"
-                                             :max-rows="6">
+                            <b-form-textarea
+                                id="description"
+                                v-model="event.description"
+                                :rows="3"
+                                :max-rows="6">
                             </b-form-textarea>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="gather-time">{{$t('gather-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <vue-timepicker v-validate="'required'" name="gather-time" :minute-interval="5" id="gather-time" v-model="gatherTime"></vue-timepicker>
+                            <vue-timepicker
+                                v-validate="'required'"
+                                name="gather-time"
+                                :minute-interval="5"
+                                id="gather-time"
+                                v-model="event.gatherTime"
+                            >
+                            </vue-timepicker>
                             <p class="text-danger" v-if="errors.has('gather-time')">{{ errors.first('gather-time') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="start-time">{{$t('start-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <vue-timepicker v-validate="'required'" name="start-time" :minute-interval="5" id="start-time" v-model="startTime"></vue-timepicker>
+                            <vue-timepicker v-validate="'required'" name="start-time" :minute-interval="5" id="start-time" v-model="event.startTime"></vue-timepicker>
                             <p class="text-danger" v-if="errors.has('start-time')">{{ errors.first('start-time') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="end-time">{{$t('end-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <vue-timepicker v-validate="'required'" name="end-time" :minute-interval="5" id="end-time" v-model="endTime"></vue-timepicker>
+                            <vue-timepicker v-validate="'required'" name="end-time" :minute-interval="5" id="end-time" v-model="event.endTime"></vue-timepicker>
                             <p class="text-danger" v-if="errors.has('end-time')">{{ errors.first('end-time') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="max-signup-date">{{$t('max-signup-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <datepicker v-validate="'required'" name="max-signup-date" id="max-signup-date" v-model="maxSignupDate"></datepicker>
+                            <datepicker v-validate="'required'" name="max-signup-date" id="max-signup-date" v-model="event.maxSignupDate"></datepicker>
                             <p class="text-danger" v-if="errors.has('max-signup-date')">{{ errors.first('max-signup-date') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="event-coordinator">{{$t('event-coordinator')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="eventCoordinator" name="event-coordinator" id="event-coordinator" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" v-model.trim="event.eventCoordinator" name="event-coordinator" id="event-coordinator" size="sm" type="text"></b-form-input>
                             <p class="text-danger" v-if="errors.has('event-coordinator')">{{ errors.first('event-coordinator') }}</p>
                         </b-col>
                     </b-row>
@@ -67,50 +82,50 @@
                     <b-row class="form-row">
                         <b-col sm="3"><label for="street">{{$t('street')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="street" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" v-model.trim="event.street" id="name" size="sm" type="text"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="postcode">{{$t('postcode')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="postcode" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" v-model.trim="event.postcode" id="name" size="sm" type="text"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="housenumber">{{$t('housenumber')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="houseNumber" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" v-model.trim="event.houseNumber" id="name" size="sm" type="text"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="city">{{$t('city')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="city" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" v-model.trim="event.city" id="name" size="sm" type="text"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="forum-url">{{$t('forum-url')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required|url'" name="forum-url" v-model.trim="forumUrl" id="forum-url" size="sm" type="url"></b-form-input>
+                            <b-form-input v-validate="'required|url'" name="forum-url" v-model.trim="event.forumUrl" id="forum-url" size="sm" type="url"></b-form-input>
                             <p class="text-danger" v-if="errors.has('forum-url')">{{ errors.first('forum-url') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="facebook-event">{{$t('facebook-event')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required|url'" v-model.trim="facebookEvent" id="facebook-event" size="sm" type="url"></b-form-input>
+                            <b-form-input v-validate="'required|url'" v-model.trim="event.facebookEvent" id="facebook-event" size="sm" type="url"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="website-url">{{$t('website')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required|url'" v-model.trim="websiteUrl" id="website-url" size="sm" type="url"></b-form-input>
+                            <b-form-input v-validate="'required|url'" v-model.trim="event.websiteUrl" id="website-url" size="sm" type="url"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
                             <b-form-checkbox id="publicly-accessible"
-                                             v-model="publiclyAccessible"
+                                             v-model="event.publiclyAccessible"
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('publicly-accessible')}}
@@ -120,7 +135,7 @@
                     <b-row class="form-row">
                         <b-col>
                             <b-form-checkbox id="dressingroom-available"
-                                             v-model="dressingroomAvailable"
+                                             v-model="event.dressingroomAvailable"
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('dressingroom-available')}}
@@ -130,7 +145,7 @@
                     <b-row class="form-row">
                         <b-col>
                             <b-form-checkbox id="travel-restitution"
-                                             v-model="travelRestitution"
+                                             v-model="event.travelRestitution"
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('travel-restitution')}}
@@ -140,7 +155,7 @@
                     <b-row class="form-row">
                         <b-col>
                             <b-form-checkbox id="parking"
-                                             v-model="parking"
+                                             v-model="event.parking"
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('parking-available')}}
@@ -150,7 +165,7 @@
                     <b-row class="form-row">
                         <b-col>
                             <b-form-checkbox id="parking-restitution"
-                                             v-model="parkingRestitution"
+                                             v-model="event.parkingRestitution"
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('parking-restitution')}}
@@ -160,7 +175,7 @@
                     <b-row class="form-row">
                         <b-col>
                             <b-form-checkbox id="lunch"
-                                             v-model="lunch"
+                                             v-model="event.lunch"
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('lunch-available')}}
@@ -170,7 +185,7 @@
                     <b-row class="form-row">
                         <b-col>
                             <b-form-checkbox id="drinks"
-                                             v-model="drinks"
+                                             v-model="event.drinks"
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('drinks-available')}}
@@ -180,7 +195,7 @@
                     <b-row class="form-row">
                         <b-col>
                             <b-form-checkbox id="can-register-guests"
-                                             v-model="canRegisterGuests"
+                                             v-model="event.canRegisterGuests"
                                              value="1"
                                              unchecked-value="0">
                                 {{$t('guests-allowed')}}
@@ -191,7 +206,7 @@
                 </b-col>
                 <b-col lg>
                     <h2>{{$t('days')}}</h2>
-                    <div v-for="(eventDate, index) in eventDates">
+                    <div v-for="(eventDate, index) in event.eventDates">
                         <b-card>
                             <b-row class="form-row">
                                 <b-col sm="3"><label><strong>{{$t('day')}} {{ index + 1 }}</strong></label></b-col>
@@ -244,166 +259,63 @@
                 </b-col>
             </b-row>
         </form>
+
+
     </div>
 </template>
-
-
 <script>
-import Axios from 'axios'
-import Datepicker from 'vuejs-datepicker'
-import VueTimepicker from 'vue2-timepicker'
-
-const MAX_EVENTS = 10
-
-export default {
-    components: {
-        Datepicker,
-        VueTimepicker
-    },
-    methods: {
-        canAddDate: function () {
-            return this.eventDates.length < MAX_EVENTS
+    import Axios from 'axios'
+    import Datepicker from 'vuejs-datepicker'
+    import VueTimepicker from 'vue2-timepicker'
+    const MAX_DAYS = 20
+    export default {
+        name: 'EventForm',
+        props: ['event'],
+        components: {
+            Datepicker,
+            VueTimepicker
         },
-        canDeleteDate: function (index) {
-            return index >= 1
-        },
-        addDate: function () {
-            this.eventDates.push({
-                date: '',
-                availableSpots: '',
-                open: ''
-            })
-        },
-        removeDate: function (index) {
-            this.$delete(this.eventDates, index)
-        },
-        saveEvent: function () {
-            const self = this
-            this.$validator.validateAll().then((result) => {
-                if (result) {
-                    if (confirm('Do you want to add this event?')) {
-                        Axios.post(`${process.env.API_URL}/api/private/events`, this.$data)
-                            .then(function (response) {
-                                if (response.data.message) {
-                                    alert(response.data.message)
-                                    self.$router.push('events')
-                                } else {
-                                    console.log(response)
-                                }
-                            })
-                            .catch(function (error) {
-                                console.log(error)
-                            })
+        methods: {
+            canAddDate: function () {
+                return this.event.eventDates.length < MAX_DAYS
+            },
+            canDeleteDate: function (index) {
+                return index >= 1
+            },
+            addDate: function () {
+                this.event.eventDates.push({
+                    date: '',
+                    availableSpots: '',
+                    open: ''
+                })
+            },
+            removeDate: function (index) {
+                this.$delete(this.event.eventDates, index)
+            },
+            saveEvent: function () {
+                const self = this
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (confirm('Do you want to add this event?')) {
+                            Axios.post(`${process.env.API_URL}/api/private/events`, this.$data)
+                                .then(function (response) {
+                                    if (response.data.message) {
+                                        alert(response.data.message)
+                                        self.$router.push('events')
+                                    } else {
+                                        console.log(response)
+                                    }
+                                })
+                                .catch(function (error) {
+                                    console.log(error)
+                                })
+                        }
+                        return
                     }
-                    return
-                }
-                alert('Please correctly fill in all the fields.')
-                this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
-            })
-        }
-    },
-    name: 'addEvent',
-    data () {
-//        return {
-//            name: undefined,
-//            description: '',
-//            eventDates: [{
-//                date: '',
-//                availableSpots: '',
-//                open: ''
-//            }],
-//            gatherTime: {
-//                HH: undefined,
-//                mm: undefined
-//            },
-//            startTime: {
-//                HH: undefined,
-//                mm: undefined
-//            },
-//            endTime: {
-//                HH: undefined,
-//                mm: undefined
-//            },
-//            maxSignupDate: undefined,
-//            eventCoordinator: '',
-//            street: undefined,
-//            postcode: undefined,
-//            houseNumber: undefined,
-//            city: undefined,
-//            forumUrl: undefined,
-//            facebookEvent: undefined,
-//            websiteUrl: undefined,
-//            publiclyAccessible: undefined,
-//            guestsAllowed: undefined,
-//            dressingroomAvailable: undefined,
-//            travelRestitution: undefined,
-//            parking: undefined,
-//            parkingRestitution: undefined,
-//            lunch: undefined,
-//            drinks: undefined,
-//            canRegisterGuests: undefined
-//        }
-        return {
-            breadcrumbs: [{
-                text: 'Home',
-                to: '/'
-            }, {
-                text: 'Add event',
-                active: true
-            }],
-            name: 'Star Wars Reads day',
-            description: '',
-            allegiances: ['Dutch Garrison'],
-            eventDates: [{
-                date: '2018-10-03T19:24:00.000Z',
-                availableSpots: 25,
-                open: 1
-            }, {
-                date: '2018-10-04T19:24:00.000Z',
-                availableSpots: 15,
-                open: 1
-            }],
-            gatherTime: {
-                HH: '08',
-                mm: '05'
-            },
-            startTime: {
-                HH: '09',
-                mm: '05'
-            },
-            endTime: {
-                HH: '20',
-                mm: '05'
-            },
-            maxSignupDate: '2018-10-01T19:24:00.000Z',
-            eventCoordinator: 'Richard',
-            street: 'Molenstraat',
-            postcode: '5611XJ',
-            houseNumber: '448',
-            city: 'Eindhoven',
-            forumUrl: 'https://forum.501st.nl',
-            facebookEvent: 'https://www.facebook.nl',
-            websiteUrl: 'https://www.501st.nl',
-            publiclyAccessible: 1,
-            guestsAllowed: 0,
-            dressingroomAvailable: 1,
-            travelRestitution: 0,
-            parking: 1,
-            parkingRestitution: 1,
-            lunch: 1,
-            drinks: 0,
-            canRegisterGuests: 0
+                    alert('Please correctly fill in all the fields.')
+                    this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
+                })
+            }
         }
     }
-
-}
 </script>
-
-<style>
-    .card {
-        margin: 10px 0;
-    }
-    .form-row {
-        margin-bottom: 10px;
-    }
-</style>

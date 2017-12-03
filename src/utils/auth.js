@@ -101,7 +101,6 @@ function getParameterByName (name) {
 // Get and store access_token in local storage
 export function setAccessToken () {
     let accessToken = getParameterByName('access_token')
-    alert('set access token!')
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
 }
 

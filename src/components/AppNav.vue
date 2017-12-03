@@ -15,7 +15,7 @@
                 </b-nav>
                 <b-nav-item-dropdown v-show="isLoggedIn()" right>
                     <template slot="button-content">
-                        {{profile.given_name}}
+                        {{profile['https://iris.501st.nl/user_metadata'].username}}
                         <img v-bind:src="profile['https://iris.501st.nl/legion_thumbnail']" width="30" alt="">
                     </template>
                     <b-dropdown-item to="/profile">{{$t('profile')}}</b-dropdown-item>

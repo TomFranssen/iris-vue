@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import AddEvent from '@/components/AddEvent'
+import EventAdd from '@/components/EventAdd'
+import EventEdit from '@/components/Eventedit'
 import Events from '@/components/Events'
 import EventDetails from '@/components/EventDetails'
 import Home from '@/components/Home'
@@ -28,9 +29,10 @@ export default new Router({
         },
         {
             path: '/add-event',
-            name: 'AddEvent',
-            component: AddEvent,
+            name: 'EventAdd',
+            component: EventAdd,
             beforeEnter: requireAuth
+
         },
         {
             path: '/events',
@@ -42,6 +44,11 @@ export default new Router({
             path: '/event/:id',
             name: 'Event details',
             component: EventDetails
+        },
+        {
+            path: '/event-edit/:id',
+            name: 'Event edit',
+            component: EventEdit
         },
         {
             path: '/users',

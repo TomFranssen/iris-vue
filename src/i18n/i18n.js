@@ -61,11 +61,14 @@ const translations = {
         'no-users-signed-up-want-to-be-the-first': 'No users signed up! Want to be the first?',
         'sign-up-not-possible': 'Sign-up not possible',
         'sign-out': 'Sign out',
+        'sign-outs': 'Sign outs',
         'sign-up': 'Sign up',
         'username': 'User name',
-        'sign-up-agreement': 'I will sign up for this event and make sure I show up on the corresponding day',
-        'signed-up-success': 'Your are signed up!'
-
+        'sign-up-agreement': 'I will sign up for this event and make sure I show up on the corresponding day. If you cannot attend ALWAYS send a message to the staff.',
+        'sign-up-success': 'You have been signed up!',
+        'more-info': 'More information',
+        'add-to-google-calendar': 'Add to Google Calendar',
+        'add-to-microsoft-calendar': 'Add to Microsoft Calendar'
     },
     nl: {
         'info': 'Info',
@@ -130,11 +133,14 @@ const translations = {
         'no-users-signed-up-want-to-be-the-first': 'Nog geen inschrijvingen, wil je de eerste zijn?',
         'sign-up-not-possible': 'Inschrijven niet meer mogelijk',
         'sign-out': 'Uitschrijven',
+        'sign-outs': 'Uitschrijvingen',
         'sign-up': 'Inschrijven',
         'username': 'Gebruikersnaam',
-        'sign-up-agreement': 'Ik schrijf mijzelf in voor dit event',
-        'signed-up-success': 'Je bent ingeschreven voor dit evenement!'
-
+        'sign-up-agreement': 'Let op: als je jezelf inschrijft voor dit evenement zorg je er zelf voor dat je bij het evenement aanwezig bent. Mocht je om één of andere reden niet kunnen, laat het ALTIJD weten!',
+        'sign-up-success': 'Je bent ingeschreven!',
+        'more-info': 'Meer informatie',
+        'add-to-google-calendar': 'Voeg toe aan Google Agenda',
+        'add-to-microsoft-calendar': 'Voeg toe aan Microsoft Calendar'
     }
 }
 
