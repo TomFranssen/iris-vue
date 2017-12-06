@@ -105,7 +105,18 @@ app.get('/api/private/events', authCheck, (req, res) => {
     })
 })
 
-app.post('/api/private/events', (req, res) => {
+app.get('/api/private/event', (req, res) => {
+    Event.findById(req.headers.id, function (err, event) {
+        console.log(event)
+
+        if (err) {
+            res.send(err)
+        }
+        res.json(event)
+    })
+})
+
+app.post('/api/private/event', (req, res) => {
     let event = new Event(req.body)
 
     event.save(function (err) {
@@ -113,6 +124,16 @@ app.post('/api/private/events', (req, res) => {
             return res.send(err)
         }
         res.json({message: 'Event successfully added!'})
+    })
+})
+
+app.put('/api/private/event', (req, res) => {
+    let changedEvent = new Event(req.body)
+    Event.findOneAndUpdate({'_id': changedEvent._id}, req.body, {upsert: true}, function (err, doc) {
+        if (err) {
+            return res.send(err)
+        }
+        res.json({success: true})
     })
 })
 

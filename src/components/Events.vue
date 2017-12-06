@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-breadcrumb :items="breadcrumbs"/>
+        <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
         <h1>{{$t('events')}}</h1>
         <template>
             <vue-good-table

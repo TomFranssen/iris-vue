@@ -1,67 +1,48 @@
 <template>
     <div class="add-event">
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
-        <event-form v-bind:event="event"></event-form>
+        <div v-if="event">
+            <event-form v-bind:event="event" v-bind:edit="true"></event-form>
+        </div>
     </div>
 </template>
 
 <script>
 import EventForm from './EventForm.vue'
+import { getPrivateEvent } from '../utils/events-api'
 
 export default {
     components: {
         EventForm
     },
     name: 'EventAdd',
+    methods: {
+        getPrivateEvent () {
+            getPrivateEvent(this.$route.params.id).then((event) => {
+                this.event = event
+            })
+        }
+    },
     data () {
         return {
             breadcrumbs: [{
                 text: 'Home',
                 to: '/'
             }, {
-                text: 'Add event',
+                text: 'Events',
+                to: '/events'
+            }, {
+                text: 'Event details',
+                to: '/event/' + this.$route.params.id
+            }, {
+                text: 'Edit event',
                 active: true
             }],
-            event: {
-                name: undefined,
-                description: '',
-                eventDates: [{
-                    date: '',
-                    availableSpots: '',
-                    open: ''
-                }],
-                gatherTime: {
-                    HH: '00',
-                    mm: '00'
-                },
-                startTime: {
-                    HH: '00',
-                    mm: '00'
-                },
-                endTime: {
-                    HH: '00',
-                    mm: '00'
-                },
-                maxSignupDate: undefined,
-                eventCoordinator: '',
-                street: undefined,
-                postcode: undefined,
-                houseNumber: undefined,
-                city: undefined,
-                forumUrl: undefined,
-                facebookEvent: undefined,
-                websiteUrl: undefined,
-                publiclyAccessible: undefined,
-                guestsAllowed: undefined,
-                dressingroomAvailable: undefined,
-                travelRestitution: undefined,
-                parking: undefined,
-                parkingRestitution: undefined,
-                lunch: undefined,
-                drinks: undefined,
-                canRegisterGuests: undefined
-            }
+            event: undefined
         }
+    },
+    mounted () {
+        this.getPrivateEvent()
     }
 }
 </script>

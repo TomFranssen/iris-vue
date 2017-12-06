@@ -1,7 +1,8 @@
 <template>
     <div>
         <form action="#">
-            <h1>{{$t('add-event')}}</h1>
+            <h1 v-if="!edit">{{$t('add-event')}}</h1>
+            <h1 v-if="edit">{{$t('edit-event')}}</h1>
             <b-row>
                 <b-col lg>
                     <h2>{{$t('basic-info')}}</h2>
@@ -42,7 +43,7 @@
                                 name="gather-time"
                                 :minute-interval="5"
                                 id="gather-time"
-                                v-model="event.gatherTime"
+                                v-model="event.gatherTime[0]"
                             >
                             </vue-timepicker>
                             <p class="text-danger" v-if="errors.has('gather-time')">{{ errors.first('gather-time') }}</p>
@@ -51,14 +52,28 @@
                     <b-row class="form-row">
                         <b-col sm="3"><label for="start-time">{{$t('start-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <vue-timepicker v-validate="'required'" name="start-time" :minute-interval="5" id="start-time" v-model="event.startTime"></vue-timepicker>
+                            <vue-timepicker
+                                v-validate="'required'"
+                                name="start-time"
+                                v-bind:minute-interval="5"
+                                id="start-time"
+                                v-model="event.startTime[0]"
+                            >
+                            </vue-timepicker>
                             <p class="text-danger" v-if="errors.has('start-time')">{{ errors.first('start-time') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="end-time">{{$t('end-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <vue-timepicker v-validate="'required'" name="end-time" :minute-interval="5" id="end-time" v-model="event.endTime"></vue-timepicker>
+                            <vue-timepicker
+                                v-validate="'required'"
+                                name="end-time"
+                                v-bind:minute-interval="5"
+                                id="end-time"
+                                v-model="event.endTime[0]"
+                            >
+                            </vue-timepicker>
                             <p class="text-danger" v-if="errors.has('end-time')">{{ errors.first('end-time') }}</p>
                         </b-col>
                     </b-row>
@@ -82,44 +97,50 @@
                     <b-row class="form-row">
                         <b-col sm="3"><label for="street">{{$t('street')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="event.street" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" name="street" v-model.trim="event.street" id="street" size="sm" type="text"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('street')">{{ errors.first('street') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="postcode">{{$t('postcode')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="event.postcode" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" name="postcode" v-model.trim="event.postcode" id="postcode" size="sm" type="text"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('postcode')">{{ errors.first('postcode') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="housenumber">{{$t('housenumber')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="event.houseNumber" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" name="housenumber" v-model.trim="event.houseNumber" id="housenumber" size="sm" type="text"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('housenumber')">{{ errors.first('housenumber') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="city">{{$t('city')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" v-model.trim="event.city" id="name" size="sm" type="text"></b-form-input>
+                            <b-form-input v-validate="'required'" name="city" v-model.trim="event.city" id="city" size="sm" type="text"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('city')">{{ errors.first('city') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="forum-url">{{$t('forum-url')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required|url'" name="forum-url" v-model.trim="event.forumUrl" id="forum-url" size="sm" type="url"></b-form-input>
+                            <b-form-input v-validate="'url'" name="forum-url" v-model.trim="event.forumUrl" id="forum-url" size="sm" type="url"></b-form-input>
                             <p class="text-danger" v-if="errors.has('forum-url')">{{ errors.first('forum-url') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="facebook-event">{{$t('facebook-event')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required|url'" v-model.trim="event.facebookEvent" id="facebook-event" size="sm" type="url"></b-form-input>
+                            <b-form-input v-validate="'url'" name="facebook-event" v-model.trim="event.facebookEvent" id="facebook-event" size="sm" type="url"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('facebook-event')">{{ errors.first('facebook-event') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="website-url">{{$t('website')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required|url'" v-model.trim="event.websiteUrl" id="website-url" size="sm" type="url"></b-form-input>
+                            <b-form-input v-validate="'url'" name="website-url" v-model.trim="event.websiteUrl" id="website-url" size="sm" type="url"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('website-url')">{{ errors.first('website-url') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
@@ -253,8 +274,11 @@
             </b-row>
             <b-row class="form-row">
                 <b-col>
-                    <b-button v-on:click="saveEvent" size="lg" variant="primary">
-                        {{$t('save-event')}}
+                    <b-button v-if="edit" v-on:click="saveEvent" size="lg" variant="primary">
+                        {{$t('edit-event')}}
+                    </b-button>
+                    <b-button v-if="!edit" v-on:click="saveEvent" size="lg" variant="primary">
+                        {{$t('add-event')}}
                     </b-button>
                 </b-col>
             </b-row>
@@ -270,7 +294,7 @@
     const MAX_DAYS = 20
     export default {
         name: 'EventForm',
-        props: ['event'],
+        props: ['event', 'edit'],
         components: {
             Datepicker,
             VueTimepicker
@@ -294,10 +318,18 @@
             },
             saveEvent: function () {
                 const self = this
+                let promiseEvent
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (confirm('Do you want to add this event?')) {
-                            Axios.post(`${process.env.API_URL}/api/private/events`, this.$data)
+                        console.log(this.edit)
+                        if (confirm('Do you want to save this event?')) {
+                            if (this.edit) {
+                                promiseEvent = Axios.put(`${process.env.API_URL}/api/private/event`, this.event)
+                            } else {
+                                promiseEvent = Axios.post(`${process.env.API_URL}/api/private/event`, this.event)
+                            }
+
+                            promiseEvent
                                 .then(function (response) {
                                     if (response.data.message) {
                                         alert(response.data.message)
@@ -313,6 +345,7 @@
                         return
                     }
                     alert('Please correctly fill in all the fields.')
+                    console.log(this.$validator.errors.items)
                     this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
                 })
             }

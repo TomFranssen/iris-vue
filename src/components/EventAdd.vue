@@ -1,7 +1,7 @@
 <template>
     <div class="add-event">
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
-        <event-form v-bind:event="event"></event-form>
+        <event-form v-bind:event="event" v-bind:edit="false"></event-form>
     </div>
 </template>
 
@@ -30,18 +30,18 @@ export default {
                     availableSpots: '',
                     open: ''
                 }],
-                gatherTime: {
+                gatherTime: [{
                     HH: '00',
                     mm: '00'
-                },
-                startTime: {
+                }],
+                startTime: [{
                     HH: '00',
                     mm: '00'
-                },
-                endTime: {
+                }],
+                endTime: [{
                     HH: '00',
                     mm: '00'
-                },
+                }],
                 maxSignupDate: undefined,
                 eventCoordinator: '',
                 street: undefined,

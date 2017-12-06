@@ -1,5 +1,6 @@
 <template>
     <div>
+        <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
         <div class="clearfix mb-4">
             <div class="date-square float-left">
                 <div class="month">
@@ -9,6 +10,7 @@
                     {{ getLastDate() | shortDayNumber }}
                 </div>
             </div>
+            <router-link class="btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">Edit Event</router-link>
             <h1>
                 {{event.name}}
                 <div>
@@ -52,7 +54,7 @@
                     </div>
                 </address>
             </b-col>
-            <b-col>
+            <b-col md="4">
                 <div>
                     <h2>{{$t('details')}}</h2>
                     <div>
@@ -123,7 +125,7 @@
                     </div>
                 </div>
             </b-col>
-            <b-col md="5">
+            <b-col md="4">
                 <div class="mb-5" v-for="(eventDate, index) in event.eventDates">
                     <h2>
                         {{$t('signups-for')}} {{eventDate.date | humanreadableDate}}
@@ -457,6 +459,16 @@
         },
         data () {
             return {
+                breadcrumbs: [{
+                    text: 'Home',
+                    to: '/'
+                }, {
+                    text: 'Events',
+                    to: '/events'
+                }, {
+                    text: 'Event details',
+                    active: true
+                }],
                 selectedCostume: null,
                 event: {
                     name: '',

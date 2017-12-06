@@ -35,7 +35,6 @@ const translations = {
         'available-spots': 'Available spots',
         'open-for-registration': 'Open for registration',
         'add-day': 'Add extra day',
-        'save-event': 'Save event',
         'signups': 'Sign-ups',
         'events': 'Events',
         'log-in': 'Login',
@@ -68,7 +67,8 @@ const translations = {
         'sign-up-success': 'You have been signed up!',
         'more-info': 'More information',
         'add-to-google-calendar': 'Add to Google Calendar',
-        'add-to-microsoft-calendar': 'Add to Microsoft Calendar'
+        'add-to-microsoft-calendar': 'Add to Microsoft Calendar',
+        'edit-event': 'Edit event'
     },
     nl: {
         'info': 'Info',
@@ -106,7 +106,6 @@ const translations = {
         'available-spots': 'Beschikbare plekken',
         'open-for-registration': 'Inschrijven toestaan',
         'add-day': 'Voeg extra dag toe',
-        'save-event': 'Evenement opslaan',
         'signups': 'Inschrijvingen',
         'events': 'Evenementen',
         'log-in': 'Inloggen',
@@ -140,7 +139,8 @@ const translations = {
         'sign-up-success': 'Je bent ingeschreven!',
         'more-info': 'Meer informatie',
         'add-to-google-calendar': 'Voeg toe aan Google Agenda',
-        'add-to-microsoft-calendar': 'Voeg toe aan Microsoft Calendar'
+        'add-to-microsoft-calendar': 'Voeg toe aan Microsoft Calendar',
+        'edit-event': 'Bewerk evenement'
     }
 }
 
