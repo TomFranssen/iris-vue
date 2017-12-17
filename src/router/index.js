@@ -7,6 +7,7 @@ import EventDetails from '@/components/EventDetails'
 import Home from '@/components/Home'
 import Profile from '@/components/Profile'
 import Users from '@/components/Users'
+import Users501st from '@/components/Users501st'
 import UserDetails from '@/components/UserDetails'
 import Costumes from '@/components/Costumes'
 import Callback from '@/components/Callback'
@@ -54,6 +55,12 @@ export default new Router({
             path: '/users',
             name: 'Users',
             component: Users,
+            beforeEnter: requireAuth
+        },
+        {
+            path: '/users-501st',
+            name: 'Users 501st',
+            component: Users501st,
             beforeEnter: requireAuth
         },
         {

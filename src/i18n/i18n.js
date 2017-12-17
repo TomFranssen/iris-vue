@@ -68,7 +68,10 @@ const translations = {
         'more-info': 'More information',
         'add-to-google-calendar': 'Add to Google Calendar',
         'add-to-microsoft-calendar': 'Add to Microsoft Calendar',
-        'edit-event': 'Edit event'
+        'edit-event': 'Edit event',
+        'users-501st': '501st Users',
+        'members': 'Members',
+        'staff': 'Staff'
     },
     nl: {
         'info': 'Info',
@@ -140,7 +143,10 @@ const translations = {
         'more-info': 'Meer informatie',
         'add-to-google-calendar': 'Voeg toe aan Google Agenda',
         'add-to-microsoft-calendar': 'Voeg toe aan Microsoft Calendar',
-        'edit-event': 'Bewerk evenement'
+        'edit-event': 'Bewerk evenement',
+        'users-501st': '501st Gebruikers',
+        'members': 'Leden',
+        'staff': 'Staff'
     }
 }
 

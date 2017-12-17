@@ -7,6 +7,8 @@ require('dotenv-safe').load({
 
 const express = require('express')
 const app = express()
+const router = express.Router()
+const request = require('request')
 const jwt = require('express-jwt')
 const jwks = require('jwks-rsa')
 const jwtDecode = require('jwt-decode')
@@ -69,6 +71,14 @@ app.get('/api/private/users', (req, res) => {
         }
         res.json(users)
     })
+})
+
+app.get('/api/501stusers', (req, res) => {
+    request(
+        {
+            uri: 'http://www.501st.com/api/garrisons/31/members'
+        }
+    ).pipe(res);
 })
 
 app.get('/api/private/user', (req, res) => {

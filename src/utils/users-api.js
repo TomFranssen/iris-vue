@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getAccessToken } from './auth'
 
-export {getPrivateUsers, getPrivateUser}
+export {getPrivateUsers, getPrivateUser, get501stUsers}
 
 function getPrivateUsers () {
     const url = `${process.env.API_URL}/api/private/users`
@@ -18,6 +18,15 @@ function getPrivateUser (userId) {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`,
             userid: userId
+        }
+    }).then(response => response.data)
+}
+
+function get501stUsers () {
+    const url = `${process.env.API_URL}/api/501stusers`
+    return axios.get(url, {
+        headers: {
+            Authorization: `Bearer ${getAccessToken()}`
         }
     }).then(response => response.data)
 }
