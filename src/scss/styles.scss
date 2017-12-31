@@ -26,6 +26,7 @@ h1 {
 
 .map {
     margin-top: .5rem;
+    max-width: 350px;
 }
 
 .btn-toggle-map {
@@ -40,8 +41,12 @@ h1 {
     }
 }
 
+.form-row {
+    margin-bottom: 6px;
+}
+
 .fa-ul {
-    margin-left: 1.6em;
+    margin-left: 1.6em !important;
     .fa-times {
         color: red;
     }
@@ -57,4 +62,34 @@ h1 {
 .custom-select {
     appearance: unset;
     background: none;
+}
+
+.add-comma-after {
+    &:after {
+        content: ', ';
+    }
+    &:last-child {
+        &:after {
+            display: none;
+        }
+    }
+}
+.breadcrumb {
+    background-color: transparent;
+    padding-left: 0;
+}
+
+.table-signed-up-users {
+    td {
+        vertical-align: middle !important;
+    }
+    .avatar {
+        padding: 0 !important;
+        width: 45px;
+        height: 60px;
+        img {
+            width: 45px;
+            height: 60px;
+        }
+    }
 }

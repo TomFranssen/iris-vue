@@ -28,7 +28,9 @@ export default {
                 eventDates: [{
                     date: '',
                     availableSpots: '',
-                    open: ''
+                    open: '',
+                    signedUpUsers: [],
+                    cancelledUsers: []
                 }],
                 gatherTime: [{
                     HH: '00',

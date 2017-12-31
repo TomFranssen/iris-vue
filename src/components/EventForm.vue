@@ -130,7 +130,7 @@
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
-                        <b-col sm="3"><label for="facebook-event">{{$t('facebook-event')}}:</label></b-col>
+                        <b-col sm="3"><label for="facebook-event">{{$t('facebook')}}:</label></b-col>
                         <b-col sm="9">
                             <b-form-input v-validate="'url'" name="facebook-event" v-model.trim="event.facebookEvent" id="facebook-event" size="sm" type="url"></b-form-input>
                             <p class="text-danger" v-if="errors.has('facebook-event')">{{ errors.first('facebook-event') }}</p>
@@ -145,94 +145,116 @@
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox id="publicly-accessible"
-                                             v-model="event.publiclyAccessible"
-                                             value="1"
-                                             unchecked-value="0">
+                            <b-form-checkbox
+                                id="publicly-accessible"
+                                v-model="event.publiclyAccessible"
+                                value="true"
+                                unchecked-value="false"
+                            >
                                 {{$t('publicly-accessible')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox id="dressingroom-available"
-                                             v-model="event.dressingroomAvailable"
-                                             value="1"
-                                             unchecked-value="0">
+                            <b-form-checkbox
+                                id="dressingroom-available"
+                                v-model="event.dressingroomAvailable"
+                                value="true"
+                                unchecked-value="false"
+                            >
                                 {{$t('dressingroom-available')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox id="travel-restitution"
-                                             v-model="event.travelRestitution"
-                                             value="1"
-                                             unchecked-value="0">
+                            <b-form-checkbox
+                                id="travel-restitution"
+                                v-model="event.travelRestitution"
+                                value="true"
+                                unchecked-value="false"
+                            >
                                 {{$t('travel-restitution')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox id="parking"
-                                             v-model="event.parking"
-                                             value="1"
-                                             unchecked-value="0">
+                            <b-form-checkbox
+                                id="parking"
+                                v-model="event.parking"
+                                value="true"
+                                unchecked-value="false"
+                            >
                                 {{$t('parking-available')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox id="parking-restitution"
-                                             v-model="event.parkingRestitution"
-                                             value="1"
-                                             unchecked-value="0">
+                            <b-form-checkbox
+                                id="parking-restitution"
+                                v-model="event.parkingRestitution"
+                                value="true"
+                                unchecked-value="false"
+                            >
                                 {{$t('parking-restitution')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox id="lunch"
-                                             v-model="event.lunch"
-                                             value="1"
-                                             unchecked-value="0">
+                            <b-form-checkbox
+                                id="lunch"
+                                v-model="event.lunch"
+                                value="true"
+                                unchecked-value="false"
+                            >
                                 {{$t('lunch-available')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox id="drinks"
-                                             v-model="event.drinks"
-                                             value="1"
-                                             unchecked-value="0">
+                            <b-form-checkbox
+                                id="drinks"
+                                v-model="event.drinks"
+                                value="true"
+                                unchecked-value="false"
+                            >
                                 {{$t('drinks-available')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox id="can-register-guests"
-                                             v-model="event.canRegisterGuests"
-                                             value="1"
-                                             unchecked-value="0">
+                            <b-form-checkbox
+                                id="can-register-guests"
+                                v-model="event.canRegisterGuests"
+                                value="true"
+                                unchecked-value="false"
+                            >
                                 {{$t('guests-allowed')}}
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
-
                 </b-col>
+            </b-row>
+            <b-row>
                 <b-col lg>
                     <h2>{{$t('days')}}</h2>
                     <div v-for="(eventDate, index) in event.eventDates">
-                        <b-card>
+                        <b-card class="mb-3">
                             <b-row class="form-row">
                                 <b-col sm="3"><label><strong>{{$t('day')}} {{ index + 1 }}</strong></label></b-col>
                                 <b-col sm="9">
-                                    <button class="pull-right btn btn-default" v-if="canDeleteDate(index)" type="button" v-on:click="removeDate(index)">
+                                    <button
+                                        class="pull-right btn btn-default"
+                                        v-if="canDeleteDate(index)"
+                                        type="button"
+                                        v-on:click="removeDate(index)"
+                                    >
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                         {{$t('remove-day')}}
                                     </button>
@@ -254,17 +276,47 @@
                             </b-row>
                             <b-row class="form-row">
                                 <b-col>
-                                    <b-form-checkbox v-validate="'required'" id="open"
-                                                     v-model="eventDate.open"
-                                                     value="1"
-                                                     unchecked-value="0">
+                                    <b-form-checkbox
+                                        v-validate="'required'" id="open"
+                                        v-model="eventDate.open"
+                                        value="true"
+                                        unchecked-value="false"
+                                    >
                                         {{$t('open-for-registration')}}
                                     </b-form-checkbox>
                                 </b-col>
                             </b-row>
+                            <b-row class="form-row">
+                                <b-col sm="3">{{$t('signups')}}</b-col>
+                                <b-col sm="9">
+                                    <div v-if="eventDate.signedUpUsers.length === 0">
+                                        {{$t('no-signups')}}
+                                    </div>
+                                    <div v-for="(user, signupIndex) in eventDate.signedUpUsers">
+                                        <b-button variant="outline-primary" v-on:click="removeSignedUpUser(index, signupIndex)">
+                                            {{user.username}}
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </b-button>
+                                    </div>
+                                </b-col>
+                            </b-row>
+                            <b-row class="form-row">
+                                <b-col sm="3">{{$t('sign-outs')}}</b-col>
+                                <b-col sm="9">
+                                    <div v-if="eventDate.cancelledUsers.length === 0">
+                                        {{$t('no-cancelled-users')}}
+                                    </div>
+                                    <div v-for="(user, cancelledIndex) in eventDate.cancelledUsers">
+                                        <b-button variant="outline-primary" v-on:click="removeCancelledUser(index, cancelledIndex)">
+                                            {{user.username}}
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </b-button>
+                                    </div>
+                                </b-col>
+                            </b-row>
                         </b-card>
                     </div>
-                    <div v-if="canAddDate()">
+                    <div v-if="canAddDate()" class="mt-3 text-right">
                         <button class="btn btn-primary" type="button" v-on:click="addDate">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             {{$t('add-day')}}
@@ -272,7 +324,7 @@
                     </div>
                 </b-col>
             </b-row>
-            <b-row class="form-row">
+            <b-row class="form-row mt-4 mb-5">
                 <b-col>
                     <b-button v-if="edit" v-on:click="saveEvent" size="lg" variant="primary">
                         {{$t('edit-event')}}
@@ -283,8 +335,6 @@
                 </b-col>
             </b-row>
         </form>
-
-
     </div>
 </template>
 <script>
@@ -310,18 +360,25 @@
                 this.event.eventDates.push({
                     date: '',
                     availableSpots: '',
-                    open: ''
+                    open: true,
+                    signedUpUsers: [],
+                    cancelledUsers: []
                 })
             },
             removeDate: function (index) {
                 this.$delete(this.event.eventDates, index)
+            },
+            removeSignedUpUser: function (eventDateIndex, signedUpUserIndex) {
+                this.event.eventDates[eventDateIndex].signedUpUsers.splice(signedUpUserIndex, 1)
+            },
+            removeCancelledUser: function (eventDateIndex, cancelledUserIndex) {
+                this.event.eventDates[eventDateIndex].cancelledUsers.splice(cancelledUserIndex, 1)
             },
             saveEvent: function () {
                 const self = this
                 let promiseEvent
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        console.log(this.edit)
                         if (confirm('Do you want to save this event?')) {
                             if (this.edit) {
                                 promiseEvent = Axios.put(`${process.env.API_URL}/api/private/event`, this.event)
@@ -345,7 +402,6 @@
                         return
                     }
                     alert('Please correctly fill in all the fields.')
-                    console.log(this.$validator.errors.items)
                     this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
                 })
             }

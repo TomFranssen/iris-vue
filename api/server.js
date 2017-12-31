@@ -152,8 +152,11 @@ app.put('/api/private/event/signup', authCheck, guard.check('signup:dgevent'), (
         signUpDate: new Date(),
         username: req.body.username,
         costume: req.body.costume,
-        userId: req.user.sub
+        avatar: req.body.avatar,
+        userId: req.body.userId
     }
+
+    console.log(signUpData)
 
     Event.findById(req.body.eventId, function (err, event) {
         event.eventDates[req.body.eventDatesIndex].signedUpUsers.push(signUpData)

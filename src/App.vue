@@ -2,7 +2,7 @@
     <div id="app">
         <app-nav></app-nav>
         <template v-if="$route.matched.length">
-            <div class="container-fluid">
+            <div class="container">
                 <router-view></router-view>
             </div>
         </template>

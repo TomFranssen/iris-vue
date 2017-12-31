@@ -2,6 +2,7 @@
     <div>
         <b-breadcrumb :items="breadcrumbs"/>
         <h1>{{$t('users')}}</h1>
+
         <template>
             <vue-good-table
                 :columns="columns"
@@ -11,7 +12,7 @@
             >
                 <template slot="table-row" scope="props">
                     <td width="50">
-                        <img v-bind:src="props.row.picture" width="50" height="50" />
+                        <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
                     </td>
                     <td>{{props.row.name}}</td>
                     <td>{{props.row.email}}</td>

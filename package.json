@@ -40,6 +40,7 @@
     "vue-good-table": "^1.15.2",
     "vue-i18n": "^7.3.2",
     "vue-instant": "^1.0.2",
+    "vue-moment": "^3.1.0",
     "vue-notifications": "^0.9.0",
     "vue-router": "^2.3.1",
     "vue2-timepicker": "^0.1.4",

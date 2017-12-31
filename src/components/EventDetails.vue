@@ -4,13 +4,15 @@
         <div class="clearfix mb-4">
             <div class="date-square float-left">
                 <div class="month">
-                    {{ getFirstDate() | shortMonthDate }}
+                    {{ getFirstDate() | moment('MMM') }}
                 </div>
                 <div class="day">
-                    {{ getLastDate() | shortDayNumber }}
+                    {{ getLastDate() | moment('D') }}
                 </div>
             </div>
-            <router-link class="btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">Edit Event</router-link>
+            <router-link class="btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">
+                {{$t('edit-event')}}
+            </router-link>
             <h1>
                 {{event.name}}
                 <div>
@@ -20,13 +22,19 @@
                 </div>
             </h1>
         </div>
-        <b-row>
-            <b-col md="4">
+        <b-row class="mb-3">
+            <b-col md="5">
                 <h2>{{$t('basic-info')}}</h2>
                 <i class="fa fa-calendar" aria-hidden="true"></i>
-                {{ getFirstDate() | humanreadableDate }}
-                {{$t('till')}}
-                {{ getLastDate() | humanreadableDate }}
+                {{ getFirstDate() | moment('DD MMMM YYYY') }}
+                <span v-if="event.eventDates.length > 1">
+                    {{$t('till')}}
+                    {{ getLastDate() | moment('DD MMMM YYYY') }}
+                </span>
+                <span class="text-muted">
+                    ({{$t('signup-until')}}
+                    {{event.maxSignupDate | moment('DD MMMM')}})
+                </span>
                 <div class="times">
                     <div>
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -45,7 +53,7 @@
                         <a target="_blank" class="card" v-bind:href="getGoogleMapsDirectionsUrl()">
                             <img class="img-fluid card-img-top" v-bind:src="getGoogleMapsStaticImageUrl()" alt="">
                             <div class="card-body">
-                                <a v-bind:href="getGoogleMapsDirectionsUrl()" target="_blank" class="btn btn-primary">
+                                <a v-bind:href="getGoogleMapsDirectionsUrl()" target="_blank" class="btn btn-primary btn-block">
                                     {{$t('open-in-google-maps')}}
                                     <i class="fa fa-external-link" aria-hidden="true"></i>
                                 </a>
@@ -54,7 +62,7 @@
                     </div>
                 </address>
             </b-col>
-            <b-col md="4">
+            <b-col md="3">
                 <div>
                     <h2>{{$t('details')}}</h2>
                     <div>
@@ -100,44 +108,45 @@
                             {{$t('guests-allowed')}}
                         </li>
                     </ul>
-
-                    <h2>{{$t('more-info')}}</h2>
-                    <div>
-                        {{$t('website')}}:
-                        <a v-bind:href="event.websiteUrl" target="_blank" class="card-link">
-                            {{event.websiteUrl}}
-                        </a>
-                        <i class="fa fa-external-link" aria-hidden="true"></i>
-                    </div>
-                    <div>
-                        {{$t('forum-url')}}:
-                        <a v-bind:href="event.forumUrl" target="_blank" class="card-link">
-                            {{event.forumUrl}}
-                        </a>
-                        <i class="fa fa-external-link" aria-hidden="true"></i>
-                    </div>
-                    <div>
-                        {{$t('facebook-event')}}:
-                        <a v-bind:href="event.facebookEvent" target="_blank" class="card-link">
-                            {{event.facebookEvent}}
-                        </a>
-                        <i class="fa fa-external-link" aria-hidden="true"></i>
-                    </div>
                 </div>
             </b-col>
             <b-col md="4">
-                <div class="mb-5" v-for="(eventDate, index) in event.eventDates">
+                <h2>{{$t('more-info')}}</h2>
+                <div>
+                    {{$t('website')}}:
+                    <a v-bind:href="event.websiteUrl" target="_blank" class="card-link">
+                        {{event.websiteUrl}}
+                    </a>
+                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                </div>
+                <div>
+                    {{$t('forum-url')}}:
+                    <a v-bind:href="event.forumUrl" target="_blank" class="card-link">
+                        {{event.forumUrl}}
+                    </a>
+                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                </div>
+                <div>
+                    {{$t('facebook')}}:
+                    <a v-bind:href="event.facebookEvent" target="_blank" class="card-link">
+                        {{event.facebookEvent}}
+                    </a>
+                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                </div>
+            </b-col>
+        </b-row>
+
+        <div class="mb-3" v-for="(eventDate, index) in event.eventDates">
+            <b-row>
+                <b-col md="12">
                     <h2>
-                        {{$t('signups-for')}} {{eventDate.date | humanreadableDate}}
-                        <br>
+                        <div class="text-capitalize">
+                            {{eventDate.date | humanreadableDate}}
+                        </div>
                         <small class="text-muted" v-if="signupPossible(eventDate)">
                             {{getSpotsLeft(eventDate)}} {{$t('spots-left')}}
                         </small>
                     </h2>
-                    {{getEventStartTimeForCalendar(eventDate.date)}}
-                    <div>
-                        {{getEventEndTimeForCalendar(eventDate.date)}}
-                    </div>
 
                     <div v-if="isSignedUp(eventDate)">
                         <add-to-calendar
@@ -145,7 +154,7 @@
                             v-bind:location="event.street + ' ' + event.houseNumber + ' ' + event.postcode + ' ' + event.city"
                             v-bind:start="getEventStartTimeForCalendar(eventDate.date)"
                             v-bind:end="getEventEndTimeForCalendar(eventDate.date)"
-                            details="The first Official Vue.js Conference in the world!"
+                            v-bind:details="event.description"
                             inline-template
                         >
                             <div>
@@ -175,29 +184,40 @@
                             v-bind:style="{ width: getProgressBarWidth(eventDate) + '%'}"
                         >{{getProgressBarWidth(eventDate)}}%</div>
                     </div>
-
                     <vue-good-table
-                            v-if="eventDate.signedUpUsers.length > 0"
-                            v-bind:columns="columns"
-                            v-bind:rows="eventDate.signedUpUsers"
-                            sortable="true"
-                            styleClass="table table-bordered condensed"
+                        v-if="eventDate.signedUpUsers.length > 0"
+                        v-bind:columns="columns"
+                        v-bind:rows="eventDate.signedUpUsers"
+                        sortable="true"
+                        styleClass="table table-bordered condensed table-signed-up-users"
                     >
+                        <template slot="table-row-before" scope="props">
+                            <td class="text-center avatar">
+                                <img v-bind:src="props.row.avatar" v-if="props.row.avatar" alt="">
+                            </td>
+                        </template>
                         <template slot="table-row-after" scope="props">
-                        <td width="50px">
-                            <button v-if="props.row.userId === profile.sub" class="btn btn-secondary btn-block btn-sm" v-on:click="signOut(props, index)">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                                {{$t('sign-out')}}
-                            </button>
-                        </td>
-                    </template>
+                            <td width="50px">
+                                <button v-if="props.row.userId === profile.sub" class="btn btn-secondary btn-block btn-sm" v-on:click="signOut(props, index)">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    {{$t('sign-out')}}
+                                </button>
+                            </td>
+                        </template>
                     </vue-good-table>
+
+                    <div>
+                        <b-btn v-b-modal.modal1>Launch demo modal</b-btn>
+
+                        <!-- Modal Component -->
+                        <b-modal id="modal1" title="Bootstrap-Vue">
+                            <p class="my-4">Hello from modal!</p>
+                        </b-modal>
+                    </div>
 
                     <div class="mt-2" v-if="eventDate.cancelledUsers.length > 0">
                         {{$t('sign-outs')}}:
-                        <span v-for="(cancelledUser, index) in eventDate.cancelledUsers">
-                            {{cancelledUser.username}}
-                        </span>
+                        <span class="add-comma-after" v-for="(cancelledUser, index) in eventDate.cancelledUsers">{{cancelledUser.username}}</span>
                     </div>
 
                     <div v-if="!isSignedUp(eventDate)">
@@ -229,12 +249,12 @@
                                         <b-col sm="7">
                                             <form action="#" v-on:submit.stop.prevent="handleSubmit">
                                                 <b-form-select
-                                                    v-bind:id="'selected-costume-' + index"
-                                                    v-bind:name="'selected-costume-' + index"
-                                                    v-validate="'required'"
-                                                    v-model="selectedCostume"
-                                                    :options="profileCostumes"
-                                                    class="mb-3"
+                                                        v-bind:id="'selected-costume-' + index"
+                                                        v-bind:name="'selected-costume-' + index"
+                                                        v-validate="'required'"
+                                                        v-model="selectedCostume"
+                                                        :options="profileCostumes"
+                                                        class="mb-3"
                                                 >
                                                     <template slot="first">
                                                         <option :value="null" disabled>{{$t('choose-your-costume')}}</option>
@@ -259,9 +279,9 @@
                         </div>
                     </div>
                     <hr>
-                </div>
-            </b-col>
-        </b-row>
+                </b-col>
+            </b-row>
+        </div>
     </div>
 </template>
 
@@ -280,14 +300,8 @@
             EventForm
         },
         filters: {
-            shortMonthDate: function (date) {
-                return moment(date).format('MMM')
-            },
-            shortDayNumber: function (date) {
-                return moment(date).format('d')
-            },
             humanreadableDate: function (date) {
-                return moment(date).format('MMMM Do YYYY')
+                return moment(date).format('dddd D MMMM YYYY')
             }
         },
         props: ['id'],
@@ -343,6 +357,16 @@
             signupPossible: function (eventDate) {
                 const eventDateMoment = moment(eventDate.date)
                 const isInPast = moment().diff(eventDateMoment, 'day') > 7
+
+                for (let user of eventDate.cancelledUsers) {
+                    if (user.userId === this.$store.state.profile.sub) {
+                        return false
+                    }
+                }
+
+                if (!eventDate.open) {
+                    return false
+                }
 
                 if (eventDate.availableSpots <= eventDate.signedUpUsers.length) {
                     return false
@@ -417,7 +441,9 @@
                     eventId: this.$data.event._id,
                     eventDatesIndex: index,
                     costume: this.$data.selectedCostume,
-                    username: this.$store.state.profile['https://iris.501st.nl/user_metadata'].username
+                    username: this.$store.state.profile['https://iris.501st.nl/user_metadata'].username,
+                    avatar: this.$store.state.profile['https://iris.501st.nl/legion_thumbnail'],
+                    userId: this.$store.state.profile.sub
                 }
 
                 this.$validator.validateAll().then((result) => {
@@ -463,10 +489,10 @@
                     text: 'Home',
                     to: '/'
                 }, {
-                    text: 'Events',
+                    text: this.$t('events'),
                     to: '/events'
                 }, {
-                    text: 'Event details',
+                    text: this.$t('details'),
                     active: true
                 }],
                 selectedCostume: null,
@@ -477,7 +503,7 @@
                         {
                             date: '',
                             availableSpots: 0,
-                            open: 0,
+                            open: true,
                             signedUpUsers: [],
                             cancelledUsers: []
                         }
@@ -513,6 +539,9 @@
                     canRegisterGuests: true
                 },
                 columns: [
+                    {
+                        label: ''
+                    },
                     {
                         label: this.$t('name'),
                         field: 'username',

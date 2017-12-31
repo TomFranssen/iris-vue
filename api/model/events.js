@@ -35,6 +35,10 @@ const EventSchema = new Schema({
                 userId: {
                     type: String,
                     required: true
+                },
+                avatar: {
+                    type: String,
+                    required: false
                 }
             }
         ],
@@ -53,6 +57,14 @@ const EventSchema = new Schema({
                     required: true
                 },
                 userId: {
+                    type: String,
+                    required: true
+                }
+            }
+        ],
+        guests: [
+            {
+                name: {
                     type: String,
                     required: true
                 }

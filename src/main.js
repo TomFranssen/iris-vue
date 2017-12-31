@@ -35,6 +35,7 @@ Vue.use(VueI18n)
 Vue.use(VueGoodTable)
 Vue.use(VueInstant)
 Vue.use(AddToCalendar)
+Vue.use(require('vue-moment'))
 
 function toast ({title, message, type, timeout, cb}) {
     if (type === VueNotifications.types.warn) type = 'warning'
