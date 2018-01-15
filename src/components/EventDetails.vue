@@ -3,10 +3,10 @@
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
         <div class="clearfix mb-4">
             <div class="date-square float-left">
-                <div class="month">
+                <div class="month" v-if="getFirstDate()">
                     {{ getFirstDate() | moment('MMM') }}
                 </div>
-                <div class="day">
+                <div class="day" v-if="getLastDate()">
                     {{ getLastDate() | moment('D') }}
                 </div>
             </div>
@@ -25,25 +25,28 @@
         <b-row class="mb-3">
             <b-col md="5">
                 <h2>{{$t('basic-info')}}</h2>
+
                 <i class="fa fa-calendar" aria-hidden="true"></i>
-                {{ getFirstDate() | moment('DD MMMM YYYY') }}
+                <span v-if="getFirstDate()">
+                    {{ getFirstDate() | moment('DD MMMM YYYY') }}
+                </span>
                 <span v-if="event.eventDates.length > 1">
                     {{$t('till')}}
                     {{ getLastDate() | moment('DD MMMM YYYY') }}
                 </span>
-                <span class="text-muted">
-                    ({{$t('signup-until')}}
-                    {{event.maxSignupDate | moment('DD MMMM')}})
-                </span>
+                <div class="text-muted" v-if="event.maxSignupDate">
+                    {{$t('signup-until')}}
+                    {{event.maxSignupDate | moment('DD MMMM')}}
+                </div>
                 <div class="times">
                     <div>
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                         {{$t('from')}} {{event.startTime[0].HH}}:{{event.startTime[0].mm}}
                         {{$t('untill')}}
                         {{event.endTime[0].HH}}:{{event.endTime[0].mm}}
-                        <span class="text-muted text-lowercase">
-                            ({{event.gatherTime[0].HH}}:{{event.gatherTime[0].mm}} {{$t('gather-time')}})
-                        </span>
+                        <div class="text-muted text-lowercase">
+                            {{event.gatherTime[0].HH}}:{{event.gatherTime[0].mm}} {{$t('gather-time')}}
+                        </div>
                     </div>
                 </div>
                 <address>
@@ -184,6 +187,7 @@
                             v-bind:style="{ width: getProgressBarWidth(eventDate) + '%'}"
                         >{{getProgressBarWidth(eventDate)}}%</div>
                     </div>
+
                     <vue-good-table
                         v-if="eventDate.signedUpUsers.length > 0"
                         v-bind:columns="columns"
@@ -198,26 +202,25 @@
                         </template>
                         <template slot="table-row-after" scope="props">
                             <td width="50px">
-                                <button v-if="props.row.userId === profile.sub" class="btn btn-secondary btn-block btn-sm" v-on:click="signOut(props, index)">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                    {{$t('sign-out')}}
-                                </button>
+                                <b-btn v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + index">{{$t('sign-out')}}</b-btn>
+                                <b-modal v-bind:ref="'sign-out-modal' + index" v-bind:id="'sign-out-modal-' + index"  v-bind:title="$t('sign-out')">
+                                    <p>{{$t('sign-out-agreement')}}</p>
+                                    <div slot="modal-footer" class="w-100">
+                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="signOut(props, index)">
+                                            {{$t('sign-out')}}
+                                        </b-btn>
+                                    </div>
+                                </b-modal>
                             </td>
                         </template>
                     </vue-good-table>
-
-                    <div>
-                        <b-btn v-b-modal.modal1>Launch demo modal</b-btn>
-
-                        <!-- Modal Component -->
-                        <b-modal id="modal1" title="Bootstrap-Vue">
-                            <p class="my-4">Hello from modal!</p>
-                        </b-modal>
-                    </div>
-
                     <div class="mt-2" v-if="eventDate.cancelledUsers.length > 0">
                         {{$t('sign-outs')}}:
-                        <span class="add-comma-after" v-for="(cancelledUser, index) in eventDate.cancelledUsers">{{cancelledUser.username}}</span>
+                        <span class="add-comma-after" v-for="(cancelledUser, index) in eventDate.cancelledUsers">
+                            <span v-if="cancelledUser.username">
+                                {{cancelledUser.username}}
+                            </span>
+                        </span>
                     </div>
 
                     <div v-if="!isSignedUp(eventDate)">
@@ -249,12 +252,12 @@
                                         <b-col sm="7">
                                             <form action="#" v-on:submit.stop.prevent="handleSubmit">
                                                 <b-form-select
-                                                        v-bind:id="'selected-costume-' + index"
-                                                        v-bind:name="'selected-costume-' + index"
-                                                        v-validate="'required'"
-                                                        v-model="selectedCostume"
-                                                        :options="profileCostumes"
-                                                        class="mb-3"
+                                                    v-bind:id="'selected-costume-' + index"
+                                                    v-bind:name="'selected-costume-' + index"
+                                                    v-validate="'required'"
+                                                    v-model="selectedCostume"
+                                                    :options="profileCostumes"
+                                                    class="mb-3"
                                                 >
                                                     <template slot="first">
                                                         <option :value="null" disabled>{{$t('choose-your-costume')}}</option>
@@ -435,6 +438,9 @@
             hideModal (index) {
                 this.$refs[`modal${index}`][0].hide()
             },
+            hideSignOutModal (index) {
+                this.$refs[`sign-out-modal${index}`][0].hide()
+            },
             signUp (index) {
                 const that = this
                 const signUpData = {
@@ -479,6 +485,7 @@
                 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
                 Axios.post(`${process.env.API_URL}/api/private/event/signout`, signOutData)
                     .then(function () {
+                        that.hideSignOutModal(eventDataIndex)
                         that.getPrivateEvents()
                     })
             }

@@ -4,11 +4,15 @@
         <div class="row">
             <div class="col">
                 <h1>User details</h1>
-                <pre>
-                    {{user}}
-                </pre>
+                <!--<pre>-->
+                    <!--{{user}}-->
+                <!--</pre>-->
+                {{user.user_metadata}}
                 <div>
                     {{user.user_metadata.username}}
+                </div>
+                <div>
+                    {{user.user_metadata.legion_thumbnail}}
                 </div>
                 <div>
                     {{user.email}}
@@ -31,6 +35,13 @@
                         <b-col sm="9">
                             <b-form-input name="username" v-model.trim="user.user_metadata.username" id="username" size="sm" type="text"></b-form-input>
                             <p class="text-danger" v-if="errors.has('username')">{{ errors.first('username') }}</p>
+                        </b-col>
+                    </b-row>
+                    <b-row class="form-row">
+                        <b-col sm="3"><label for="username">{{$t('legion_thumbnail')}}:</label></b-col>
+                        <b-col sm="9">
+                            <b-form-input name="legion_thumbnail" v-model.trim="user.user_metadata.legion_thumbnail" id="legion_thumbnail" size="sm" type="text"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('legion_thumbnail')">{{ errors.first('legion_thumbnail') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">

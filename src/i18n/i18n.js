@@ -75,7 +75,8 @@ const translations = {
         'users-501st': '501st Users',
         'members': 'Members',
         'staff': 'Staff',
-        'signup-until': 'Signup untill'
+        'signup-until': 'Signup untill',
+        'legion_thumbnail': 'Thumbnail'
     },
     nl: {
         'info': 'Info',
@@ -154,7 +155,8 @@ const translations = {
         'users-501st': '501st Gebruikers',
         'members': 'Leden',
         'staff': 'Staff',
-        'signup-until': 'Inschrijven tot'
+        'signup-until': 'Inschrijven tot',
+        'legion_thumbnail': 'Thumbnail'
     }
 }
 
