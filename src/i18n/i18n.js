@@ -47,7 +47,7 @@ const translations = {
         'save-user': 'Save user',
         'costume': 'Costume',
         'add-costume': 'Add costume',
-        'remove-costume': 'Remove costume',
+        'remove': 'Remove',
         'choose-your-costume': 'Choose your costume',
         'save-costume': 'Save costume',
         'costumes': 'Costumes',
@@ -76,7 +76,14 @@ const translations = {
         'members': 'Members',
         'staff': 'Staff',
         'signup-until': 'Signup untill',
-        'legion_thumbnail': 'Thumbnail'
+        'legion_thumbnail': 'Thumbnail',
+        'user-details': 'User details',
+        'edit-user': 'Edit user',
+        'start-typing': 'Start typing to search',
+        'do-you-want-to-change-user': 'Do you want to change this user?',
+        'user-saved': 'User saved!',
+        'account': 'Account',
+        'verify-email-text': 'Please check your e-mail to verify your e-mail address. Please reload this page when your e-mail is verified.'
     },
     nl: {
         'info': 'Info',
@@ -126,7 +133,7 @@ const translations = {
         'save-user': 'Gebruiker opslaan',
         'costume': 'Kostuum',
         'add-costume': 'Kostuum toevoegen',
-        'remove-costume': 'Kostuum verwijderen',
+        'remove': 'Verwijderen',
         'choose-your-costume': 'Kies je kostuum',
         'save-costume': 'Kostuum opslaan',
         'costumes': 'Kostuums',
@@ -156,7 +163,14 @@ const translations = {
         'members': 'Leden',
         'staff': 'Staff',
         'signup-until': 'Inschrijven tot',
-        'legion_thumbnail': 'Thumbnail'
+        'legion_thumbnail': 'Thumbnail',
+        'user-details': 'Gebruikerdetails',
+        'edit-user': 'Bewerk gebruiker',
+        'start-typing': 'Begin met typen om te zoeken',
+        'do-you-want-to-change-user': 'Wil je deze gebruiker aanpassen?',
+        'user-saved': 'Gebruiker opgeslagen!',
+        'account': 'Account',
+        'verify-email-text': 'Je hebt een e-mail ontvangen om je e-mailadres te controleren. Herlaad deze pagina zodra je e-mailadres is gevalideerd.'
     }
 }
 

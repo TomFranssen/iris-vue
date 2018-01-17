@@ -4,7 +4,7 @@ export default {
     state: {
         profile: {
             'email': '',
-            'email_verified': false,
+            'email_verified': undefined,
             'family_name': '',
             'gender': '',
             'given_name': '',

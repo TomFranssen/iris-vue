@@ -59,7 +59,6 @@ const router = new Router({
 })
 
 export function logout () {
-    console.log(12382838)
     clearIdToken()
     clearAccessToken()
     router.go('/')
@@ -113,6 +112,10 @@ export function setIdToken () {
 export function isLoggedIn () {
     const idToken = getIdToken()
     return !!idToken && !isTokenExpired(idToken)
+}
+
+export function isMember () {
+    console.log(getProfile)
 }
 
 function getTokenExpirationDate (encodedToken) {

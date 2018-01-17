@@ -19,7 +19,10 @@ export default {
                 text: 'Home',
                 to: '/'
             }, {
-                text: 'Add event',
+                text: this.$t('events'),
+                to: '/events'
+            }, {
+                text: this.$t('add-event'),
                 active: true
             }],
             event: {

@@ -3,32 +3,52 @@
         <b-breadcrumb :items="breadcrumbs"/>
         <div class="row">
             <div class="col">
-                <h1>User details</h1>
-                <!--<pre>-->
-                    <!--{{user}}-->
-                <!--</pre>-->
-                {{user.user_metadata}}
+                <h1>{{$t('user-details')}}</h1>
                 <div>
-                    {{user.user_metadata.username}}
+                    <b-row class="form-row">
+                        <b-col sm="3">{{$t('username')}}:</b-col>
+                        <b-col sm="9">
+                            {{user.user_metadata.username}}
+                        </b-col>
+                    </b-row>
                 </div>
                 <div>
-                    {{user.user_metadata.legion_thumbnail}}
+                    <b-row class="form-row">
+                        <b-col sm="3">{{$t('legion_thumbnail')}}:</b-col>
+                        <b-col sm="9">
+                            <img v-bind:src="user.user_metadata.legion_thumbnail" alt="">
+                        </b-col>
+                    </b-row>
                 </div>
                 <div>
-                    {{user.email}}
+                    <b-row class="form-row">
+                        <b-col sm="3">{{$t('501st-legion-id')}}:</b-col>
+                        <b-col sm="9">
+                            {{getLegionId(user)}}
+                        </b-col>
+                    </b-row>
                 </div>
                 <div>
-                    <img v-bind:src="user.picture" alt="">
+                    <b-row class="form-row">
+                        <b-col sm="3">{{$t('email')}}:</b-col>
+                        <b-col sm="9">
+                            {{user.email}}
+                        </b-col>
+                    </b-row>
                 </div>
                 <div>
-                    {{getLegionId(user)}}
-                </div>
-                <div>
-                    <img v-bind:src="getLegionThumbnail(user)" alt="">
+                    <b-row class="form-row">
+                        <b-col sm="3">{{$t('costumes')}}:</b-col>
+                        <b-col sm="9">
+                            <div v-for="(costume, index) in user.user_metadata.costumes">
+                                {{costume.name}}
+                            </div>
+                        </b-col>
+                    </b-row>
                 </div>
             </div>
             <div class="col">
-                <h1>Edit user</h1>
+                <h1>{{$t('edit-user')}}</h1>
                 <form action="">
                     <b-row class="form-row">
                         <b-col sm="3"><label for="username">{{$t('username')}}:</label></b-col>
@@ -51,35 +71,37 @@
                             <p class="text-danger" v-if="errors.has('legion-id')">{{ errors.first('legion-id') }}</p>
                         </b-col>
                     </b-row>
-                        <b-row class="form-row" v-for="(costume, index) in user.user_metadata.costumes" v-bind:key="index">
-                            <b-col sm="3"><label>{{$t('costume')}} {{index + 1}}</label></b-col>
-                            <b-col sm="5">
-                                <vue-instant
-                                    v-on:input="changed()"
-                                    v-model="costume.name"
-                                    v-bind:suggestion-attribute="suggestionAttribute"
-                                    v-bind:disabled="false"
-                                    v-bind:show-autocomplete="true"
-                                    v-bind:autofocus="false"
-                                    v-bind:suggestions="suggestions"
-                                    v-bind:name="'costume-'"
-                                    placeholder="Start typing to search for costumes"
-                                    type="google"
-                                >
-                                </vue-instant>
-                                <p class="text-danger" v-if="errors.has('costume-' + index)">{{ errors.first('costume-' + index + 1) }}</p>
-                            </b-col>
-                            <b-col sm="4">
-                                <button class="pull-right btn btn-block btn-default" type="button" v-on:click="removeCostume(index)">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                    {{$t('remove-costume')}}
-                                </button>
-                            </b-col>
-                        </b-row>
-                    <button class="btn btn-primary" type="button" v-on:click="addCostume">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                        {{$t('add-costume')}}
-                    </button>
+                    <b-row class="form-row" v-for="(costume, index) in user.user_metadata.costumes" v-bind:key="index">
+                        <b-col sm="3"><label>{{$t('costume')}} {{index + 1}}</label></b-col>
+                        <b-col sm="5">
+                            <vue-instant
+                                v-on:input="changed()"
+                                v-model="costume.name"
+                                v-bind:suggestion-attribute="suggestionAttribute"
+                                v-bind:disabled="false"
+                                v-bind:show-autocomplete="true"
+                                v-bind:autofocus="false"
+                                v-bind:suggestions="suggestions"
+                                v-bind:name="'costume-'"
+                                v-bind:placeholder="$t('start-typing')"
+                                type="google"
+                            >
+                            </vue-instant>
+                            <p class="text-danger" v-if="errors.has('costume-' + index)">{{ errors.first('costume-' + index + 1) }}</p>
+                        </b-col>
+                        <b-col sm="4">
+                            <button class="pull-right btn btn-block btn-default" type="button" v-on:click="removeCostume(index)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                {{$t('remove')}}
+                            </button>
+                        </b-col>
+                    </b-row>
+                    <div class="clearfix">
+                        <button class="btn btn-secondary pull-right" type="button" v-on:click="addCostume">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            {{$t('add-costume')}}
+                        </button>
+                    </div>
                     <b-row class="form-row">
                         <b-col>
                             <b-button v-on:click="saveUser" size="lg" variant="primary">
@@ -157,9 +179,13 @@
                 const self = this
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (confirm('Do you want to change this user?')) {
+                        if (confirm(this.$t('do-you-want-to-change-user'))) {
                             Axios.patch(`${process.env.API_URL}/api/private/user`, this.$data)
                                 .then(function (response) {
+                                    console.log(response.data.status)
+                                    if (response.status === 200) {
+                                        alert(self.$t('user-saved'))
+                                    }
                                     if (response.data.message) {
                                         alert(response.data.message)
                                         self.$router.push('users')
@@ -187,10 +213,10 @@
                     text: 'Home',
                     to: '/'
                 }, {
-                    text: 'Users',
+                    text: this.$t('users'),
                     to: '/users'
                 }, {
-                    text: 'User details',
+                    text: this.$t('user-details'),
                     active: true
                 }],
                 user: {
@@ -212,8 +238,13 @@
 </script>
 
 <style>
+    .sbx-google__reset,
     .sbx-google__submit {
         display: none !important;
+    }
+    .sbx-google__input-placeholder,
+    .sbx-google__input {
+        padding-right: 5px;
     }
     .sbx-google__reset {
         right: 10px;

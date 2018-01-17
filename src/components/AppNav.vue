@@ -6,7 +6,6 @@
             <b-collapse is-nav id="nav_collapse">
                 <b-nav is-nav-bar>
                     <b-nav-item v-show="isLoggedIn()" to="/events">{{$t('events')}}</b-nav-item>
-                    <b-nav-item v-show="isLoggedIn()" to="/add-event">{{$t('add-event')}}</b-nav-item>
                     <b-nav-item v-show="isLoggedIn()" to="/users">{{$t('users')}}</b-nav-item>
                     <b-nav-item v-show="isLoggedIn()" to="/users-501st">{{$t('users-501st')}}</b-nav-item>
                     <b-nav-item v-show="isLoggedIn()" to="/costumes">{{$t('costumes')}}</b-nav-item>
@@ -15,9 +14,14 @@
                     <b-nav v-show="!isLoggedIn()" is-nav-bar right>
                         <b-nav-item @click="handleLogin()">{{$t('log-in')}}</b-nav-item>
                     </b-nav>
-                    <b-nav-item-dropdown v-show="isLoggedIn()" right>
+                    <b-nav-item-dropdown v-show="isLoggedIn() && isMember()" right>
                         <template slot="button-content">
-                            {{profile['https://iris.501st.nl/user_metadata'].username}}
+                            <span v-if="profile['https://iris.501st.nl/user_metadata'].username">
+                                {{profile['https://iris.501st.nl/user_metadata'].username}}
+                            </span>
+                            <span v-else>
+                                {{$t('account')}}
+                            </span>
                             <img v-bind:src="profile['https://iris.501st.nl/legion_thumbnail']" width="30" alt="">
                         </template>
                         <b-dropdown-item to="/profile">{{$t('profile')}}</b-dropdown-item>
@@ -30,7 +34,7 @@
 </template>
 
 <script>
-    import { isLoggedIn, login, logout } from '../utils/auth'
+    import { isLoggedIn, login, logout, isMember } from '../utils/auth'
 
     export default {
         name: 'app-nav',
@@ -48,6 +52,9 @@
             },
             isLoggedIn () {
                 return isLoggedIn()
+            },
+            isMember () {
+                return isMember()
             },
             getProfile () {
                 this.$store.dispatch('getProfile')

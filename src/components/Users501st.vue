@@ -22,7 +22,7 @@
                 <td>{{props.row.officeAcronym}}</td>
                 <td>{{getLegionId(props.row)}}</td>
                 <td class="text-right">
-                    <a href="" v-bind:href="props.row.link" class="btn btn-primary">
+                    <a v-bind:href="props.row.profileUrl" class="btn btn-primary">
                         View 501st profile
                     </a>
                 </td>
@@ -135,19 +135,3 @@
         }
     }
 </script>
-
-<style scoped>
-    h1, h2 {
-        font-weight: normal;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        display: block;
-        margin: 0 10px;
-    }
-</style>

@@ -1,6 +1,9 @@
 <template>
     <div>
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
+        <router-link class="btn btn-primary float-right" v-bind:to="'/add-event'">
+            {{$t('add-event')}}
+        </router-link>
         <h1>{{$t('events')}}</h1>
         <template>
             <vue-good-table
@@ -74,7 +77,7 @@
                     text: 'Home',
                     to: '/'
                 }, {
-                    text: 'Events',
+                    text: this.$t('events'),
                     active: true
                 }],
                 columns: [
@@ -119,19 +122,3 @@
 
     }
 </script>
-
-<style scoped>
-    h1, h2 {
-        font-weight: normal;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        display: block;
-        margin: 0 10px;
-    }
-</style>

@@ -53,15 +53,17 @@
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                     {{event.street}} {{event.houseNumber}}, {{event.postcode}}, {{event.city}}
                     <div class="map">
-                        <a target="_blank" class="card" v-bind:href="getGoogleMapsDirectionsUrl()">
-                            <img class="img-fluid card-img-top" v-bind:src="getGoogleMapsStaticImageUrl()" alt="">
+                        <div class="card">
+                            <a target="_blank" v-bind:href="getGoogleMapsDirectionsUrl()">
+                                <img class="img-fluid card-img-top" v-bind:src="getGoogleMapsStaticImageUrl()" alt="">
+                            </a>
                             <div class="card-body">
                                 <a v-bind:href="getGoogleMapsDirectionsUrl()" target="_blank" class="btn btn-primary btn-block">
                                     {{$t('open-in-google-maps')}}
                                     <i class="fa fa-external-link" aria-hidden="true"></i>
                                 </a>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </address>
             </b-col>

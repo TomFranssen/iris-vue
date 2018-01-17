@@ -2,7 +2,6 @@
     <div>
         <b-breadcrumb :items="breadcrumbs"/>
         <h1>{{$t('users')}}</h1>
-
         <template>
             <vue-good-table
                 :columns="columns"
@@ -11,10 +10,12 @@
                 styleClass="table condensed table-bordered table-striped"
             >
                 <template slot="table-row" scope="props">
-                    <td width="50">
+                    <td width="50" v-if="props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
                         <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
                     </td>
-                    <td>{{props.row.name}}</td>
+                    <td v-if="props.row.user_metadata && props.row.user_metadata.username">
+                        {{props.row.user_metadata.username}}
+                    </td>
                     <td>{{props.row.email}}</td>
                     <td>{{getLegionId(props.row)}}</td>
                     <td>{{getCostumeCount(props.row)}}</td>
@@ -48,7 +49,7 @@
             },
             getLegionId: function (rowObject) {
                 if (rowObject.user_metadata && rowObject.user_metadata.legion_id) {
-                    return rowObject.user_metadata.legion_id
+                    return rowObject.user_metadata.legion_id.toString()
                 }
                 return ''
             },
@@ -67,7 +68,7 @@
                     text: 'Home',
                     to: '/'
                 }, {
-                    text: 'Users',
+                    text: this.$t('users'),
                     active: true
                 }],
                 columns: [
@@ -79,7 +80,7 @@
                     {
                         label: this.$t('name'),
                         tdClass: 'text-right',
-                        field: 'name',
+                        field: 'user_metadata.username',
                         filterable: true
                     },
                     {
@@ -91,7 +92,7 @@
                     {
                         label: this.$t('501st-legion-id'),
                         tdClass: 'text-right',
-                        field: 'legion',
+                        field: this.getLegionId,
                         filterable: true
                     },
                     {
@@ -108,19 +109,3 @@
         }
     }
 </script>
-
-<style scoped>
-    h1, h2 {
-        font-weight: normal;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        display: block;
-        margin: 0 10px;
-    }
-</style>

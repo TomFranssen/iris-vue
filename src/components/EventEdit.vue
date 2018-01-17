@@ -29,13 +29,13 @@ export default {
                 text: 'Home',
                 to: '/'
             }, {
-                text: 'Events',
+                text: this.$t('events'),
                 to: '/events'
             }, {
-                text: 'Event details',
+                text: this.$t('details'),
                 to: '/event/' + this.$route.params.id
             }, {
-                text: 'Edit event',
+                text: this.$t('edit-event'),
                 active: true
             }],
             event: undefined
