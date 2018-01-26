@@ -7,7 +7,6 @@ const ACCESS_TOKEN_KEY = 'access_token'
 
 const CLIENT_ID = '1ySh5N0sOXxMkcAslnuhRfxO5BloY56t'
 const CLIENT_DOMAIN = '501st.eu.auth0.com'
-const REDIRECT = 'http://localhost:8080/callback'
 const SCOPE = 'openid profile email groups permissions roles'
 const AUDIENCE = 'https://iris.501st.nl'
 
@@ -19,7 +18,7 @@ const auth = new auth0.WebAuth({
 export function login () {
     auth.authorize({
         responseType: 'token id_token',
-        redirectUri: REDIRECT,
+        redirectUri: process.env.AUTH0_REDIRECT,
         audience: AUDIENCE,
         scope: SCOPE
     })
@@ -115,7 +114,7 @@ export function isLoggedIn () {
 }
 
 export function isMember () {
-    console.log(getProfile)
+    // console.log(getProfile)
 }
 
 function getTokenExpirationDate (encodedToken) {
