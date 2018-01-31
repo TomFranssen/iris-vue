@@ -323,7 +323,6 @@
                                     <div v-for="(guest, guestIndex) in eventDate.guests">
                                         {{guest}}
                                     </div>
-
                                     <b-form-input
                                         v-validate="'required'"
                                         name="add-guest"
@@ -333,7 +332,6 @@
                                         type="text"
                                     >
                                     </b-form-input>
-
                                     <b-button variant="outline-primary"  v-on:click="addGuest(index, addGuestData)">
                                         {{$t('add-guest')}}
                                     </b-button>

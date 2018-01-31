@@ -225,6 +225,11 @@
                         </span>
                     </div>
 
+                    <div class="mt-2" v-if="eventDate.guests.length > 0">
+                        {{$t('guests')}}:
+                        <span class="add-comma-after" v-for="(guest, index) in eventDate.guests">{{guest}}</span>
+                    </div>
+
                     <div v-if="!isSignedUp(eventDate)">
                         <b-alert show variant="warning" v-if="!signupPossible(eventDate)">
                             {{$t('sign-up-not-possible')}}
