@@ -33,7 +33,8 @@ export default {
                     availableSpots: '',
                     open: '',
                     signedUpUsers: [],
-                    cancelledUsers: []
+                    cancelledUsers: [],
+                    guests: []
                 }],
                 gatherTime: [{
                     HH: '00',

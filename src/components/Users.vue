@@ -10,11 +10,15 @@
                 styleClass="table condensed table-bordered table-striped"
             >
                 <template slot="table-row" scope="props">
-                    <td width="50" v-if="props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
-                        <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
+                    <td width="50">
+                        <div v-if="props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
+                            <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
+                        </div>
                     </td>
-                    <td v-if="props.row.user_metadata && props.row.user_metadata.username">
-                        {{props.row.user_metadata.username}}
+                    <td>
+                        <div v-if="props.row.user_metadata && props.row.user_metadata.username">
+                            {{props.row.user_metadata.username}}
+                        </div>
                     </td>
                     <td>{{props.row.email}}</td>
                     <td>{{getLegionId(props.row)}}</td>

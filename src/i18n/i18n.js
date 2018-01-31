@@ -83,7 +83,11 @@ const translations = {
         'do-you-want-to-change-user': 'Do you want to change this user?',
         'user-saved': 'User saved!',
         'account': 'Account',
-        'verify-email-text': 'Please check your e-mail to verify your e-mail address. Please reload this page when your e-mail is verified.'
+        'verify-email-text': 'Please check your e-mail to verify your e-mail address. Please reload this page when your e-mail is verified.',
+        'do-you-want-to-save-event': 'Do you want to save this event?',
+        'event-saved': 'Event saved',
+        'fill-in-all-fields': 'Please fill in all the fields',
+        'guests': 'Guests'
     },
     nl: {
         'info': 'Info',
@@ -170,7 +174,11 @@ const translations = {
         'do-you-want-to-change-user': 'Wil je deze gebruiker aanpassen?',
         'user-saved': 'Gebruiker opgeslagen!',
         'account': 'Account',
-        'verify-email-text': 'Je hebt een e-mail ontvangen om je e-mailadres te controleren. Herlaad deze pagina zodra je e-mailadres is gevalideerd.'
+        'verify-email-text': 'Je hebt een e-mail ontvangen om je e-mailadres te controleren. Herlaad deze pagina zodra je e-mailadres is gevalideerd.',
+        'do-you-want-to-save-event': 'Wil je dit evenement opslaan?',
+        'event-saved': 'Evenement opgeslagen',
+        'fill-in-all-fields': 'Vul a.u.b. alle velden in.',
+        'guests': 'Gasten'
     }
 }
 

@@ -314,6 +314,31 @@
                                     </div>
                                 </b-col>
                             </b-row>
+                            <b-row class="form-row">
+                                <b-col sm="3">{{$t('guests')}}</b-col>
+                                <b-col sm="9">
+                                    <div v-if="eventDate.guests.length === 0">
+                                        {{$t('no-guests')}}
+                                    </div>
+                                    <div v-for="(guest, guestIndex) in eventDate.guests">
+                                        {{guest}}
+                                    </div>
+
+                                    <b-form-input
+                                        v-validate="'required'"
+                                        name="add-guest"
+                                        v-model.trim="addGuestData"
+                                        id="add-guest"
+                                        size="sm"
+                                        type="text"
+                                    >
+                                    </b-form-input>
+
+                                    <b-button variant="outline-primary"  v-on:click="addGuest(index, addGuestData)">
+                                        {{$t('add-guest')}}
+                                    </b-button>
+                                </b-col>
+                            </b-row>
                         </b-card>
                     </div>
                     <div v-if="canAddDate()" class="mt-3 text-right">
@@ -345,6 +370,11 @@
     export default {
         name: 'EventForm',
         props: ['event', 'edit'],
+        data () {
+            return {
+                addGuestData: 'adwdwa'
+            }
+        },
         components: {
             Datepicker,
             VueTimepicker
@@ -355,6 +385,9 @@
             },
             canDeleteDate: function (index) {
                 return index >= 1
+            },
+            addGuest: function (eventDateIndex, guest) {
+                this.event.eventDates[eventDateIndex].guests.push(guest)
             },
             addDate: function () {
                 this.event.eventDates.push({
@@ -379,7 +412,7 @@
                 let promiseEvent
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if (confirm('Do you want to save this event?')) {
+                        if (confirm(self.$t('do-you-want-to-save-event'))) {
                             if (this.edit) {
                                 promiseEvent = Axios.put(`${process.env.API_URL}/api/private/event`, this.event)
                             } else {
@@ -388,6 +421,7 @@
 
                             promiseEvent
                                 .then(function (response) {
+                                    alert(self.$t('event-saved'))
                                     if (response.data.message) {
                                         alert(response.data.message)
                                         self.$router.push('events')
@@ -401,7 +435,7 @@
                         }
                         return
                     }
-                    alert('Please correctly fill in all the fields.')
+                    alert(self.$t('fill-in-all-fields'))
                     this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
                 })
             }
