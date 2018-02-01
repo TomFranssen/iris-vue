@@ -292,12 +292,10 @@
                                     <div v-if="eventDate.signedUpUsers.length === 0">
                                         {{$t('no-signups')}}
                                     </div>
-                                    <div v-for="(user, signupIndex) in eventDate.signedUpUsers">
-                                        <b-button variant="outline-primary" v-on:click="removeSignedUpUser(index, signupIndex)">
-                                            {{user.username}}
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </b-button>
-                                    </div>
+                                    <b-button class="mr-2" v-for="(user, signupIndex) in eventDate.signedUpUsers" variant="outline-primary" v-bind:key="user.username" v-on:click="removeSignedUpUser(index, signupIndex)">
+                                        {{user.username}}
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </b-button>
                                 </b-col>
                             </b-row>
                             <b-row class="form-row">
@@ -306,12 +304,10 @@
                                     <div v-if="eventDate.cancelledUsers.length === 0">
                                         {{$t('no-cancelled-users')}}
                                     </div>
-                                    <div v-for="(user, cancelledIndex) in eventDate.cancelledUsers">
-                                        <b-button variant="outline-primary" v-on:click="removeCancelledUser(index, cancelledIndex)">
-                                            {{user.username}}
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </b-button>
-                                    </div>
+                                    <b-button class="mr-2" v-for="(user, cancelledIndex) in eventDate.cancelledUsers" variant="outline-primary" v-bind:key="user.username" v-on:click="removeCancelledUser(index, cancelledIndex)">
+                                        {{user.username}}
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </b-button>
                                 </b-col>
                             </b-row>
                             <b-row class="form-row">
@@ -320,21 +316,28 @@
                                     <div v-if="eventDate.guests.length === 0">
                                         {{$t('no-guests')}}
                                     </div>
-                                    <div v-for="(guest, guestIndex) in eventDate.guests">
+                                    <b-button class="mr-2 mb-1" v-for="(guest, guestIndex) in eventDate.guests" variant="outline-primary" v-bind:key="guest" v-on:click="removeGuest(index, guestIndex)">
                                         {{guest}}
-                                    </div>
-                                    <b-form-input
-                                        v-validate="'required'"
-                                        name="add-guest"
-                                        v-model.trim="addGuestData"
-                                        id="add-guest"
-                                        size="sm"
-                                        type="text"
-                                    >
-                                    </b-form-input>
-                                    <b-button variant="outline-primary"  v-on:click="addGuest(index, addGuestData)">
-                                        {{$t('add-guest')}}
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
                                     </b-button>
+
+                                    <b-row class="form-row mt-2">
+                                        <b-col sm="9">
+                                            <b-form-input
+                                                name="add-guest"
+                                                v-model.trim="eventDate.addGuestData"
+                                                id="add-guest"
+                                                size="sm"
+                                                type="text"
+                                            >
+                                            </b-form-input>
+                                        </b-col>
+                                        <b-col sm="3">
+                                            <b-button variant="outline-primary"  v-on:click="addGuest(index, eventDate.addGuestData)">
+                                                {{$t('add-guest')}}
+                                            </b-button>
+                                        </b-col>
+                                    </b-row>
                                 </b-col>
                             </b-row>
                         </b-card>
@@ -368,11 +371,6 @@
     export default {
         name: 'EventForm',
         props: ['event', 'edit'],
-        data () {
-            return {
-                addGuestData: 'adwdwa'
-            }
-        },
         components: {
             Datepicker,
             VueTimepicker
@@ -387,13 +385,17 @@
             addGuest: function (eventDateIndex, guest) {
                 this.event.eventDates[eventDateIndex].guests.push(guest)
             },
+            removeGuest: function (eventDateIndex, guestIndex) {
+                this.event.eventDates[eventDateIndex].guests.splice(guestIndex, 1)
+            },
             addDate: function () {
                 this.event.eventDates.push({
                     date: '',
                     availableSpots: '',
                     open: true,
                     signedUpUsers: [],
-                    cancelledUsers: []
+                    cancelledUsers: [],
+                    guests: []
                 })
             },
             removeDate: function (index) {

@@ -36,7 +36,7 @@ const translations = {
         'open-for-registration': 'Open for registration',
         'add-day': 'Add extra day',
         'signups': 'Sign-ups',
-        'no-signups': 'No sign-ups',
+        'no-signups': 'No member sign-ups',
         'events': 'Events',
         'log-in': 'Login',
         'profile': 'Profile',
@@ -87,7 +87,9 @@ const translations = {
         'do-you-want-to-save-event': 'Do you want to save this event?',
         'event-saved': 'Event saved',
         'fill-in-all-fields': 'Please fill in all the fields',
-        'guests': 'Guests'
+        'guests': 'Guests',
+        'no-guests': 'No guests signed up',
+        'add-guest': 'Add guest'
     },
     nl: {
         'info': 'Info',
@@ -126,7 +128,7 @@ const translations = {
         'open-for-registration': 'Inschrijven toestaan',
         'add-day': 'Voeg extra dag toe',
         'signups': 'Inschrijvingen',
-        'no-signups': 'Geen inschrijvingen',
+        'no-signups': 'Geen leden ingeschreven',
         'events': 'Evenementen',
         'log-in': 'Inloggen',
         'profile': 'Profiel',
@@ -178,7 +180,9 @@ const translations = {
         'do-you-want-to-save-event': 'Wil je dit evenement opslaan?',
         'event-saved': 'Evenement opgeslagen',
         'fill-in-all-fields': 'Vul a.u.b. alle velden in.',
-        'guests': 'Gasten'
+        'guests': 'Gasten',
+        'no-guests': 'Geen gasten ingeschreven',
+        'add-guest': 'Gast toevoegen'
     }
 }
 
