@@ -3,6 +3,7 @@
         <h1>
             {{$t('welcome')}}
         </h1>
+        {{rows}}
         <div v-show="!isLoggedIn()">
             <p>
                 {{$t('welcome-text-verify')}}
@@ -25,6 +26,7 @@
 </template>
 <script>
     import { isLoggedIn, login } from '../utils/auth'
+    import { getPrivateSignedUpEvents } from '../utils/events-api'
 
     export default {
         name: 'Home',
@@ -34,7 +36,20 @@
             },
             isLoggedIn () {
                 return isLoggedIn()
+            },
+            getPrivateSignedUpEvents () {
+                getPrivateSignedUpEvents().then((events) => {
+                    this.rows = events
+                })
             }
+        },
+        data () {
+            return {
+                rows: []
+            }
+        },
+        mounted () {
+            this.getPrivateSignedUpEvents()
         }
     }
 </script>
