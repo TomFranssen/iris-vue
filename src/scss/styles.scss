@@ -1,6 +1,10 @@
 @import "variables.scss";
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 
+body {
+    padding-bottom: 100px;
+}
+
 .logo {
     width: 50px;
     margin-right: 10px;
