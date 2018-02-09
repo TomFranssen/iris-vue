@@ -1,10 +1,22 @@
 @import "variables.scss";
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 
+.logo {
+    width: 50px;
+    margin-right: 10px;
+}
+
+body #app .responsive {
+    overflow-x: auto;
+}
 
 h1 {
     margin-top: 2rem;
     margin-bottom: 1rem;
+}
+
+.navbar-brand {
+    margin-right: 20px;
 }
 
 

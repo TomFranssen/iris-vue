@@ -114,7 +114,7 @@ export function isLoggedIn () {
 }
 
 export function isMember () {
-    // console.log(getProfile)
+    return true
 }
 
 function getTokenExpirationDate (encodedToken) {

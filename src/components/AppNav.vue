@@ -2,8 +2,8 @@
     <b-navbar toggleable="sm" variant="primary">
         <div class="container">
             <b-nav-toggle target="nav_collapse"></b-nav-toggle>
-            <b-navbar-brand to="/">IRIS</b-navbar-brand>
-            <b-collapse is-nav id="nav_collapse">
+            <b-navbar-brand to="/"><img class="logo" src="/static/img/iris-small.svg" alt="IRIS" />I.R.I.S</b-navbar-brand>
+            <b-collapse is-nav id="nav_collapse" v-if="this.$store.getters.isMember">
                 <b-nav is-nav-bar>
                     <b-nav-item v-show="isLoggedIn()" to="/events">{{$t('events')}}</b-nav-item>
                     <b-nav-item v-show="isLoggedIn()" to="/users">{{$t('users')}}</b-nav-item>

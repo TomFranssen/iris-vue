@@ -10,6 +10,7 @@ import Users from '@/components/Users'
 import Users501st from '@/components/Users501st'
 import UserDetails from '@/components/UserDetails'
 import Costumes from '@/components/Costumes'
+import NotFound from '@/components/NotFound'
 import Callback from '@/components/Callback'
 import { requireAuth } from '../utils/auth'
 
@@ -77,6 +78,14 @@ export default new Router({
         {
             path: '/callback',
             component: Callback
+        },
+        {
+            path: '/404',
+            component: NotFound
+        },
+        {
+            path: '*',
+            redirect: '/404'
         }
     ]
 })

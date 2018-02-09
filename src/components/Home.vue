@@ -1,21 +1,40 @@
 <template>
     <div>
         <h1>
-            Welcome to IRIS
+            {{$t('welcome')}}
         </h1>
-
-        <pre>
-            {{$store.state.profile}}
-        </pre>
-
-        <b-alert show variant="danger" v-if="$store.state.profile.email_verified === false">
-            {{$t('verify-email-text')}}
-        </b-alert>
-
+        <div v-show="!isLoggedIn()">
+            <p>
+                {{$t('welcome-text-verify')}}
+            </p>
+            <b-button @click="handleLogin()">{{$t('log-in-sign-up')}}</b-button>
+        </div>
+        <div v-show="isLoggedIn()">
+            <b-alert show variant="danger" v-if="$store.state.profile.email_verified === false">
+                {{$t('verify-email-text')}}
+            </b-alert>
+            <b-alert show variant="danger" v-if="!this.$store.getters.isMember">
+                {{$t('verify-member')}}
+            </b-alert>
+            <p v-if="this.$store.getters.isMember">
+                {{$t('welcome-text')}}
+            </p>
+            <b-button @click="handleLogout()">{{$t('log-out')}}</b-button>
+        </div>
     </div>
 </template>
 <script>
+    import { isLoggedIn, login } from '../utils/auth'
+
     export default {
-        name: 'Home'
+        name: 'Home',
+        methods: {
+            handleLogin () {
+                login()
+            },
+            isLoggedIn () {
+                return isLoggedIn()
+            }
+        }
     }
 </script>

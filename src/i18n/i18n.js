@@ -89,7 +89,14 @@ const translations = {
         'fill-in-all-fields': 'Please fill in all the fields',
         'guests': 'Guests',
         'no-guests': 'No guests signed up',
-        'add-guest': 'Add guest'
+        'add-guest': 'Add guest',
+        'welcome': 'Welcome',
+        'welcome-text-verify': 'To use IRIS you have to login or sign up. Using IRIS is only for members of the Dutch Garrison.',
+        'log-in-sign-up': 'Login or sign up',
+        'verify-member': 'Welcome at IRIS, je have succesfully logged in. Before you can sign up for events we will need to activate your account. Please contact Leon or Tom for this.',
+        'log-out': 'Log out',
+        'welcome-text': 'You can now sign up for events!',
+        'not-found': '404 Page not found'
     },
     nl: {
         'info': 'Info',
@@ -182,7 +189,14 @@ const translations = {
         'fill-in-all-fields': 'Vul a.u.b. alle velden in.',
         'guests': 'Gasten',
         'no-guests': 'Geen gasten ingeschreven',
-        'add-guest': 'Gast toevoegen'
+        'add-guest': 'Gast toevoegen',
+        'welcome': 'Welkom',
+        'welcome-text-verify': 'Om van IRIS gebruik te maken kunt u inloggen of zichzelf inschrijven. Inschrijven is alleen mogelijk voor leden van de Dutch Garrison.',
+        'log-in-sign-up': 'Inloggen of inschrijven',
+        'verify-member': 'Welkom bij IRIS, je bent succesvol ingelogd. Voordat je jezelf kan inschrijven voor evenementen moeten we eerst even je account valideren. Neem hiervoor contact op met Leon of Tom.',
+        'log-out': 'Uitloggen',
+        'welcome-text': 'Je kunt je nu inschrijven voor evenementen!',
+        'not-found': '404 Pagina niet gevonden'
     }
 }
 

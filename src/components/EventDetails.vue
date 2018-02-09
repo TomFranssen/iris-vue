@@ -81,10 +81,6 @@
                             {{$t('publicly-accessible')}}
                         </li>
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.guestsAllowed, 'fa-times': !event.guestsAllowed }"></i>
-                            {{$t('guests-allowed')}}
-                        </li>
-                        <li>
                             <i class="fa-li fa" v-bind:class="{ 'fa-check': event.dressingroomAvailable, 'fa-times': !event.dressingroomAvailable }"></i>
                             {{$t('dressingroom-available')}}
                         </li>
@@ -544,7 +540,6 @@
                     facebookEvent: '',
                     websiteUrl: '',
                     publiclyAccessible: true,
-                    guestsAllowed: true,
                     dressingroomAvailable: true,
                     travelRestitution: true,
                     parking: true,

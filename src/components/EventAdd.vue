@@ -58,7 +58,6 @@ export default {
                 facebookEvent: undefined,
                 websiteUrl: undefined,
                 publiclyAccessible: undefined,
-                guestsAllowed: undefined,
                 dressingroomAvailable: undefined,
                 travelRestitution: undefined,
                 parking: undefined,

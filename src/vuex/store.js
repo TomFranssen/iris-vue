@@ -11,7 +11,7 @@ export default {
             '501st/legion_id': 0,
             'legion_link': '',
             'legion_thumbnail': '',
-            'locale': '',
+            'locale': 'nl',
             'name': '',
             'nickname': '',
             'picture': '',
@@ -36,6 +36,19 @@ export default {
                 getProfile().then((profile) => {
                     commit('setProfile', profile)
                 })
+            }
+        }
+    },
+    getters: {
+        isMember: state => {
+            if (
+                state &&
+                state.profile &&
+                state.profile['https://iris.501st.nl/app_metadata'] &&
+                state.profile['https://iris.501st.nl/app_metadata'].authorization &&
+                state.profile['https://iris.501st.nl/app_metadata'].authorization.groups
+            ) {
+                return state.profile['https://iris.501st.nl/app_metadata'].authorization.groups.indexOf('Dutch Garrison') >= 0
             }
         }
     }
