@@ -65,7 +65,15 @@
             getPrivateEvents () {
                 getPrivateEvents().then((events) => {
                     this.rows = events
+                    this.populateLocationFilterOptions()
                 })
+            },
+            populateLocationFilterOptions: function () {
+                let locations = []
+                for (let row of this.rows) {
+                    locations.push(row.city)
+                }
+                this.columns[1].filterOptions = new Set(locations).toJSON() // make array values unique
             },
             showEventDetails: function (row, index) {
                 this.$router.push('event/' + row._id)
@@ -91,7 +99,9 @@
                         label: this.$t('location'),
                         tdClass: 'text-right',
                         field: 'city',
-                        filterable: true
+                        filterable: true,
+                        filterDropdown: true,
+                        filterOptions: []
                     },
                     {
                         label: this.$t('days'),

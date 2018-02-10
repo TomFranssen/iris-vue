@@ -50,6 +50,16 @@ export default {
             ) {
                 return state.profile['https://iris.501st.nl/app_metadata'].authorization.groups.indexOf('Dutch Garrison') >= 0
             }
+        },
+        username: state => {
+            if (
+                state &&
+                state.profile &&
+                state.profile['https://iris.501st.nl/user_metadata'] &&
+                state.profile['https://iris.501st.nl/user_metadata'].username
+            ) {
+                return state.profile['https://iris.501st.nl/user_metadata'].username
+            }
         }
     }
 }

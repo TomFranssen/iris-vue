@@ -1,17 +1,19 @@
 <template>
     <div>
-        <h1>
-            {{$t('welcome')}}
-        </h1>
         <div v-show="!isLoggedIn()">
+            <h1>
+                {{$t('welcome')}}
+            </h1>
             <p>
                 {{$t('welcome-text-verify')}}
             </p>
             <b-button @click="handleLogin()">{{$t('log-in-sign-up')}}</b-button>
         </div>
         <div v-show="isLoggedIn()">
-
             <div v-if="!rows">
+                <h1>
+                    {{$t('welcome')}}
+                </h1>
                 <b-alert show variant="danger" v-if="$store.state.profile.email_verified === false">
                     {{$t('verify-email-text')}}
                 </b-alert>
@@ -24,23 +26,28 @@
                 <b-button @click="handleLogout()">{{$t('log-out')}}</b-button>
             </div>
 
-            <vue-good-table
-                v-if="rows"
-                :columns="columns"
-                :rows="rows"
-                :sortable="false"
-                :defaultSortBy="{field: getFirstDate, type: 'asc'}"
-                :onClick="showEventDetails"
-                styleClass="table condensed table-bordered table-striped"
-            >
-                <template slot="table-row" scope="props">
-                    <td class="text-left">{{ props.row.name }}</td>
-                    <td class="text-right">{{ props.row.city }}</td>
-                    <td class="text-right">{{ getDaysCount(props.row) }}</td>
-                    <td class="text-right">{{ getSignups(props.row) }}</td>
-                    <td class="text-right">{{ props.row.eventDates[0].date | moment}}</td>
-                </template>
-            </vue-good-table>
+            <div v-if="rows">
+                <h1>
+                    {{$t('your-signups')}}
+                </h1>
+                <vue-good-table
+                    v-if="rows"
+                    :columns="columns"
+                    :rows="rows"
+                    :sortable="false"
+                    :defaultSortBy="{field: getFirstDate, type: 'asc'}"
+                    :onClick="showEventDetails"
+                    styleClass="table condensed table-bordered table-striped"
+                >
+                    <template slot="table-row" scope="props">
+                        <td class="text-left">{{ props.row.name }}</td>
+                        <td class="text-right">{{ props.row.city }}</td>
+                        <td class="text-right">{{ getDaysCount(props.row) }}</td>
+                        <td class="text-right">{{ getSignups(props.row) }}</td>
+                        <td class="text-right">{{ props.row.eventDates[0].date | moment}}</td>
+                    </template>
+                </vue-good-table>
+            </div>
 
         </div>
     </div>
@@ -52,6 +59,11 @@
 
     export default {
         name: 'Home',
+        filters: {
+            moment: function (date) {
+                return moment(date).format('D-MM-YYYY')
+            }
+        },
         methods: {
             handleLogin () {
                 login()
@@ -85,7 +97,15 @@
             getPrivateSignedUpEvents () {
                 getPrivateSignedUpEvents().then((events) => {
                     this.rows = events
+                    this.populateLocationFilterOptions()
                 })
+            },
+            populateLocationFilterOptions: function () {
+                let locations = []
+                for (let row of this.rows) {
+                    locations.push(row.city)
+                }
+                this.columns[1].filterOptions = new Set(locations).toJSON() // make array values unique
             }
         },
         data () {
@@ -101,7 +121,9 @@
                         label: this.$t('location'),
                         tdClass: 'text-right',
                         field: 'city',
-                        filterable: true
+                        filterable: true,
+                        filterDropdown: true,
+                        filterOptions: []
                     },
                     {
                         label: this.$t('days'),

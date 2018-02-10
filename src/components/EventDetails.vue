@@ -200,9 +200,10 @@
                         </template>
                         <template slot="table-row-after" scope="props">
                             <td width="50px">
-                                <b-btn v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + index">{{$t('sign-out')}}</b-btn>
-                                <b-modal v-bind:ref="'sign-out-modal' + index" v-bind:id="'sign-out-modal-' + index"  v-bind:title="$t('sign-out')">
+                                <b-btn v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + props.row.originalIndex">{{$t('sign-out')}}</b-btn>
+                                <b-modal v-bind:ref="'sign-out-modal' + props.row.originalIndex" v-bind:id="'sign-out-modal-' + props.row.originalIndex"  v-bind:title="$t('sign-out')">
                                     <p>{{$t('sign-out-agreement')}}</p>
+                                    
                                     <div slot="modal-footer" class="w-100">
                                         <b-btn size="sm" class="float-right" variant="primary" v-on:click="signOut(props, index)">
                                             {{$t('sign-out')}}

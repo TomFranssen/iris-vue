@@ -58,6 +58,7 @@ const translations = {
         'open-in-google-maps': 'Open in Google Maps',
         'details': 'Details',
         'signups-for': 'Sign-ups for',
+        'spots-left': 'spots available',
         'no-users-signed-up-want-to-be-the-first': 'No users signed up! Want to be the first?',
         'sign-up-not-possible': 'Sign-up not possible',
         'sign-out': 'Sign out',
@@ -96,7 +97,8 @@ const translations = {
         'verify-member': 'Welcome at IRIS, je have succesfully logged in. Before you can sign up for events we will need to activate your account. Please contact Leon or Tom for this.',
         'log-out': 'Log out',
         'welcome-text': 'You can now sign up for events!',
-        'not-found': '404 Page not found'
+        'not-found': '404 Page not found',
+        'your-signups': 'Your signups'
     },
     nl: {
         'info': 'Info',
@@ -196,7 +198,8 @@ const translations = {
         'verify-member': 'Welkom bij IRIS, je bent succesvol ingelogd. Voordat je jezelf kan inschrijven voor evenementen moeten we eerst even je account valideren. Neem hiervoor contact op met Leon of Tom.',
         'log-out': 'Uitloggen',
         'welcome-text': 'Je kunt je nu inschrijven voor evenementen!',
-        'not-found': '404 Pagina niet gevonden'
+        'not-found': '404 Pagina niet gevonden',
+        'your-signups': 'Je inschrijvingen'
     },
     de: {
         'info': 'Info',
