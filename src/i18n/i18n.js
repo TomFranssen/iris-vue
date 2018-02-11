@@ -101,7 +101,8 @@ const translations = {
         'your-signups': 'Your signups',
         'signout-reason': 'Reason',
         'signout-reason-placeholder': 'Enter the reason you cannot attend.',
-        'groups': 'Groups'
+        'groups': 'Groups',
+        'no-reason-speficied': 'No reason specified'
     },
     nl: {
         'info': 'Info',
@@ -205,7 +206,8 @@ const translations = {
         'your-signups': 'Je inschrijvingen',
         'signout-reason': 'Reden',
         'signout-reason-placeholder': 'Geef de reden op waarom je niet kan deelnemen.',
-        'groups': 'Groepen'
+        'groups': 'Groepen',
+        'no-reason-speficied': 'Geen reden gegeven'
     },
     de: {
         'info': 'Info',

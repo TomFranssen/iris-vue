@@ -507,7 +507,7 @@
                     eventDateIndex: eventDataIndex,
                     userId: props.row.userId,
                     indexToMoveToCancelled: props.index,
-                    signoutReason: props.row.signoutReason
+                    signoutReason: props.row.signoutReason ? props.row.signoutReason : this.$t('no-reason-speficied')
                 }
                 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
                 Axios.post(`${process.env.API_URL}/api/private/event/signout`, signOutData)
