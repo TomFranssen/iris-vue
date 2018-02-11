@@ -10,7 +10,7 @@
             <b-button @click="handleLogin()">{{$t('log-in-sign-up')}}</b-button>
         </div>
         <div v-show="isLoggedIn()">
-            <div v-if="!rows">
+            <div v-if="rows.length === 0">
                 <h1>
                     {{$t('welcome')}}
                 </h1>
@@ -20,13 +20,13 @@
                 <b-alert show variant="danger" v-if="!this.$store.getters.isMember">
                     {{$t('verify-member')}}
                 </b-alert>
-                <p v-if="this.$store.getters.isMember">
+                <p v-if="this.$store.getters.isMember && $store.state.profile.email_verified === true">
                     {{$t('welcome-text')}}
                 </p>
                 <b-button @click="handleLogout()">{{$t('log-out')}}</b-button>
             </div>
 
-            <div v-if="rows">
+            <div v-if="rows.length > 0">
                 <h1>
                     {{$t('your-signups')}}
                 </h1>
@@ -149,7 +149,9 @@
             }
         },
         mounted () {
-            this.getPrivateSignedUpEvents()
+            if (this.isLoggedIn()) {
+                this.getPrivateSignedUpEvents()
+            }
         }
     }
 </script>

@@ -159,25 +159,22 @@
                             inline-template
                         >
                             <div>
-                                <div>
-                                    <google-calendar id="google-calendar">
-                                        <i class="fa fa-google"></i>
-                                        {{$t('add-to-google-calendar')}}
-                                    </google-calendar>
-                                </div>
-                                <div>
-                                    <microsoft-calendar id="microsoft-calendar">
-                                        <i class="fa fa-windows"></i>
-                                        {{$t('add-to-microsoft-calendar')}}
-                                    </microsoft-calendar>
-                                </div>
+                                <google-calendar id="google-calendar">
+                                    <i class="fa fa-google"></i>
+                                    {{$t('add-to-google-calendar')}}
+                                </google-calendar>
+                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <microsoft-calendar id="microsoft-calendar">
+                                    <i class="fa fa-windows"></i>
+                                    {{$t('add-to-microsoft-calendar')}}
+                                </microsoft-calendar>
                             </div>
                         </add-to-calendar>
                     </div>
 
-                    <div v-if="!hasSignedUpUsers(eventDate) && signupPossible(eventDate)" class="alert alert-secondary" role="alert">
+                    <p v-if="!hasSignedUpUsers(eventDate) && signupPossible(eventDate)">
                         {{$t('no-users-signed-up-want-to-be-the-first')}}
-                    </div>
+                    </p>
                     <div class="progress" v-if="hasSignedUpUsers(eventDate)">
                         <div
                             class="progress-bar progress-bar-striped progress-bar-animated"
@@ -255,6 +252,11 @@
                                     {{$t('sign-up')}}
                                 </b-button>
 
+                                <b-button v-b-modal="'add-guest-' + index" class="ml-3" variant="link">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    {{$t('add-guest')}}
+                                </b-button>
+
                                 <b-modal v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" v-bind:title="$t('sign-up')" v-on:k="signUp(index)">
                                     <b-row class="form-row">
                                         <b-col sm="5">{{$t('date')}}:</b-col>
@@ -299,6 +301,34 @@
                                         </b-btn>
                                     </div>
                                 </b-modal>
+
+                                <b-modal v-bind:ref="'modal' + index" v-bind:id="'add-guest-' + index" v-bind:title="$t('add-guest')">
+                                    <b-row class="form-row">
+                                        <b-col sm="5">
+                                            <label v-bind:for="'add-guest-name' + index" >
+                                                {{$t('name')}}:
+                                            </label>
+                                        </b-col>
+                                        <b-col sm="7">
+                                            <form action="#" v-on:submit.stop.prevent="handleSubmit">
+                                                <b-form-input
+                                                    name="'add-guest-name' + index"
+                                                    v-model.trim="eventDate.addGuestName"
+                                                    id="'add-guest-name' + index"
+                                                    size="sm"
+                                                    type="text"
+                                                >
+                                                </b-form-input>
+                                            </form>
+                                        </b-col>
+                                    </b-row>
+                                    <div slot="modal-footer" class="w-100">
+                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="signUp(index)">
+                                            {{$t('sign-up')}}
+                                        </b-btn>
+                                    </div>
+                                </b-modal>
+
                             </div>
                         </div>
                     </div>
