@@ -304,10 +304,13 @@
                                     <div v-if="eventDate.cancelledUsers.length === 0">
                                         {{$t('no-cancelled-users')}}
                                     </div>
-                                    <b-button class="mr-2" v-for="(user, cancelledIndex) in eventDate.cancelledUsers" variant="outline-primary" v-bind:key="user.username" v-on:click="removeCancelledUser(index, cancelledIndex)">
-                                        {{user.username}}
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </b-button>
+                                    <div v-for="(user, cancelledIndex) in eventDate.cancelledUsers">
+                                        <b-button class="mr-2" variant="outline-primary" v-bind:key="user.username" v-on:click="removeCancelledUser(index, cancelledIndex)">
+                                            {{user.username}}
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </b-button>
+                                        <span>{{$t('signout-reason')}}: {{user.signoutReason}}</span>
+                                    </div>
                                 </b-col>
                             </b-row>
                             <b-row class="form-row">

@@ -98,7 +98,9 @@ const translations = {
         'log-out': 'Log out',
         'welcome-text': 'You can now sign up for events!',
         'not-found': '404 Page not found',
-        'your-signups': 'Your signups'
+        'your-signups': 'Your signups',
+        'signout-reason': 'Reason',
+        'signout-reason-placeholder': 'Enter the reason you cannot attend.'
     },
     nl: {
         'info': 'Info',
@@ -199,7 +201,9 @@ const translations = {
         'log-out': 'Uitloggen',
         'welcome-text': 'Je kunt je nu inschrijven voor evenementen!',
         'not-found': '404 Pagina niet gevonden',
-        'your-signups': 'Je inschrijvingen'
+        'your-signups': 'Je inschrijvingen',
+        'signout-reason': 'Reden',
+        'signout-reason-placeholder': 'Geef de reden op waarom je niet kan deelnemen.'
     },
     de: {
         'info': 'Info',

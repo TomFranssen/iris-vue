@@ -200,12 +200,29 @@
                         </template>
                         <template slot="table-row-after" scope="props">
                             <td width="50px">
-                                <b-btn v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + props.row.originalIndex">{{$t('sign-out')}}</b-btn>
-                                <b-modal v-bind:ref="'sign-out-modal' + props.row.originalIndex" v-bind:id="'sign-out-modal-' + props.row.originalIndex"  v-bind:title="$t('sign-out')">
+                                <b-btn v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + index + '-' + props.row.originalIndex">{{$t('sign-out')}}</b-btn>
+                                <b-modal v-bind:ref="'sign-out-modal' + index + '-' + props.row.originalIndex" v-bind:id="'sign-out-modal-' + index + '-' + props.row.originalIndex"  v-bind:title="$t('sign-out')">
                                     <p>{{$t('sign-out-agreement')}}</p>
-                                    
+                                    <b-row class="form-row">
+                                        <b-col sm="3"><label for="name">{{$t('signout-reason')}}:</label></b-col>
+                                        <b-col sm="9">
+                                            <b-form-textarea
+                                                name="signout-reason"
+                                                v-model.trim="props.row.signoutReason"
+                                                id="name"
+                                                size="sm"
+                                                :rows="4"
+                                                :max-rows="4"
+                                                maxlength="150"
+                                                :placeholder="$t('signout-reason-placeholder')"
+                                            >
+                                            </b-form-textarea>
+                                            <p class="text-danger" v-if="errors.has('signout-reason')">{{ errors.first('signout-reason') }}</p>
+                                        </b-col>
+                                    </b-row>
+
                                     <div slot="modal-footer" class="w-100">
-                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="signOut(props, index)">
+                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="signOut(props, index, props.row.originalIndex)">
                                             {{$t('sign-out')}}
                                         </b-btn>
                                     </div>
@@ -428,12 +445,13 @@
                 const id = this.$route.params.id
                 getPrivateEvents().then((events) => {
                     var vueComponent = this
-
-                    events.filter(function (event) {
-                        if (event._id === id) {
-                            vueComponent.event = event
-                        }
-                    })
+                    if (events) {
+                        events.filter(function (event) {
+                            if (event._id === id) {
+                                vueComponent.event = event
+                            }
+                        })
+                    }
                 })
             },
             showModal () {
@@ -442,8 +460,10 @@
             hideModal (index) {
                 this.$refs[`modal${index}`][0].hide()
             },
-            hideSignOutModal (index) {
-                this.$refs[`sign-out-modal${index}`][0].hide()
+            hideSignOutModal (index, modalIndex) {
+                if (this.$refs[`sign-out-modal${index}-${modalIndex}`][0]) {
+                    this.$refs[`sign-out-modal${index}-${modalIndex}`][0].hide()
+                }
             },
             signUp (index) {
                 const that = this
@@ -475,21 +495,24 @@
                                 console.log(error)
                             })
                         return
+                    } else {
+                        alert('Please correctly fill in all the fields')
                     }
                 })
             },
-            signOut: function (props, eventDataIndex) {
+            signOut: function (props, eventDataIndex, modalIndex) {
                 const that = this
                 const signOutData = {
                     eventId: this.$data.event._id,
                     eventDateIndex: eventDataIndex,
                     userId: props.row.userId,
-                    indexToMoveToCancelled: props.index
+                    indexToMoveToCancelled: props.index,
+                    signoutReason: props.row.signoutReason
                 }
                 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
                 Axios.post(`${process.env.API_URL}/api/private/event/signout`, signOutData)
                     .then(function () {
-                        that.hideSignOutModal(eventDataIndex)
+                        that.hideSignOutModal(eventDataIndex, modalIndex)
                         that.getPrivateEvents()
                     })
             }
