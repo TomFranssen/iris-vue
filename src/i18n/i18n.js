@@ -100,7 +100,8 @@ const translations = {
         'not-found': '404 Page not found',
         'your-signups': 'Your signups',
         'signout-reason': 'Reason',
-        'signout-reason-placeholder': 'Enter the reason you cannot attend.'
+        'signout-reason-placeholder': 'Enter the reason you cannot attend.',
+        'groups': 'Groups'
     },
     nl: {
         'info': 'Info',
@@ -203,7 +204,8 @@ const translations = {
         'not-found': '404 Pagina niet gevonden',
         'your-signups': 'Je inschrijvingen',
         'signout-reason': 'Reden',
-        'signout-reason-placeholder': 'Geef de reden op waarom je niet kan deelnemen.'
+        'signout-reason-placeholder': 'Geef de reden op waarom je niet kan deelnemen.',
+        'groups': 'Groepen'
     },
     de: {
         'info': 'Info',

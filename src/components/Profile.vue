@@ -8,23 +8,36 @@
                     <div>
                         <img v-bind:src="enhancedPicture" alt="" class="img-fluid">
                     </div>
-                    <pre>
-                        {{profile['https://iris.501st.nl/user_metadata'].costumes}}
-                    </pre>
-                    <div>
-                        {{profile.name}}
-                    </div>
+                    <h2 class="mt-3">
+                        {{$store.getters.username}}
+                    </h2>
                     <div>
                         {{profile.email}}
                     </div>
                     <div>
-                        501st Legion id:
+                        {{$t('501st-legion-id')}}:
                         <a v-bind:href="profile['https://iris.501st.nl/legion_link']">
-                            {{profile['https://iris.501st.nl/legion_id']}}
+                            {{profile['https://iris.501st.nl/user_metadata'].legion_id}}
                         </a>
                     </div>
                     <div>
-                        <h2>{{ $t("change-language") }}</h2>
+                        <h2 class="mt-3">
+                            {{$t('costumes')}}:
+                        </h2>
+                        <div v-for="costume in profile['https://iris.501st.nl/user_metadata'].costumes">
+                            {{costume.name}}
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="mt-3">
+                            {{$t('groups')}}:
+                        </h2>
+                        <div v-for="group in profile['https://iris.501st.nl/app_metadata'].authorization.groups">
+                            {{group}}
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="mt-3">{{ $t("change-language") }}</h2>
                         <b-form-radio-group id="change-language" v-model="locale" :options="languageOptions" name="language">
                         </b-form-radio-group>
                     </div>
