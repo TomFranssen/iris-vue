@@ -1,0 +1,112 @@
+<div id="entry-template" style="display: none;">
+    <div class="jumbotron">
+        <h1 class="display-3">{{name}}</h1>
+        <p class="lead">{{description}}</p>
+        <p><a class="btn btn-primary" href="http://iris.501st.nl" role="button">IRIS »</a></p>
+    </div>
+    <div id="row" style="padding-bottom:10px;">
+        <div class="col-sm-8" style="padding-left:0px !important;">
+            <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
+                <div class="col-sm-4">
+                    <h3>Date and Time</h3>
+                    <strong>Start date:</strong> -<br>
+                    <strong>Begin time:</strong> {{startTime.0.HH}}:{{startTime.0.mm}}<br>
+                    <strong>End date:</strong> 8 Maart 2018<br>
+                    <strong>End Time:</strong> {{endTime.0.HH}}:{{endTime.0.mm}}<br>
+                    <strong>Registration deadline:</strong> {{maxSignupDate}}<br>
+                    <strong>Collection time:</strong> {{gatherTime.0.HH}}:{{gatherTime.0.mm}}<br>
+                </div>
+
+                <div class="col-sm-4">
+                    <h3>Location</h3>
+                    <strong>Address:</strong> {{street}} {{houseNumber}}<br>
+                    <strong>City:</strong> {{city}}<br>
+                    <strong>Website:</strong> {{websiteUrl}}<br>
+                    <strong>Event coordinator:</strong> {{eventCoordinator}}<br>
+                </div>
+
+                <div class="col-sm-4">
+                    <h3>Details</h3>
+                    <strong>Public:</strong> {{publiclyAccessible}}<br>
+                    <strong>Guests:</strong> {{canRegisterGuests}}<br>
+                    <strong>Dressingroom:</strong> {{dressingroomAvailable}}<br>
+                    <strong>Travel Restitution:</strong> {{travelRestitution}}<br>
+                    <strong>Parking:</strong> {{parking}}<br>
+                    <strong>Parking Restitution:</strong> {{parkingRestitution}}<br>
+                    <strong>Lunch:</strong> {{lunch}}<br>
+                    <strong>Drinks:</strong> {{drinks}} <br>    
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        
+        <div class="col-sm-4">
+            <img data-src="holder.js/100px280/thumb" alt="100%x280" style="height: 280px; width: 100%; display: block;" src="{{{link street}}}" data-holder-rendered="true">
+            {{{googlemapsimage street}}}
+            <p class="card-text">Google maps location</p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div id="row" style="padding-bottom:10px;">
+        <div class="col-sm-4" style="padding-left:0px !important;">
+            <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
+                <h3>Donderdag 8 maart</h3>
+                <ul>
+                    <li>Harrie Batsbak - Stormtrooper: ESB</li>
+                    <li>Daan de Ruijter - Stormtrooper: ESB</li>
+                    <li>Tom Franssen - Stormtrooper: First Order</li>
+                    <li>Leon de Graaff - Emperor Palpatine: ROTS ESB ROTJ (Black Sith Robe)</li>
+                </ul>
+                <p><a class="btn btn-primary" href="#" role="button">Meld je aan »</a></p>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        
+        <div class="col-sm-4" style="padding-left:0px !important;">
+            <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
+                <h3>Vrijdag 9 maart</h3>
+                <ul>
+                    <li>Harrie Batsbak - Stormtrooper: ESB</li>
+                    <li>Tom Franssen - Stormtrooper: First Order</li>
+                    <li>Leon de Graaff - Emperor Palpatine: ROTS ESB ROTJ (Black Sith Robe)</li>
+                </ul>
+                <p><a class="btn btn-primary" href="#" role="button">Meld je aan »</a></p>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        
+        <div class="col-sm-4" style="padding-left:0px !important;">
+            <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
+                <h3>Zaterdag 10 maart</h3>
+                <ul>
+                    <li>Niels Revers - Stormtrooper: ESB</li>
+                    <li>Daan de Ruijter - Stormtrooper: ESB</li>
+                    <li>Tom Franssen - Stormtrooper: First Order</li>
+                    <li>Leon de Graaff - Emperor Palpatine: ROTS ESB ROTJ (Black Sith Robe)</li>
+                </ul>
+                <p><a class="btn btn-primary" href="#" role="button">Meld je aan »</a></p>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div id="row" style="padding-bottom:10px;">
+        <div class="col-sm-4" style="padding-left:0px !important;">
+            <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
+                <h3>Zondag 11 maart</h3>
+                <ul>
+                    <li>Harrie Batsbak - Stormtrooper: ESB</li>
+                    <li>Tom Franssen - Stormtrooper: First Order</li>
+                    <li>Leon de Graaff - Emperor Palpatine: ROTS ESB ROTJ (Black Sith Robe)</li>
+                </ul>
+                <p><a class="btn btn-primary" href="#" role="button">Meld je aan »</a></p>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
+        <h2 class="display-3">Extra information</h2>
+        <p class="lead">Troopers only information. All extra information troopers need that's not already visible in IRIS. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. 
+    </div>
+</div>
