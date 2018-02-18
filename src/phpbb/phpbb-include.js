@@ -9,7 +9,7 @@
             <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
                 <div class="col-sm-4">
                     <h3>Date and Time</h3>
-                    <strong>Start date:</strong> {{eventDates.0.date}}<br>
+                    <strong>Start date:</strong>{{formatDate eventDates.0.date}} {{eventDates.0.date}}<br>
                     <strong>Begin time:</strong> {{startTime.0.HH}}:{{startTime.0.mm}}<br>
                     {{#each eventDates}}
                         {{#if @last}} <strong>End date:</strong>{{date}}<br>{{/if}}
@@ -67,12 +67,18 @@
 </div>
 
 <script>
-head.load("//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js");
+head.load("//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js", "https://cdn.jsdelivr.net/npm/handlebars-intl@1.1.2/dist/handlebars-intl.min.js", "https://cdn.jsdelivr.net/npm/handlebars-intl@1.1.2/dist/locale-data/nl.js");
 head.ready(function () {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://dutchgarrison.herokuapp.com/api/public/event?id={IDENTIFIER}');
     xhr.onload = function() {
         if (xhr.status === 200) {    
+            var intlData = {
+                locales: 'nl-NL'
+            }
+
+            HandlebarsIntl.registerWith(Handlebars);
+
             Handlebars.registerHelper('googlemapsimage', function(street, houseNumber, postcode, city) {
               return new Handlebars.SafeString(
                 '<img src="https://maps.googleapis.com/maps/api/staticmap?center=' + street + '+' + houseNumber + '+' + postcode + '+' + city +'&zoom=13&size=600x550&maptype=roadmap&markers=' + street + '+' + houseNumber + '+' + postcode + '+' + city + '&key=AIzaSyAYazeF-nhbaP3tkZTqsoipY7JOfXb7qAM" class="img-responsive" />'
@@ -86,10 +92,12 @@ head.ready(function () {
             });
 
             el = document.getElementById("event-{IDENTIFIER}");
-            var source   = document.getElementById("entry-template").innerHTML;
+            var source = document.getElementById("entry-template").innerHTML;
             var template = Handlebars.compile(source);
-            var html    = template(JSON.parse(xhr.responseText));
-            console.log(xhr.responseText);
+            var html = template(JSON.parse(xhr.responseText), {
+                data: {intl: intlData}
+            });
+
             el.innerHTML = html;
         }
         else {
