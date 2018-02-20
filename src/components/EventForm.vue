@@ -102,17 +102,17 @@
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
-                        <b-col sm="3"><label for="postcode">{{$t('postcode')}}:</label></b-col>
-                        <b-col sm="9">
-                            <b-form-input v-validate="'required'" name="postcode" v-model.trim="event.postcode" id="postcode" size="sm" type="text"></b-form-input>
-                            <p class="text-danger" v-if="errors.has('postcode')">{{ errors.first('postcode') }}</p>
-                        </b-col>
-                    </b-row>
-                    <b-row class="form-row">
                         <b-col sm="3"><label for="housenumber">{{$t('housenumber')}}:</label></b-col>
                         <b-col sm="9">
                             <b-form-input v-validate="'required'" name="housenumber" v-model.trim="event.houseNumber" id="housenumber" size="sm" type="text"></b-form-input>
                             <p class="text-danger" v-if="errors.has('housenumber')">{{ errors.first('housenumber') }}</p>
+                        </b-col>
+                    </b-row>
+                    <b-row class="form-row">
+                        <b-col sm="3"><label for="postcode">{{$t('postcode')}}:</label></b-col>
+                        <b-col sm="9">
+                            <b-form-input v-validate="'required'" name="postcode" v-model.trim="event.postcode" id="postcode" size="sm" type="text"></b-form-input>
+                            <p class="text-danger" v-if="errors.has('postcode')">{{ errors.first('postcode') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
