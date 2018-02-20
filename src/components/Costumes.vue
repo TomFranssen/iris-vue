@@ -37,6 +37,7 @@
 
 <script>
     import Axios from 'axios'
+    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
     import { getPrivateCostumes } from '../utils/costume-api'
 
     export default {

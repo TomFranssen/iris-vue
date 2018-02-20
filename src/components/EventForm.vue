@@ -371,6 +371,8 @@
     import Datepicker from 'vuejs-datepicker'
     import VueTimepicker from 'vue2-timepicker'
     const MAX_DAYS = 20
+    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+
     export default {
         name: 'EventForm',
         props: ['event', 'edit'],

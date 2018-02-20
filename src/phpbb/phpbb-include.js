@@ -9,13 +9,13 @@
             <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
                 <div class="col-sm-4">
                     <h3>Date and Time</h3>
-                    <strong>Start date:</strong>{{formatDate eventDates.0.date}} {{eventDates.0.date}}<br>
+                    <strong>Start date:</strong> {{formatDate eventDates.0.date}}<br>
                     <strong>Begin time:</strong> {{startTime.0.HH}}:{{startTime.0.mm}}<br>
                     {{#each eventDates}}
-                        {{#if @last}} <strong>End date:</strong>{{date}}<br>{{/if}}
+                        {{#if @last}} <strong>End date:</strong> {{formatDate date}}<br>{{/if}}
                     {{/each}}
                     <strong>End Time:</strong> {{endTime.0.HH}}:{{endTime.0.mm}}<br>
-                    <strong>Registration deadline:</strong> {{maxSignupDate}}<br>
+                    <strong>Registration deadline:</strong> {{formatDate maxSignupDate}}<br>
                     <strong>Collection time:</strong> {{gatherTime.0.HH}}:{{gatherTime.0.mm}}<br>
                 </div>
                 <div class="col-sm-4">
@@ -48,7 +48,7 @@
         {{#each eventDates}}
             <div class="col-sm-4" style="padding-left:0px !important;">
                 <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
-                    <h3>{{date}}</h3>
+                    <h3>{{formatDate date}}</h3>
                     <ul class="list-unstyled">
                         {{#each signedUpUsers}}
                             <li>
