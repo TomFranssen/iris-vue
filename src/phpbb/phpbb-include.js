@@ -1,3 +1,9 @@
+<style>
+  .less-padding {
+    padding: 30px 20px;
+  }
+</style>
+
 <div id="entry-template" style="display: none;">
     <div class="jumbotron">
         <h1 class="display-3">{{name}}</h1>
@@ -5,7 +11,7 @@
         <p><a class="btn btn-primary" href="http://iris.501st.nl/" role="button">IRIS »</a></p>
     </div>
     <div id="row" style="padding-bottom:10px;">
-        <div class="col-sm-8" style="padding-left:0px !important;">
+        <div class="col-sm-9" style="padding-left:0px !important;">
             <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
                 <div class="col-sm-4">
                     <h3>Date and Time</h3>
@@ -39,22 +45,28 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             {{{googlemapsimage street houseNumber postcode city}}}
         </div>
         <div class="clearfix"></div>
     </div>
     <div id="row" style="padding-bottom:10px;">
         {{#each eventDates}}
-            <div class="col-sm-4" style="padding-left:0px !important;">
+            <div class="col-sm-6" style="padding-left:0px !important;">
                 <div class="jumbotron" style="padding-right:30px; padding-left:30px;">
                     <h3>{{formatDate date}}</h3>
                     <ul class="list-unstyled">
                         {{#each signedUpUsers}}
                             <li>
-                                {{{avatarimage avatar}}}
-                                {{username}}<br>
-                                {{costume}}
+                              <div class="row">
+                                <div class="col-xs-1" style="padding-right: 0; padding-left: 9px;">
+                                  {{{avatarimage avatar}}}
+                                </div>
+                                <div class="col-xs-11" style="padding-left: 5px;">
+                                  {{username}}<br>
+                                  {{costume}}
+                                </div>
+                              </div>
                             </li>
                         {{/each}}
                     </ul>
