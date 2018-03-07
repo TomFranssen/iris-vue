@@ -245,19 +245,16 @@
                         <b-alert show variant="warning" v-if="!signupPossible(eventDate)">
                             {{$t('sign-up-not-possible')}}
                         </b-alert>
-                        <div class="row" v-if="signupPossible(eventDate)">
+                        <div class="row">
                             <div class="col mt-3">
-                                <b-button v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
+                                <b-button v-if="signupPossible(eventDate)" v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                     {{$t('sign-up')}}
                                 </b-button>
 
-                                <b-button v-b-modal="'add-guest-' + index" class="ml-3" variant="link">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                    {{$t('add-guest')}}
-                                </b-button>
 
-                                <b-modal v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" v-bind:title="$t('sign-up')" v-on:k="signUp(index)">
+
+                                <b-modal v-if="signupPossible(eventDate)" v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" v-bind:title="$t('sign-up')" v-on:k="signUp(index)">
                                     <b-row class="form-row">
                                         <b-col sm="5">{{$t('date')}}:</b-col>
                                         <b-col sm="7">
@@ -273,13 +270,13 @@
                                             </label>
                                         </b-col>
                                         <b-col sm="7">
-                                            <form action="#" v-on:submit.stop.prevent="handleSubmit">
+                                            <form action="#" v-if="profileCostumes">
                                                 <b-form-select
                                                     v-bind:id="'selected-costume-' + index"
                                                     v-bind:name="'selected-costume-' + index"
                                                     v-validate="'required'"
                                                     v-model="selectedCostume"
-                                                    :options="profileCostumes"
+                                                    v-bind:options="profileCostumes"
                                                     class="mb-3"
                                                 >
                                                     <template slot="first">
@@ -302,36 +299,42 @@
                                     </div>
                                 </b-modal>
 
-                                <b-modal v-bind:ref="'modal' + index" v-bind:id="'add-guest-' + index" v-bind:title="$t('add-guest')">
-                                    <b-row class="form-row">
-                                        <b-col sm="5">
-                                            <label v-bind:for="'add-guest-name' + index" >
-                                                {{$t('name')}}:
-                                            </label>
-                                        </b-col>
-                                        <b-col sm="7">
-                                            <form action="#" v-on:submit.stop.prevent="handleSubmit">
-                                                <b-form-input
-                                                    name="'add-guest-name' + index"
-                                                    v-model.trim="eventDate.addGuestName"
-                                                    id="'add-guest-name' + index"
-                                                    size="sm"
-                                                    type="text"
-                                                >
-                                                </b-form-input>
-                                            </form>
-                                        </b-col>
-                                    </b-row>
-                                    <div slot="modal-footer" class="w-100">
-                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="signUp(index)">
-                                            {{$t('sign-up')}}
-                                        </b-btn>
-                                    </div>
-                                </b-modal>
-
                             </div>
                         </div>
                     </div>
+
+                    <b-button v-b-modal="'add-guest-' + index" size="sm mt-2" variant="primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        {{$t('add-guest')}}
+                    </b-button>
+
+                    <b-modal v-bind:ref="'modal-guest-' + index" v-bind:id="'add-guest-' + index" v-bind:title="$t('add-guest')">
+                        <b-row class="form-row">
+                            <b-col sm="5">
+                                <label v-bind:for="'add-guest-name' + index" >
+                                    {{$t('name')}}:
+                                </label>
+                            </b-col>
+                            <b-col sm="7">
+                                <form action="#">
+                                    <b-form-input
+                                        name="'add-guest-name' + index"
+                                        v-model.trim="eventDate.addGuestName"
+                                        id="'add-guest-name' + index"
+                                        size="sm"
+                                        type="text"
+                                    >
+                                    </b-form-input>
+                                </form>
+                            </b-col>
+                        </b-row>
+                        <div slot="modal-footer" class="w-100">
+                            <b-btn size="sm" class="float-right" variant="primary" v-on:click="signUpGuest(index, eventDate.addGuestName)">
+                                {{$t('add-guest')}}
+                            </b-btn>
+                        </div>
+                    </b-modal>
+
                     <hr>
                 </b-col>
             </b-row>
@@ -345,6 +348,7 @@
     import { isLoggedIn } from '../utils/auth'
     import { getPrivateEvents } from '../utils/events-api'
     import EventForm from './EventForm.vue'
+    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
     moment.locale('nl')
 
@@ -487,8 +491,11 @@
             showModal () {
                 this.$refs.myModalRef.show()
             },
-            hideModal (index) {
+            hideSignUpModal (index) {
                 this.$refs[`modal${index}`][0].hide()
+            },
+            hideSignUpModalGuest (index) {
+                this.$refs[`modal-guest-${index}`][0].hide()
             },
             hideSignOutModal (index, modalIndex) {
                 if (this.$refs[`sign-out-modal${index}-${modalIndex}`][0]) {
@@ -508,11 +515,10 @@
 
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
                         Axios.put(`${process.env.API_URL}/api/private/event/signup`, signUpData)
                             .then(function (response) {
                                 if (response.data.success) {
-                                    that.hideModal(index)
+                                    that.hideSignUpModal(index)
                                     that.showSuccessSignup({
                                         message: that.$t('sign-up-success')
                                     })
@@ -529,6 +535,28 @@
                         alert('Please correctly fill in all the fields')
                     }
                 })
+            },
+            signUpGuest: function (index, guestName) {
+                const that = this
+                const signUpData = {
+                    eventId: this.$data.event._id,
+                    eventDatesIndex: index,
+                    guestName
+                }
+
+                if (signUpData && signUpData.guestName) {
+                    Axios.put(`${process.env.API_URL}/api/private/event/signupguest`, signUpData)
+                        .then(function (response) {
+                            that.hideSignUpModalGuest(index)
+                            that.showSuccessSignup({
+                                message: that.$t('sign-up-success')
+                            })
+                            that.getPrivateEvents()
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                }
             },
             signOut: function (props, eventDataIndex, modalIndex) {
                 const that = this
@@ -596,6 +624,7 @@
                     publiclyAccessible: true,
                     dressingroomAvailable: true,
                     travelRestitution: true,
+                    parkingRestitution: true,
                     parking: true,
                     lunch: true,
                     drinks: true,

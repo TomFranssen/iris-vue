@@ -27,7 +27,8 @@ export default new Router({
         {
             path: '/profile',
             name: 'Profile',
-            component: Profile
+            component: Profile,
+            beforeEnter: requireAuth
         },
         {
             path: '/add-event',
@@ -45,12 +46,14 @@ export default new Router({
         {
             path: '/event/:id',
             name: 'Event details',
-            component: EventDetails
+            component: EventDetails,
+            beforeEnter: requireAuth
         },
         {
             path: '/event/:id/edit',
             name: 'Event edit',
-            component: EventEdit
+            component: EventEdit,
+            beforeEnter: requireAuth
         },
         {
             path: '/users',
@@ -67,7 +70,8 @@ export default new Router({
         {
             path: '/user/:user_id',
             name: 'User details',
-            component: UserDetails
+            component: UserDetails,
+            beforeEnter: requireAuth
         },
         {
             path: '/costumes',
