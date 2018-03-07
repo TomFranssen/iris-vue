@@ -71,9 +71,7 @@
                 <div>
                     <h2>{{$t('details')}}</h2>
                     <div>
-                        <p>
-                            {{event.description}}
-                        </p>
+                        <p>{{event.description}}</p>
                     </div>
                     <ul class="fa-ul">
                         <li>
@@ -236,11 +234,6 @@
                         </span>
                     </div>
 
-                    <div class="mt-2" v-if="eventDate.guests && eventDate.guests.length > 0">
-                        {{$t('guests')}}:
-                        <span class="add-comma-after" v-for="(guest, index) in eventDate.guests">{{guest}}</span>
-                    </div>
-
                     <div v-if="!isSignedUp(eventDate)">
                         <b-alert show variant="warning" v-if="!signupPossible(eventDate)">
                             {{$t('sign-up-not-possible')}}
@@ -303,7 +296,12 @@
                         </div>
                     </div>
 
-                    <b-button v-b-modal="'add-guest-' + index" size="sm mt-2" variant="primary">
+                    <div class="mt-2" v-if="eventDate.guests && eventDate.guests.length > 0">
+                        {{$t('guests')}}:
+                        <span class="add-comma-after" v-for="(guest, index) in eventDate.guests">{{guest}}</span>
+                    </div>
+
+                    <b-button v-b-modal="'add-guest-' + index" size="sm mt-2">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         {{$t('add-guest')}}
                     </b-button>
