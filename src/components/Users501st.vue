@@ -16,7 +16,7 @@
             :globalSearch="true"
             styleClass="table condensed table-bordered table-striped"
         >
-            <template slot="table-row" scope="props">
+            <template slot="table-row" slot-scope="props">
                 <td>{{props.row.fullName}}</td>
                 <td>{{getLegionId(props.row)}}</td>
                 <td>{{props.row.officeAcronym}}</td>
@@ -37,7 +37,7 @@
             :globalSearch="true"
             styleClass="table condensed table-bordered table-striped"
         >
-            <template slot="table-row" scope="props">
+            <template slot="table-row" slot-scope="props">
                 <td width="50">
                     <img v-bind:src="props.row.thumbnail" width="50" />
                 </td>

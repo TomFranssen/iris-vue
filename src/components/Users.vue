@@ -9,7 +9,7 @@
                 :onClick="showUserDetails"
                 styleClass="table condensed table-bordered table-striped"
             >
-                <template slot="table-row" scope="props">
+                <template slot="table-row" slot-scope="props">
                     <td width="50">
                         <div v-if="props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
                             <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />

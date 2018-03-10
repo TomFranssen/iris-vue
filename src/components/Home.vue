@@ -39,7 +39,7 @@
                     :onClick="showEventDetails"
                     styleClass="table condensed table-bordered table-striped"
                 >
-                    <template slot="table-row" scope="props">
+                    <template slot="table-row" slot-scope="props">
                         <td class="text-left">{{ props.row.name }}</td>
                         <td class="text-right">{{ props.row.city }}</td>
                         <td class="text-right">{{ getDaysCount(props.row) }}</td>
@@ -54,7 +54,7 @@
 </template>
 <script>
     import moment from 'moment'
-    import { isLoggedIn, login } from '../utils/auth'
+    import { isLoggedIn, login, logout } from '../utils/auth'
     import { getPrivateSignedUpEvents } from '../utils/events-api'
 
     export default {
@@ -67,6 +67,9 @@
         methods: {
             handleLogin () {
                 login()
+            },
+            handleLogout () {
+                logout()
             },
             getSignups: function (rowObject) {
                 let totalAvailableSpots = 0

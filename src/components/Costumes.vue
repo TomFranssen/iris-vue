@@ -9,7 +9,7 @@
                 :globalSearch="true"
                 styleClass="table table-bordered condensed"
             >
-                <template slot="table-row" scope="props">
+                <template slot="table-row" slot-scope="props">
                     <td class="text-left">{{ props.row.name }}</td>
                 </template>
             </vue-good-table>
@@ -37,8 +37,8 @@
 
 <script>
     import Axios from 'axios'
-    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
     import { getPrivateCostumes } from '../utils/costume-api'
+    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
     export default {
         name: 'events',

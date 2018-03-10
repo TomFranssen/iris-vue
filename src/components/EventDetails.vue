@@ -188,12 +188,12 @@
                         sortable="true"
                         styleClass="table table-bordered condensed table-signed-up-users"
                     >
-                        <template slot="table-row-before" scope="props">
+                        <template slot="table-row-before" slot-scope="props">
                             <td class="text-center avatar">
                                 <img v-bind:src="props.row.avatar" v-if="props.row.avatar" alt="">
                             </td>
                         </template>
-                        <template slot="table-row-after" scope="props">
+                        <template slot="table-row-after" slot-scope="props">
                             <td width="50px">
                                 <b-btn v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + index + '-' + props.row.originalIndex">{{$t('sign-out')}}</b-btn>
                                 <b-modal v-bind:ref="'sign-out-modal' + index + '-' + props.row.originalIndex" v-bind:id="'sign-out-modal-' + index + '-' + props.row.originalIndex"  v-bind:title="$t('sign-out')">
@@ -528,7 +528,6 @@
                             .catch(function (error) {
                                 console.log(error)
                             })
-                        return
                     } else {
                         alert('Please correctly fill in all the fields')
                     }
