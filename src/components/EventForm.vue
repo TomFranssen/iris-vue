@@ -143,100 +143,102 @@
                             <p class="text-danger" v-if="errors.has('website-url')">{{ errors.first('website-url') }}</p>
                         </b-col>
                     </b-row>
+                </b-col>
+                <b-col>     
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox
+                            <b-checkbox
                                 id="publicly-accessible"
                                 v-model="event.publiclyAccessible"
                                 value="true"
                                 unchecked-value="false"
                             >
                                 {{$t('publicly-accessible')}}
-                            </b-form-checkbox>
+                            </b-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox
+                            <b-checkbox
                                 id="dressingroom-available"
                                 v-model="event.dressingroomAvailable"
                                 value="true"
                                 unchecked-value="false"
                             >
                                 {{$t('dressingroom-available')}}
-                            </b-form-checkbox>
+                            </b-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox
+                            <b-checkbox
                                 id="travel-restitution"
                                 v-model="event.travelRestitution"
                                 value="true"
                                 unchecked-value="false"
                             >
                                 {{$t('travel-restitution')}}
-                            </b-form-checkbox>
+                            </b-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox
+                            <b-checkbox
                                 id="parking"
                                 v-model="event.parking"
                                 value="true"
                                 unchecked-value="false"
                             >
                                 {{$t('parking-available')}}
-                            </b-form-checkbox>
+                            </b-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox
+                            <b-checkbox
                                 id="parking-restitution"
                                 v-model="event.parkingRestitution"
                                 value="true"
                                 unchecked-value="false"
                             >
                                 {{$t('parking-restitution')}}
-                            </b-form-checkbox>
+                            </b-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox
+                            <b-checkbox
                                 id="lunch"
                                 v-model="event.lunch"
                                 value="true"
                                 unchecked-value="false"
                             >
                                 {{$t('lunch-available')}}
-                            </b-form-checkbox>
+                            </b-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox
+                            <b-checkbox
                                 id="drinks"
                                 v-model="event.drinks"
                                 value="true"
                                 unchecked-value="false"
                             >
                                 {{$t('drinks-available')}}
-                            </b-form-checkbox>
+                            </b-checkbox>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col>
-                            <b-form-checkbox
+                            <b-checkbox
                                 id="can-register-guests"
                                 v-model="event.canRegisterGuests"
                                 value="true"
                                 unchecked-value="false"
                             >
                                 {{$t('guests-allowed')}}
-                            </b-form-checkbox>
+                            </b-checkbox>
                         </b-col>
                     </b-row>
                 </b-col>
@@ -276,14 +278,14 @@
                             </b-row>
                             <b-row class="form-row">
                                 <b-col>
-                                    <b-form-checkbox
+                                    <b-checkbox
                                         v-validate="'required'" id="open"
                                         v-model="eventDate.open"
                                         value="true"
                                         unchecked-value="false"
                                     >
                                         {{$t('open-for-registration')}}
-                                    </b-form-checkbox>
+                                    </b-checkbox>
                                 </b-col>
                             </b-row>
                             <b-row class="form-row">
