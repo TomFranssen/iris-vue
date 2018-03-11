@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import EventAdd from '@/components/EventAdd'
 import EventEdit from '@/components/Eventedit'
 import Events from '@/components/Events'
+import EventsArchive from '@/components/EventsArchive'
 import EventDetails from '@/components/EventDetails'
 import Home from '@/components/Home'
 import Profile from '@/components/Profile'
@@ -41,6 +42,12 @@ export default new Router({
             path: '/events',
             name: 'Events',
             component: Events,
+            beforeEnter: requireAuth
+        },
+        {
+            path: '/events-archive',
+            name: 'Events Archive',
+            component: EventsArchive,
             beforeEnter: requireAuth
         },
         {

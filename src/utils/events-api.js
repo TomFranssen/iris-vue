@@ -1,10 +1,19 @@
 import axios from 'axios'
 import { getAccessToken } from './auth'
 
-export {getPrivateEvents, getPrivateEvent, getPrivateSignedUpEvents}
+export {getPrivateEvents, getPrivateEvent, getPrivateSignedUpEvents, getPrivateArchivedEvents}
 
 function getPrivateEvents () {
     const url = `${process.env.API_URL}/api/private/events`
+    return axios.get(url, {
+        headers: {
+            Authorization: `Bearer ${getAccessToken()}`
+        }
+    }).then(response => response.data)
+}
+
+function getPrivateArchivedEvents () {
+    const url = `${process.env.API_URL}/api/private/archivedevents`
     return axios.get(url, {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`

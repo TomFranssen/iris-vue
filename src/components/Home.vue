@@ -41,10 +41,14 @@
                 >
                     <template slot="table-row" slot-scope="props">
                         <td class="text-left">{{ props.row.name }}</td>
-                        <td class="text-right">{{ props.row.city }}</td>
-                        <td class="text-right">{{ getDaysCount(props.row) }}</td>
-                        <td class="text-right">{{ getSignups(props.row) }}</td>
-                        <td class="text-right">{{ props.row.eventDates[0].date | moment}}</td>
+                        <td class="text-right text-nowrap">{{ props.row.city }}</td>
+                        <td class="text-right text-nowrap">{{ getDaysCount(props.row) }}</td>
+                        <td class="text-right text-nowrap">{{ getSignups(props.row) }}</td>                    
+                        <td class="text-right text-nowrap">
+                            <div v-for="(eventDate, index) in props.row.eventDates">
+                                {{ eventDate.date | moment("dddd D-M-YYYY")}}
+                            </div>
+                        </td>
                     </template>
                 </vue-good-table>
             </div>
@@ -59,11 +63,6 @@
 
     export default {
         name: 'Home',
-        filters: {
-            moment: function (date) {
-                return moment(date).format('D-MM-YYYY')
-            }
-        },
         methods: {
             handleLogin () {
                 login()
@@ -155,6 +154,7 @@
             if (this.isLoggedIn()) {
                 this.getPrivateSignedUpEvents()
             }
+            localStorage.setItem('redirectUrl', this.$route.query.redirect)
         }
     }
 </script>

@@ -18,3 +18,14 @@ $h6-font-size: 1rem;
 
 $navbar-light-active-color: #fff;
 $navbar-light-color: rgba(255, 255, 255, 0.81);
+
+$jumbotron-padding: 1rem;
+$jumbotron-bg: #fff;
+
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1540px
+);

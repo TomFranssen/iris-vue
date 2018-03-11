@@ -31,7 +31,7 @@ export default {
                 eventDates: [{
                     date: '',
                     availableSpots: '',
-                    open: '',
+                    open: false,
                     signedUpUsers: [],
                     cancelledUsers: [],
                     guests: []
@@ -48,23 +48,24 @@ export default {
                     HH: '00',
                     mm: '00'
                 }],
-                maxSignupDate: undefined,
+                maxSignupDate: false,
                 eventCoordinator: '',
-                street: undefined,
-                postcode: undefined,
-                houseNumber: undefined,
-                city: undefined,
-                forumUrl: undefined,
-                facebookEvent: undefined,
-                websiteUrl: undefined,
-                publiclyAccessible: undefined,
-                dressingroomAvailable: undefined,
-                travelRestitution: undefined,
-                parking: undefined,
-                parkingRestitution: undefined,
-                lunch: undefined,
-                drinks: undefined,
-                canRegisterGuests: undefined
+                street: '',
+                postcode: '',
+                houseNumber: '',
+                city: '',
+                forumUrl: '',
+                facebookEvent: '',
+                websiteUrl: '',
+                publiclyAccessible: false,
+                dressingroomAvailable: false,
+                travelRestitution: false,
+                parking: false,
+                parkingRestitution: false,
+                lunch: false,
+                drinks: false,
+                canRegisterGuests: false,
+                isArchived: false
             }
         }
     }

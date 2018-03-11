@@ -102,7 +102,11 @@ const translations = {
         'signout-reason': 'Reason',
         'signout-reason-placeholder': 'Enter the reason you cannot attend.',
         'groups': 'Groups',
-        'no-reason-speficied': 'No reason specified'
+        'no-reason-speficied': 'No reason specified',
+        'end-info': 'End information',
+        'is-archived': 'Is archived',
+        'events-archive': 'Event Archive',
+        'archive': 'Archive'
     },
     nl: {
         'info': 'Info',
@@ -207,7 +211,11 @@ const translations = {
         'signout-reason': 'Reden',
         'signout-reason-placeholder': 'Geef de reden op waarom je niet kan deelnemen.',
         'groups': 'Groepen',
-        'no-reason-speficied': 'Geen reden gegeven'
+        'no-reason-speficied': 'Geen reden gegeven',
+        'end-info': 'Eindinformatie',
+        'is-archived': 'Is gearchiveerd',
+        'events-archive': 'Evenementen archief',
+        'archive': 'Archief'
     },
     de: {
         'info': 'Info',

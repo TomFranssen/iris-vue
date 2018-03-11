@@ -22,10 +22,12 @@
                 </div>
             </h1>
         </div>
+        <div>
+            <p>{{event.description}}</p>
+        </div>
         <b-row class="mb-3">
             <b-col md="5">
                 <h2>{{$t('basic-info')}}</h2>
-
                 <i class="fa fa-calendar" aria-hidden="true"></i>
                 <span v-if="getFirstDate()">
                     {{ getFirstDate() | moment('DD MMMM YYYY') }}
@@ -67,12 +69,10 @@
                     </div>
                 </address>
             </b-col>
+
             <b-col md="3">
                 <div>
                     <h2>{{$t('details')}}</h2>
-                    <div>
-                        <p>{{event.description}}</p>
-                    </div>
                     <ul class="fa-ul">
                         <li>
                             <i class="fa-li fa" v-bind:class="{ 'fa-check': event.publiclyAccessible, 'fa-times': !event.publiclyAccessible }"></i>
@@ -111,21 +111,21 @@
             </b-col>
             <b-col md="4">
                 <h2>{{$t('more-info')}}</h2>
-                <div>
+                <div v-if="event.websiteUrl">
                     {{$t('website')}}:
                     <a v-bind:href="event.websiteUrl" target="_blank" class="card-link">
                         {{event.websiteUrl}}
                     </a>
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
-                <div>
+                <div v-if="event.forumUrl">
                     {{$t('forum-url')}}:
                     <a v-bind:href="event.forumUrl" target="_blank" class="card-link">
                         {{event.forumUrl}}
                     </a>
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
-                <div>
+                <div v-if="event.facebookEvent">
                     {{$t('facebook')}}:
                     <a v-bind:href="event.facebookEvent" target="_blank" class="card-link">
                         {{event.facebookEvent}}
@@ -134,19 +134,9 @@
                 </div>
             </b-col>
         </b-row>
-
-        <div class="mb-3" v-for="(eventDate, index) in event.eventDates">
+        <div class="jumbotron mb-3" v-for="(eventDate, index) in event.eventDates">
             <b-row>
                 <b-col md="12">
-                    <h2>
-                        <div class="text-capitalize">
-                            {{eventDate.date | humanreadableDate}}
-                        </div>
-                        <small class="text-muted" v-if="signupPossible(eventDate)">
-                            {{getSpotsLeft(eventDate)}} {{$t('spots-left')}}
-                        </small>
-                    </h2>
-
                     <div v-if="isSignedUp(eventDate)">
                         <add-to-calendar
                             v-bind:title="event.name"
@@ -156,7 +146,7 @@
                             v-bind:details="event.description"
                             inline-template
                         >
-                            <div>
+                            <div class="float-right">
                                 <google-calendar id="google-calendar">
                                     <i class="fa fa-google"></i>
                                     {{$t('add-to-google-calendar')}}
@@ -169,6 +159,14 @@
                             </div>
                         </add-to-calendar>
                     </div>
+                    <h2>
+                        <div class="text-capitalize">
+                            {{eventDate.date | humanreadableDate}}
+                        </div>
+                        <small class="text-muted" v-if="signupPossible(eventDate)">
+                            {{getSpotsLeft(eventDate)}} {{$t('spots-left')}}
+                        </small>
+                    </h2>
 
                     <p v-if="!hasSignedUpUsers(eventDate) && signupPossible(eventDate)">
                         {{$t('no-users-signed-up-want-to-be-the-first')}}
@@ -238,16 +236,13 @@
                         <b-alert show variant="warning" v-if="!signupPossible(eventDate)">
                             {{$t('sign-up-not-possible')}}
                         </b-alert>
-                        <div class="row">
+                        <div class="row" v-if="signupPossible(eventDate)">
                             <div class="col mt-3">
-                                <b-button v-if="signupPossible(eventDate)" v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
+                                <b-button v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                     {{$t('sign-up')}}
                                 </b-button>
-
-
-
-                                <b-modal v-if="signupPossible(eventDate)" v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" v-bind:title="$t('sign-up')" v-on:k="signUp(index)">
+                                <b-modal v-bind:ref="'modal' + index" v-bind:id="'choose-costume-' + index" v-bind:title="$t('sign-up')" v-on:k="signUp(index)">
                                     <b-row class="form-row">
                                         <b-col sm="5">{{$t('date')}}:</b-col>
                                         <b-col sm="7">
@@ -291,49 +286,46 @@
                                         </b-btn>
                                     </div>
                                 </b-modal>
-
                             </div>
                         </div>
                     </div>
-
-                    <div class="mt-2" v-if="eventDate.guests && eventDate.guests.length > 0">
-                        {{$t('guests')}}:
-                        <span class="add-comma-after" v-for="(guest, index) in eventDate.guests">{{guest}}</span>
-                    </div>
-
-                    <b-button v-b-modal="'add-guest-' + index" size="sm mt-2">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                        {{$t('add-guest')}}
-                    </b-button>
-
-                    <b-modal v-bind:ref="'modal-guest-' + index" v-bind:id="'add-guest-' + index" v-bind:title="$t('add-guest')">
-                        <b-row class="form-row">
-                            <b-col sm="5">
-                                <label v-bind:for="'add-guest-name' + index" >
-                                    {{$t('name')}}:
-                                </label>
-                            </b-col>
-                            <b-col sm="7">
-                                <form action="#">
-                                    <b-form-input
-                                        name="'add-guest-name' + index"
-                                        v-model.trim="eventDate.addGuestName"
-                                        id="'add-guest-name' + index"
-                                        size="sm"
-                                        type="text"
-                                    >
-                                    </b-form-input>
-                                </form>
-                            </b-col>
-                        </b-row>
-                        <div slot="modal-footer" class="w-100">
-                            <b-btn size="sm" class="float-right" variant="primary" v-on:click="signUpGuest(index, eventDate.addGuestName)">
-                                {{$t('add-guest')}}
-                            </b-btn>
+                    <div v-if="event.canRegisterGuests">
+                        <div class="mt-2" v-if="eventDate.guests && eventDate.guests.length > 0">
+                            {{$t('guests')}}:
+                            <span class="add-comma-after" v-for="(guest, index) in eventDate.guests">{{guest}}</span>
                         </div>
-                    </b-modal>
+                        <b-button v-b-modal="'add-guest-' + index" size="sm mt-2">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            {{$t('add-guest')}}
+                        </b-button>
 
-                    <hr>
+                        <b-modal v-bind:ref="'modal-guest-' + index" v-bind:id="'add-guest-' + index" v-bind:title="$t('add-guest')">
+                            <b-row class="form-row">
+                                <b-col sm="5">
+                                    <label v-bind:for="'add-guest-name' + index" >
+                                        {{$t('name')}}:
+                                    </label>
+                                </b-col>
+                                <b-col sm="7">
+                                    <form action="#">
+                                        <b-form-input
+                                            name="'add-guest-name' + index"
+                                            v-model.trim="eventDate.addGuestName"
+                                            id="'add-guest-name' + index"
+                                            size="sm"
+                                            type="text"
+                                        >
+                                        </b-form-input>
+                                    </form>
+                                </b-col>
+                            </b-row>
+                            <div slot="modal-footer" class="w-100">
+                                <b-btn size="sm" class="float-right" variant="primary" v-on:click="signUpGuest(index, eventDate.addGuestName)">
+                                    {{$t('add-guest')}}
+                                </b-btn>
+                            </div>
+                        </b-modal>
+                    </div>
                 </b-col>
             </b-row>
         </div>
@@ -344,7 +336,7 @@
     import Axios from 'axios'
     import moment from 'moment'
     import { isLoggedIn } from '../utils/auth'
-    import { getPrivateEvents } from '../utils/events-api'
+    import { getPrivateEvent } from '../utils/events-api'
     import EventForm from './EventForm.vue'
     Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
@@ -473,17 +465,9 @@
             isLoggedIn () {
                 return isLoggedIn()
             },
-            getPrivateEvents () {
-                const id = this.$route.params.id
-                getPrivateEvents().then((events) => {
-                    var vueComponent = this
-                    if (events) {
-                        events.filter(function (event) {
-                            if (event._id === id) {
-                                vueComponent.event = event
-                            }
-                        })
-                    }
+            getPrivateEvent () {
+                getPrivateEvent(this.$route.params.id).then((event) => {
+                    this.event = event
                 })
             },
             showModal () {
@@ -510,6 +494,7 @@
                     avatar: this.$store.state.profile['https://iris.501st.nl/legion_thumbnail'],
                     userId: this.$store.state.profile.sub
                 }
+                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
                 this.$validator.validateAll().then((result) => {
                     if (result) {
@@ -625,7 +610,8 @@
                     parking: true,
                     lunch: true,
                     drinks: true,
-                    canRegisterGuests: true
+                    canRegisterGuests: true,
+                    isArchived: false
                 },
                 columns: [
                     {
@@ -662,7 +648,7 @@
             }
         },
         mounted () {
-            this.getPrivateEvents()
+            this.getPrivateEvent()
         }
     }
 </script>

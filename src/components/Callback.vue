@@ -9,9 +9,15 @@
     export default {
         name: 'Callback',
         created () {
+            const redirectUrl = localStorage.getItem('redirectUrl')
             setAccessToken()
             setIdToken()
-            this.$router.replace('/')
+
+            if (redirectUrl) {
+                this.$router.replace(redirectUrl)
+            } else {
+                this.$router.replace('/')
+            }
             this.getProfile()
         },
         methods: {

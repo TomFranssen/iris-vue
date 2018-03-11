@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
-        <h1>{{$t('events')}}</h1>
+        <h1>{{$t('events-archive')}}</h1>
         <template>
             <vue-good-table
                 :columns="columns"
@@ -24,21 +24,13 @@
                 </template>
             </vue-good-table>
         </template>
-        <div class="mt-4">
-            <router-link class="btn btn-primary" v-bind:to="'/add-event'">
-                <i class="fa fa-plus" aria-hidden="true"></i> {{$t('add-event')}}
-            </router-link>
-            <router-link class="btn btn-primary" v-bind:to="'/events-archive'">
-                <i class="fa fa-archive" aria-hidden="true"></i> {{$t('archive')}}
-            </router-link>
-        </div>
     </div>
 </template>
 
 <script>
     import moment from 'moment'
     import { isLoggedIn } from '../utils/auth'
-    import { getPrivateEvents } from '../utils/events-api'
+    import { getPrivateArchivedEvents } from '../utils/events-api'
 
     export default {
         name: 'events',
@@ -71,8 +63,8 @@
             isLoggedIn () {
                 return isLoggedIn()
             },
-            getPrivateEvents () {
-                getPrivateEvents().then((events) => {
+            getPrivateArchivedEvents () {
+                getPrivateArchivedEvents().then((events) => {
                     this.rows = events
                     this.populateLocationFilterOptions()
                 })
@@ -95,6 +87,9 @@
                     to: '/'
                 }, {
                     text: this.$t('events'),
+                    to: '/events'
+                }, {
+                    text: this.$t('events-archive'),
                     active: true
                 }],
                 columns: [
@@ -136,7 +131,7 @@
             }
         },
         mounted () {
-            this.getPrivateEvents()
+            this.getPrivateArchivedEvents()
         }
 
     }

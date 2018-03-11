@@ -144,7 +144,8 @@
                         </b-col>
                     </b-row>
                 </b-col>
-                <b-col>     
+                <b-col>  
+                    <h2>{{$t('more-info')}}</h2>   
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -238,6 +239,19 @@
                                 unchecked-value="false"
                             >
                                 {{$t('guests-allowed')}}
+                            </b-checkbox>
+                        </b-col>
+                    </b-row>
+                    <h2>{{$t('end-info')}}</h2>  
+                    <b-row class="form-row">
+                        <b-col>
+                            <b-checkbox
+                                id="is-archived"
+                                v-model="event.isArchived"
+                                value="true"
+                                unchecked-value="false"
+                            >
+                                {{$t('is-archived')}}
                             </b-checkbox>
                         </b-col>
                     </b-row>
@@ -417,6 +431,7 @@
             saveEvent: function () {
                 const self = this
                 let promiseEvent
+                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         if (confirm(self.$t('do-you-want-to-save-event'))) {
