@@ -372,7 +372,7 @@
             <b-row class="form-row mt-4 mb-5">
                 <b-col>
                     <b-button v-if="edit" v-on:click="saveEvent" size="lg" variant="primary">
-                        {{$t('edit-event')}}
+                        {{$t('save-event')}}
                     </b-button>
                     <b-button v-if="!edit" v-on:click="saveEvent" size="lg" variant="primary">
                         {{$t('add-event')}}

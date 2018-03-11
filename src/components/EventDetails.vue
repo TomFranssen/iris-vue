@@ -13,6 +13,11 @@
             <router-link class="btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">
                 {{$t('edit-event')}}
             </router-link>
+
+            <b-btn size="sm" class="float-right" variant="primary" v-on:click="emailEvent">
+                {{$t('email-event')}}
+            </b-btn>
+
             <h1>
                 {{event.name}}
                 <div>
@@ -554,6 +559,18 @@
                     .then(function () {
                         that.hideSignOutModal(eventDataIndex, modalIndex)
                         that.getPrivateEvents()
+                    })
+            },
+            emailEvent () {
+                console.log(this.$data.event._id)
+                Axios.post(`${process.env.API_URL}/api/private/email`, {
+                    id: this.$data.event._id
+                })
+                    .then(function (response) {
+                        console.log(response)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
                     })
             }
         },

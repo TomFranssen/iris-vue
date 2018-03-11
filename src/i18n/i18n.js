@@ -106,7 +106,8 @@ const translations = {
         'end-info': 'End information',
         'is-archived': 'Is archived',
         'events-archive': 'Event Archive',
-        'archive': 'Archive'
+        'archive': 'Archive',
+        'save-event': 'Save event'
     },
     nl: {
         'info': 'Info',
@@ -215,7 +216,8 @@ const translations = {
         'end-info': 'Eindinformatie',
         'is-archived': 'Is gearchiveerd',
         'events-archive': 'Evenementen archief',
-        'archive': 'Archief'
+        'archive': 'Archief',
+        'save-event': 'Evenement opslaan'
     },
     de: {
         'info': 'Info',

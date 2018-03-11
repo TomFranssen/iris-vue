@@ -48,7 +48,7 @@ export default {
                     HH: '00',
                     mm: '00'
                 }],
-                maxSignupDate: false,
+                maxSignupDate: undefined,
                 eventCoordinator: '',
                 street: '',
                 postcode: '',
