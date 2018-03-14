@@ -107,7 +107,8 @@ const translations = {
         'is-archived': 'Is archived',
         'events-archive': 'Event Archive',
         'archive': 'Archive',
-        'save-event': 'Save event'
+        'save-event': 'Save event',
+        'send-notification': 'E-mail notification'
     },
     nl: {
         'info': 'Info',
@@ -217,7 +218,9 @@ const translations = {
         'is-archived': 'Is gearchiveerd',
         'events-archive': 'Evenementen archief',
         'archive': 'Archief',
-        'save-event': 'Evenement opslaan'
+        'save-event': 'Evenement opslaan',
+        'email-sure': 'Weet je zeker dat je iedereen een e-mail wil sturen?',
+        'send-notification': 'Verstuur aankondiging'
     },
     de: {
         'info': 'Info',

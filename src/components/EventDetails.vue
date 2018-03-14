@@ -11,11 +11,11 @@
                 </div>
             </div>
             <router-link class="btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">
-                {{$t('edit-event')}}
+                <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
             </router-link>
 
-            <b-btn size="sm" class="float-right" variant="primary" v-on:click="emailEvent">
-                {{$t('email-event')}}
+            <b-btn class="float-right" variant="primary" v-on:click="emailEvent">
+                <i class="fa fa-envelope" aria-hidden="true"></i> {{$t('send-notification')}}
             </b-btn>
 
             <h1>
@@ -562,16 +562,17 @@
                     })
             },
             emailEvent () {
-                console.log(this.$data.event._id)
-                Axios.post(`${process.env.API_URL}/api/private/email`, {
-                    id: this.$data.event._id
-                })
-                    .then(function (response) {
-                        console.log(response)
+                if (confirm(this.$t('email-sure'))) {
+                    Axios.post(`${process.env.API_URL}/api/private/email`, {
+                        id: this.$data.event._id
                     })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
+                        .then(function (response) {
+                            console.log(response)
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                }
             }
         },
         data () {
