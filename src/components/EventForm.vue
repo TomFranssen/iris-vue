@@ -445,7 +445,6 @@
                                 .then(function (response) {
                                     alert(self.$t('event-saved'))
                                     if (response.data.message) {
-                                        alert(response.data.message)
                                         self.$router.push('events')
                                     } else {
                                         console.log(response)
