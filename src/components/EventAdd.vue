@@ -36,18 +36,9 @@ export default {
                     cancelledUsers: [],
                     guests: []
                 }],
-                gatherTime: [{
-                    HH: '00',
-                    mm: '00'
-                }],
-                startTime: [{
-                    HH: '00',
-                    mm: '00'
-                }],
-                endTime: [{
-                    HH: '00',
-                    mm: '00'
-                }],
+                gatherTime: '',
+                startTime: '',
+                endTime: '',
                 maxSignupDate: undefined,
                 eventCoordinator: '',
                 street: '',
@@ -65,7 +56,8 @@ export default {
                 lunch: false,
                 drinks: false,
                 canRegisterGuests: false,
-                isArchived: false
+                isArchived: false,
+                blastersAllowed: false
             }
         }
     }

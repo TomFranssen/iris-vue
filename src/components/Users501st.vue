@@ -43,7 +43,7 @@
                 </td>
                 <td>{{getLegionId(props.row)}}</td>
                 <td class="text-right">
-                    <a href="" v-bind:href="props.row.link" class="btn btn-primary">
+                    <a v-bind:href="props.row.link" class="btn btn-primary">
                         View 501st profile
                     </a>
                 </td>

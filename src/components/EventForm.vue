@@ -38,49 +38,64 @@
                     <b-row class="form-row">
                         <b-col sm="3"><label for="gather-time">{{$t('gather-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <vue-timepicker
+                            <b-form-input
                                 v-validate="'required'"
                                 name="gather-time"
-                                :minute-interval="5"
+                                v-model="event.gatherTime"
                                 id="gather-time"
-                                v-model="event.gatherTime[0]"
+                                size="sm"
+                                type="time"
+                                placeholder="22:15"
                             >
-                            </vue-timepicker>
+                            </b-form-input>
                             <p class="text-danger" v-if="errors.has('gather-time')">{{ errors.first('gather-time') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="start-time">{{$t('start-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <vue-timepicker
+                            <b-form-input
                                 v-validate="'required'"
                                 name="start-time"
-                                v-bind:minute-interval="5"
+                                v-model="event.startTime"
                                 id="start-time"
-                                v-model="event.startTime[0]"
+                                size="sm"
+                                type="time"
+                                placeholder="22:15"
                             >
-                            </vue-timepicker>
+                            </b-form-input>
                             <p class="text-danger" v-if="errors.has('start-time')">{{ errors.first('start-time') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="end-time">{{$t('end-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <vue-timepicker
+                            <b-form-input
                                 v-validate="'required'"
                                 name="end-time"
-                                v-bind:minute-interval="5"
+                                v-model="event.endTime"
                                 id="end-time"
-                                v-model="event.endTime[0]"
+                                size="sm"
+                                type="time"
+                                placeholder="22:15"
                             >
-                            </vue-timepicker>
+                            </b-form-input>
                             <p class="text-danger" v-if="errors.has('end-time')">{{ errors.first('end-time') }}</p>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="max-signup-date">{{$t('max-signup-time')}}:</label></b-col>
                         <b-col sm="9">
-                            <datepicker v-validate="'required'" name="max-signup-date" id="max-signup-date" v-model="event.maxSignupDate"></datepicker>
+                            <b-form-input
+                                v-validate="'required'"
+                                name="max-signup-date"
+                                v-model="event.maxSignupDate"
+                                id="max-signup-date"
+                                size="sm"
+                                type="date"
+                                placeholder="2018-12-31"
+                            >
+                            </b-form-input>
                             <p class="text-danger" v-if="errors.has('max-signup-date')">{{ errors.first('max-signup-date') }}</p>
                         </b-col>
                     </b-row>
@@ -230,6 +245,7 @@
                             </b-checkbox>
                         </b-col>
                     </b-row>
+                    <h2>{{$t('rules')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -239,6 +255,18 @@
                                 unchecked-value="false"
                             >
                                 {{$t('guests-allowed')}}
+                            </b-checkbox>
+                        </b-col>
+                    </b-row>
+                    <b-row class="form-row">
+                        <b-col>
+                            <b-checkbox
+                                id="blasters-allowed"
+                                v-model="event.blastersAllowed"
+                                value="true"
+                                unchecked-value="false"
+                            >
+                                {{$t('blasters-allowed')}}
                             </b-checkbox>
                         </b-col>
                     </b-row>
@@ -279,7 +307,16 @@
                             <b-row class="form-row">
                                 <b-col sm="3"><label>{{$t('date')}}</label></b-col>
                                 <b-col sm="9">
-                                    <datepicker v-validate="'required'" v-bind:name="'eventdate-' + index" v-model="eventDate.date"></datepicker>
+                                    <b-form-input
+                                        v-validate="'required'"
+                                        v-bind:name="'eventdate-' + index"
+                                        v-model="eventDate.date"
+                                        v-bind:id="'max-signup-date-' + index"
+                                        size="sm"
+                                        type="date"
+                                        placeholder="2018-12-31"
+                                    >
+                                    </b-form-input>
                                     <p class="text-danger" v-if="errors.has('eventdate-' + index)">{{ errors.first('eventdate-' + index) }}</p>
                                 </b-col>
                             </b-row>
@@ -384,18 +421,12 @@
 </template>
 <script>
     import Axios from 'axios'
-    import Datepicker from 'vuejs-datepicker'
-    import VueTimepicker from 'vue2-timepicker'
     const MAX_DAYS = 20
     Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
     export default {
         name: 'EventForm',
         props: ['event', 'edit'],
-        components: {
-            Datepicker,
-            VueTimepicker
-        },
         methods: {
             canAddDate: function () {
                 return this.event.eventDates.length < MAX_DAYS

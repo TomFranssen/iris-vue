@@ -108,7 +108,9 @@ const translations = {
         'events-archive': 'Event Archive',
         'archive': 'Archive',
         'save-event': 'Save event',
-        'send-notification': 'E-mail notification'
+        'send-notification': 'E-mail notification',
+        'blasters-allowed': 'Blasters allowed',
+        'rules': 'Regels'
     },
     nl: {
         'info': 'Info',
@@ -133,7 +135,7 @@ const translations = {
         'website': 'Website',
         'publicly-accessible': 'Publiekelijk toegankelijk',
         'dressingroom-available': 'Omkleedruimte beschikbaar',
-        'travel-restitution': 'Reisonkosten vergoeding',
+        'travel-restitution': 'Reisonkostenvergoeding',
         'parking-available': 'Parkeerplaats aanwezig',
         'parking-restitution': 'Parkeervergoeding',
         'lunch-available': 'Lunch beschikbaar',
@@ -220,7 +222,9 @@ const translations = {
         'archive': 'Archief',
         'save-event': 'Evenement opslaan',
         'email-sure': 'Weet je zeker dat je iedereen een e-mail wil sturen?',
-        'send-notification': 'Verstuur aankondiging'
+        'send-notification': 'Verstuur aankondiging',
+        'blasters-allowed': 'Blasters toegestaan',
+        'rules': 'Regels'
     },
     de: {
         'info': 'Info',

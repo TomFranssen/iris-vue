@@ -48,11 +48,11 @@
                 <div class="times">
                     <div>
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
-                        {{$t('from')}} {{event.startTime[0].HH}}:{{event.startTime[0].mm}}
+                        {{$t('from')}} {{event.startTime}}
                         {{$t('untill')}}
-                        {{event.endTime[0].HH}}:{{event.endTime[0].mm}}
+                        {{event.endTime}}
                         <div class="text-muted text-lowercase">
-                            {{event.gatherTime[0].HH}}:{{event.gatherTime[0].mm}} {{$t('gather-time')}}
+                            {{event.gatherTime}} {{$t('gather-time')}}
                         </div>
                     </div>
                 </div>
@@ -107,9 +107,16 @@
                             <i class="fa-li fa" v-bind:class="{ 'fa-check': event.drinks, 'fa-times': !event.drinks }"></i>
                             {{$t('drinks-available')}}
                         </li>
+                    </ul>
+                    <h2>{{$t('rules')}}</h2>
+                    <ul class="fa-ul">
                         <li>
                             <i class="fa-li fa" v-bind:class="{ 'fa-check': event.canRegisterGuests, 'fa-times': !event.canRegisterGuests }"></i>
                             {{$t('guests-allowed')}}
+                        </li>
+                        <li>
+                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.blastersAllowed, 'fa-times': !event.blastersAllowed }"></i>
+                            {{$t('blasters-allowed')}}
                         </li>
                     </ul>
                 </div>
@@ -380,8 +387,8 @@
                 if (date) {
                     const dateForCalendar = moment(date).set(
                         {
-                            hour: parseInt(this.$data.event.gatherTime[0].HH),
-                            minute: parseInt(this.$data.event.gatherTime[0].mm)
+                            hour: parseInt(this.$data.event.gatherTime.substring(0, 2)),
+                            minute: parseInt(this.$data.event.gatherTime.substring(3, 2))
                         }
                     )
                     return dateForCalendar.toDate()
@@ -390,8 +397,8 @@
             getEventEndTimeForCalendar (date) {
                 if (date) {
                     var eventDate = new Date(date)
-                    eventDate.setHours(this.$data.event.endTime[0].HH + 1)
-                    eventDate.setMinutes(this.$data.event.endTime[0].mm)
+                    eventDate.setHours(this.$data.event.endTime.substring(0, 2) + 1)
+                    eventDate.setMinutes(this.$data.event.endTime.substring(3, 2))
 
                     return eventDate
                 }
@@ -562,17 +569,18 @@
                     })
             },
             emailEvent () {
-                if (confirm(this.$t('email-sure'))) {
-                    Axios.post(`${process.env.API_URL}/api/private/email`, {
-                        id: this.$data.event._id
-                    })
-                        .then(function (response) {
-                            console.log(response)
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
-                }
+                console.log(this)
+                // if (confirm(this.$t('email-sure'))) {
+                //     Axios.post(`${process.env.API_URL}/api/private/email`, {
+                //         id: this.$data.event._id
+                //     })
+                //         .then(function (response) {
+                //             console.log(response)
+                //         })
+                //         .catch(function (error) {
+                //             console.log(error)
+                //         })
+                // }
             }
         },
         data () {
@@ -600,24 +608,9 @@
                             cancelledUsers: []
                         }
                     ],
-                    gatherTime: [
-                        {
-                            HH: '',
-                            mm: ''
-                        }
-                    ],
-                    startTime: [
-                        {
-                            HH: '',
-                            mm: ''
-                        }
-                    ],
-                    endTime: [
-                        {
-                            HH: '',
-                            mm: ''
-                        }
-                    ],
+                    gatherTime: '',
+                    startTime: '',
+                    endTime: '',
                     forumUrl: '',
                     facebookEvent: '',
                     websiteUrl: '',
