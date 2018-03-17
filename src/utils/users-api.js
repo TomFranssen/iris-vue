@@ -4,7 +4,7 @@ import { getAccessToken } from './auth'
 export {getPrivateUsers, getPrivateUser, get501stUsers}
 
 function getPrivateUsers () {
-    const url = `${process.env.API_URL}/api/private/users`
+    const url = `${process.env.VUE_APP_API_URL}/api/private/users`
     return axios.get(url, {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
@@ -13,7 +13,7 @@ function getPrivateUsers () {
 }
 
 function getPrivateUser (userId) {
-    const url = `${process.env.API_URL}/api/private/user`
+    const url = `${process.env.VUE_APP_API_URL}/api/private/user`
     return axios.get(url, {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`,
@@ -23,7 +23,7 @@ function getPrivateUser (userId) {
 }
 
 function get501stUsers () {
-    const url = `${process.env.API_URL}/api/501stusers`
+    const url = `${process.env.VUE_APP_API_URL}/api/501stusers`
     return axios.get(url, {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`

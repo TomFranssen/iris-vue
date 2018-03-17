@@ -18,7 +18,7 @@ const auth = new auth0.WebAuth({
 export function login () {
     auth.authorize({
         responseType: 'token id_token',
-        redirectUri: process.env.AUTH0_REDIRECT,
+        redirectUri: process.env.VUE_APP_AUTH0_REDIRECT,
         audience: AUDIENCE,
         scope: SCOPE
     })

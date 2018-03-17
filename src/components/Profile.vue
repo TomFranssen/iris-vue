@@ -26,7 +26,7 @@
                     <h2 class="mt-3">
                         {{$t('costumes')}}:
                     </h2>
-                    <div v-for="costume in profile['https://iris.501st.nl/user_metadata'].costumes">
+                    <div v-for="costume in profile['https://iris.501st.nl/user_metadata'].costumes" v-bind:key="costume.name">
                         {{costume.name}}
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <h2 class="mt-3">
                         {{$t('groups')}}:
                     </h2>
-                    <div v-for="group in profile['https://iris.501st.nl/app_metadata'].authorization.groups">
+                    <div v-for="group in profile['https://iris.501st.nl/app_metadata'].authorization.groups" v-bind:key="group">
                         {{group}}
                     </div>
                 </div>
@@ -49,51 +49,51 @@
 </template>
 
 <script>
-    import AppNav from './AppNav'
-    import { isLoggedIn } from '../utils/auth'
+import AppNav from './AppNav'
+import { isLoggedIn } from '../utils/auth'
 
-    export default {
-        name: 'profile',
-        computed: {
-            profile () {
-                return this.$store.state.profile
+export default {
+    name: 'profile',
+    computed: {
+        profile () {
+            return this.$store.state.profile
+        },
+        enhancedPicture () {
+            return this.$store.state.profile['https://iris.501st.nl/legion_thumbnail'] || this.$store.state.profile.picture
+        },
+        locale: {
+            get () {
+                return this.$store.state.profile.locale
             },
-            enhancedPicture () {
-                return this.$store.state.profile['https://iris.501st.nl/legion_thumbnail'] || this.$store.state.profile.picture
-            },
-            locale: {
-                get () {
-                    return this.$store.state.profile.locale
-                },
-                set (value) {
-                    this.$i18n.locale = value
-                    this.$store.commit('setLocale', value)
-                }
-            }
-        },
-        components: {
-            AppNav
-        },
-        data () {
-            return {
-                breadcrumbs: [{
-                    text: 'Home',
-                    to: '/'
-                }, {
-                    text: 'Profile',
-                    active: true
-                }],
-                languageOptions: [
-                    { text: 'English', value: 'en' },
-                    { text: 'Nederlands', value: 'nl' },
-                    { text: 'Duits', value: 'de' }
-                ]
-            }
-        },
-        methods: {
-            isLoggedIn () {
-                return isLoggedIn()
+            set (value) {
+                this.$i18n.locale = value
+                this.$store.commit('setLocale', value)
             }
         }
+    },
+    components: {
+        AppNav
+    },
+    data () {
+        return {
+            breadcrumbs: [{
+                text: 'Home',
+                to: '/'
+            }, {
+                text: 'Profile',
+                active: true
+            }],
+            languageOptions: [
+                { text: 'English', value: 'en' },
+                { text: 'Nederlands', value: 'nl' },
+                { text: 'Duits', value: 'de' }
+            ]
+        }
+    },
+    methods: {
+        isLoggedIn () {
+            return isLoggedIn()
+        }
     }
+}
 </script>

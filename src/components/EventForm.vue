@@ -159,8 +159,8 @@
                         </b-col>
                     </b-row>
                 </b-col>
-                <b-col>  
-                    <h2>{{$t('more-info')}}</h2>   
+                <b-col>
+                    <h2>{{$t('more-info')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -270,7 +270,7 @@
                             </b-checkbox>
                         </b-col>
                     </b-row>
-                    <h2>{{$t('end-info')}}</h2>  
+                    <h2>{{$t('end-info')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -288,7 +288,7 @@
             <b-row>
                 <b-col lg>
                     <h2>{{$t('days')}}</h2>
-                    <div v-for="(eventDate, index) in event.eventDates">
+                    <div v-for="(eventDate, index) in event.eventDates" v-bind:key="index">
                         <b-card class="mb-3">
                             <b-row class="form-row">
                                 <b-col sm="3"><label><strong>{{$t('day')}} {{ index + 1 }}</strong></label></b-col>
@@ -357,7 +357,7 @@
                                     <div v-if="eventDate.cancelledUsers.length === 0">
                                         {{$t('no-cancelled-users')}}
                                     </div>
-                                    <div v-for="(user, cancelledIndex) in eventDate.cancelledUsers">
+                                    <div v-for="(user, cancelledIndex) in eventDate.cancelledUsers" v-bind:key="user.username">
                                         <b-button class="mr-2" variant="outline-primary" v-bind:key="user.username" v-on:click="removeCancelledUser(index, cancelledIndex)">
                                             {{user.username}}
                                             <i class="fa fa-trash" aria-hidden="true"></i>
@@ -420,77 +420,77 @@
     </div>
 </template>
 <script>
-    import Axios from 'axios'
-    const MAX_DAYS = 20
-    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+import Axios from 'axios'
+const MAX_DAYS = 20
+Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
-    export default {
-        name: 'EventForm',
-        props: ['event', 'edit'],
-        methods: {
-            canAddDate: function () {
-                return this.event.eventDates.length < MAX_DAYS
-            },
-            canDeleteDate: function (index) {
-                return index >= 1
-            },
-            addGuest: function (eventDateIndex, guest) {
-                this.event.eventDates[eventDateIndex].guests.push(guest)
-            },
-            removeGuest: function (eventDateIndex, guestIndex) {
-                this.event.eventDates[eventDateIndex].guests.splice(guestIndex, 1)
-            },
-            addDate: function () {
-                this.event.eventDates.push({
-                    date: '',
-                    availableSpots: '',
-                    open: true,
-                    signedUpUsers: [],
-                    cancelledUsers: [],
-                    guests: []
-                })
-            },
-            removeDate: function (index) {
-                this.$delete(this.event.eventDates, index)
-            },
-            removeSignedUpUser: function (eventDateIndex, signedUpUserIndex) {
-                this.event.eventDates[eventDateIndex].signedUpUsers.splice(signedUpUserIndex, 1)
-            },
-            removeCancelledUser: function (eventDateIndex, cancelledUserIndex) {
-                this.event.eventDates[eventDateIndex].cancelledUsers.splice(cancelledUserIndex, 1)
-            },
-            saveEvent: function () {
-                const self = this
-                let promiseEvent
-                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if (confirm(self.$t('do-you-want-to-save-event'))) {
-                            if (this.edit) {
-                                promiseEvent = Axios.put(`${process.env.API_URL}/api/private/event`, this.event)
-                            } else {
-                                promiseEvent = Axios.post(`${process.env.API_URL}/api/private/event`, this.event)
-                            }
-
-                            promiseEvent
-                                .then(function (response) {
-                                    alert(self.$t('event-saved'))
-                                    if (response.data.message) {
-                                        self.$router.push('events')
-                                    } else {
-                                        console.log(response)
-                                    }
-                                })
-                                .catch(function (error) {
-                                    console.log(error)
-                                })
+export default {
+    name: 'EventForm',
+    props: ['event', 'edit'],
+    methods: {
+        canAddDate: function () {
+            return this.event.eventDates.length < MAX_DAYS
+        },
+        canDeleteDate: function (index) {
+            return index >= 1
+        },
+        addGuest: function (eventDateIndex, guest) {
+            this.event.eventDates[eventDateIndex].guests.push(guest)
+        },
+        removeGuest: function (eventDateIndex, guestIndex) {
+            this.event.eventDates[eventDateIndex].guests.splice(guestIndex, 1)
+        },
+        addDate: function () {
+            this.event.eventDates.push({
+                date: '',
+                availableSpots: '',
+                open: true,
+                signedUpUsers: [],
+                cancelledUsers: [],
+                guests: []
+            })
+        },
+        removeDate: function (index) {
+            this.$delete(this.event.eventDates, index)
+        },
+        removeSignedUpUser: function (eventDateIndex, signedUpUserIndex) {
+            this.event.eventDates[eventDateIndex].signedUpUsers.splice(signedUpUserIndex, 1)
+        },
+        removeCancelledUser: function (eventDateIndex, cancelledUserIndex) {
+            this.event.eventDates[eventDateIndex].cancelledUsers.splice(cancelledUserIndex, 1)
+        },
+        saveEvent: function () {
+            const self = this
+            let promiseEvent
+            Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    if (confirm(self.$t('do-you-want-to-save-event'))) {
+                        if (this.edit) {
+                            promiseEvent = Axios.put(`${process.env.VUE_APP_API_URL}/api/private/event`, this.event)
+                        } else {
+                            promiseEvent = Axios.post(`${process.env.VUE_APP_API_URL}/api/private/event`, this.event)
                         }
-                        return
+
+                        promiseEvent
+                            .then(function (response) {
+                                alert(self.$t('event-saved'))
+                                if (response.data.message) {
+                                    self.$router.push('events')
+                                } else {
+                                    console.log(response)
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error)
+                            })
                     }
-                    alert(self.$t('fill-in-all-fields'))
-                    this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
-                })
-            }
+                    return
+                }
+                alert(self.$t('fill-in-all-fields'))
+                this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
+            })
         }
     }
+}
 </script>

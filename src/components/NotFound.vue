@@ -7,17 +7,17 @@
     </div>
 </template>
 <script>
-    import { isLoggedIn, login } from '../utils/auth'
+import { isLoggedIn, login } from '../utils/auth'
 
-    export default {
-        name: 'Home',
-        methods: {
-            handleLogin () {
-                login()
-            },
-            isLoggedIn () {
-                return isLoggedIn()
-            }
+export default {
+    name: 'Home',
+    methods: {
+        handleLogin () {
+            login()
+        },
+        isLoggedIn () {
+            return isLoggedIn()
         }
     }
+}
 </script>

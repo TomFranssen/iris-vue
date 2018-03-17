@@ -10,32 +10,32 @@
 </template>
 
 <script>
-    import AppNav from './components/AppNav'
-    import { isLoggedIn, login, logout } from './utils/auth'
+import AppNav from './components/AppNav'
+import { isLoggedIn, login, logout } from './utils/auth'
 
-    export default {
-        name: 'app',
-        components: {
-            AppNav
+export default {
+    name: 'app',
+    components: {
+        AppNav
+    },
+    created () {
+        this.getProfile()
+    },
+    methods: {
+        handleLogin () {
+            login()
         },
-        created () {
-            this.getProfile()
+        handleLogout () {
+            logout()
         },
-        methods: {
-            handleLogin () {
-                login()
-            },
-            handleLogout () {
-                logout()
-            },
-            isLoggedIn () {
-                return isLoggedIn()
-            },
-            getProfile () {
-                this.$store.dispatch('getProfile')
-            }
+        isLoggedIn () {
+            return isLoggedIn()
+        },
+        getProfile () {
+            this.$store.dispatch('getProfile')
         }
     }
+}
 </script>
 
 <style>

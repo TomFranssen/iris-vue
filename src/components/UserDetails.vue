@@ -40,7 +40,7 @@
                     <b-row class="form-row">
                         <b-col sm="3">{{$t('costumes')}}:</b-col>
                         <b-col sm="9">
-                            <div v-for="(costume, index) in user.user_metadata.costumes">
+                            <div v-for="costume in user.user_metadata.costumes" v-bind:key="costume.name">
                                 {{costume.name}}
                             </div>
                         </b-col>
@@ -116,126 +116,126 @@
 </template>
 
 <script>
-    import Axios from 'axios'
-    import { getPrivateUser } from '../utils/users-api'
-    import { getPrivateCostumes } from '../utils/costume-api'
-    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+import Axios from 'axios'
+import { getPrivateUser } from '../utils/users-api'
+import { getPrivateCostumes } from '../utils/costume-api'
+Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
-    export default {
-        name: 'user-details',
-        props: ['id'],
-        methods: {
-            changed: function () {
-                const that = this
-                this.suggestions = []
-                function filterCostume (costume) {
-                    const value = that.value.toLowerCase()
+export default {
+    name: 'user-details',
+    props: ['id'],
+    methods: {
+        changed: function () {
+            const that = this
+            this.suggestions = []
+            function filterCostume (costume) {
+                const value = that.value.toLowerCase()
 
-                    return (costume.name.toLowerCase().indexOf(value) !== -1)
-                }
-
-                this.suggestions = this.costumes.filter(filterCostume)
-            },
-            getPrivateCostumes () {
-                getPrivateCostumes().then((costumes) => {
-                    this.costumes = costumes
-                })
-            },
-            addCostume: function () {
-                if (typeof this.user.user_metadata.costumes === 'undefined') {
-                    this.$set(this.user.user_metadata, 'costumes', [])
-                }
-                this.user.user_metadata.costumes.push({
-                    name: ''
-                })
-            },
-            removeCostume: function (index) {
-                this.$delete(this.user.user_metadata.costumes, index)
-            },
-            getLegionId: function (user) {
-                if (user.user_metadata && user.user_metadata.legion_id) {
-                    return user.user_metadata.legion_id
-                }
-                return ''
-            },
-            getLegionThumbnail: function (user) {
-                if (user.user_metadata && user.user_metadata.legion_thumbnail) {
-                    return user.user_metadata.legion_thumbnail
-                }
-                return ''
-            },
-            getPrivateUser () {
-                const userId = this.$route.params.user_id
-                getPrivateUser(userId).then((user) => {
-                    if (!user.user_metadata) {
-                        user.user_metadata = {}
-                    }
-                    if (!user.user_metadata.legion_id) {
-                        user.user_metadata.legion_id = ''
-                    }
-                    this.user = user
-                })
-            },
-            saveUser: function () {
-                const self = this
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if (confirm(this.$t('do-you-want-to-change-user'))) {
-                            Axios.patch(`${process.env.API_URL}/api/private/user`, this.$data)
-                                .then(function (response) {
-                                    console.log(response.data.status)
-                                    if (response.status === 200) {
-                                        alert(self.$t('user-saved'))
-                                    }
-                                    if (response.data.message) {
-                                        alert(response.data.message)
-                                        self.$router.push('users')
-                                    } else {
-                                        console.log(response)
-                                    }
-                                })
-                                .catch(function (error) {
-                                    console.log(error)
-                                })
-                        }
-                        return
-                    }
-                    alert('Please correctly fill in all the fields.')
-                    this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
-                })
+                return (costume.name.toLowerCase().indexOf(value) !== -1)
             }
+
+            this.suggestions = this.costumes.filter(filterCostume)
         },
-        data () {
-            return {
-                value: '',
-                suggestionAttribute: 'name',
-                suggestions: [],
-                breadcrumbs: [{
-                    text: 'Home',
-                    to: '/'
-                }, {
-                    text: this.$t('users'),
-                    to: '/users'
-                }, {
-                    text: this.$t('user-details'),
-                    active: true
-                }],
-                user: {
-                    user_metadata: {
-                        legion_id: '',
-                        costumes: [{
-                            name: ''
-                        }]
-                    }
-                },
-                costumes: []
+        getPrivateCostumes () {
+            getPrivateCostumes().then((costumes) => {
+                this.costumes = costumes
+            })
+        },
+        addCostume: function () {
+            if (typeof this.user.user_metadata.costumes === 'undefined') {
+                this.$set(this.user.user_metadata, 'costumes', [])
             }
+            this.user.user_metadata.costumes.push({
+                name: ''
+            })
         },
-        mounted () {
-            this.getPrivateUser()
-            this.getPrivateCostumes()
+        removeCostume: function (index) {
+            this.$delete(this.user.user_metadata.costumes, index)
+        },
+        getLegionId: function (user) {
+            if (user.user_metadata && user.user_metadata.legion_id) {
+                return user.user_metadata.legion_id
+            }
+            return ''
+        },
+        getLegionThumbnail: function (user) {
+            if (user.user_metadata && user.user_metadata.legion_thumbnail) {
+                return user.user_metadata.legion_thumbnail
+            }
+            return ''
+        },
+        getPrivateUser () {
+            const userId = this.$route.params.user_id
+            getPrivateUser(userId).then((user) => {
+                if (!user.user_metadata) {
+                    user.user_metadata = {}
+                }
+                if (!user.user_metadata.legion_id) {
+                    user.user_metadata.legion_id = ''
+                }
+                this.user = user
+            })
+        },
+        saveUser: function () {
+            const self = this
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    if (confirm(this.$t('do-you-want-to-change-user'))) {
+                        Axios.patch(`${process.env.VUE_APP_API_URL}/api/private/user`, this.$data)
+                            .then(function (response) {
+                                console.log(response.data.status)
+                                if (response.status === 200) {
+                                    alert(self.$t('user-saved'))
+                                }
+                                if (response.data.message) {
+                                    alert(response.data.message)
+                                    self.$router.push('users')
+                                } else {
+                                    console.log(response)
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error)
+                            })
+                    }
+                    return
+                }
+                alert('Please correctly fill in all the fields.')
+                this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
+            })
         }
+    },
+    data () {
+        return {
+            value: '',
+            suggestionAttribute: 'name',
+            suggestions: [],
+            breadcrumbs: [{
+                text: 'Home',
+                to: '/'
+            }, {
+                text: this.$t('users'),
+                to: '/users'
+            }, {
+                text: this.$t('user-details'),
+                active: true
+            }],
+            user: {
+                user_metadata: {
+                    legion_id: '',
+                    costumes: [{
+                        name: ''
+                    }]
+                }
+            },
+            costumes: []
+        }
+    },
+    mounted () {
+        this.getPrivateUser()
+        this.getPrivateCostumes()
     }
+}
 </script>
 
 <style>
@@ -257,4 +257,3 @@
         width: 100%;
     }
 </style>
-

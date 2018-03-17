@@ -2,7 +2,7 @@
     <b-navbar toggleable="sm" variant="primary">
         <div class="container">
             <b-nav-toggle target="nav_collapse"></b-nav-toggle>
-            <b-navbar-brand to="/"><img class="logo" src="/static/img/iris-small.svg" alt="IRIS" />I.R.I.S</b-navbar-brand>
+            <b-navbar-brand to="/"><img class="logo" src="../assets/iris-small.svg" alt="IRIS" />I.R.I.S</b-navbar-brand>
             <b-collapse is-nav id="nav_collapse" v-if="this.$store.getters.isMember">
                 <b-navbar-nav>
                     <b-nav-item v-show="isLoggedIn()" to="/events">{{$t('events')}}</b-nav-item>
@@ -34,31 +34,31 @@
 </template>
 
 <script>
-    import { isLoggedIn, login, logout, isMember } from '../utils/auth'
+import { isLoggedIn, login, logout, isMember } from '../utils/auth'
 
-    export default {
-        name: 'app-nav',
-        computed: {
-            profile () {
-                return this.$store.state.profile
-            }
+export default {
+    name: 'app-nav',
+    computed: {
+        profile () {
+            return this.$store.state.profile
+        }
+    },
+    methods: {
+        handleLogin () {
+            login()
         },
-        methods: {
-            handleLogin () {
-                login()
-            },
-            handleLogout () {
-                logout()
-            },
-            isLoggedIn () {
-                return isLoggedIn()
-            },
-            isMember () {
-                return isMember()
-            },
-            getProfile () {
-                this.$store.dispatch('getProfile')
-            }
+        handleLogout () {
+            logout()
+        },
+        isLoggedIn () {
+            return isLoggedIn()
+        },
+        isMember () {
+            return isMember()
+        },
+        getProfile () {
+            this.$store.dispatch('getProfile')
         }
     }
+}
 </script>

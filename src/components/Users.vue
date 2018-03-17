@@ -30,86 +30,86 @@
 </template>
 
 <script>
-    import moment from 'moment'
-    import { isLoggedIn } from '../utils/auth'
-    import { getPrivateUsers } from '../utils/users-api'
+import moment from 'moment'
+import { isLoggedIn } from '../utils/auth'
+import { getPrivateUsers } from '../utils/users-api'
 
-    export default {
-        name: 'events',
-        methods: {
-            moment: function () {
-                return moment()
-            },
-            isLoggedIn () {
-                return isLoggedIn()
-            },
-            getPrivateUsers () {
-                getPrivateUsers().then((users) => {
-                    this.rows = users
-                })
-            },
-            getAllegiancesText: function (rowObject) {
-                return rowObject.app_metadata.authorization.groups.join()
-            },
-            getLegionId: function (rowObject) {
-                if (rowObject.user_metadata && rowObject.user_metadata.legion_id) {
-                    return rowObject.user_metadata.legion_id.toString()
-                }
-                return ''
-            },
-            getCostumeCount: function (rowObject) {
-                if (rowObject.user_metadata && rowObject.user_metadata.costumes) {
-                    return rowObject.user_metadata.costumes.length
-                }
-            },
-            showUserDetails: function (row, index) {
-                this.$router.push('user/' + row.user_id.replace('|', '-'))
+export default {
+    name: 'events',
+    methods: {
+        moment: function () {
+            return moment()
+        },
+        isLoggedIn () {
+            return isLoggedIn()
+        },
+        getPrivateUsers () {
+            getPrivateUsers().then((users) => {
+                this.rows = users
+            })
+        },
+        getAllegiancesText: function (rowObject) {
+            return rowObject.app_metadata.authorization.groups.join()
+        },
+        getLegionId: function (rowObject) {
+            if (rowObject.user_metadata && rowObject.user_metadata.legion_id) {
+                return rowObject.user_metadata.legion_id.toString()
+            }
+            return ''
+        },
+        getCostumeCount: function (rowObject) {
+            if (rowObject.user_metadata && rowObject.user_metadata.costumes) {
+                return rowObject.user_metadata.costumes.length
             }
         },
-        data () {
-            return {
-                breadcrumbs: [{
-                    text: 'Home',
-                    to: '/'
-                }, {
-                    text: this.$t('users'),
-                    active: true
-                }],
-                columns: [
-                    {
-                        label: '',
-                        tdClass: 'text-right',
-                        field: 'picture'
-                    },
-                    {
-                        label: this.$t('name'),
-                        tdClass: 'text-right',
-                        field: 'user_metadata.username',
-                        filterable: true
-                    },
-                    {
-                        label: this.$t('email'),
-                        tdClass: 'text-right',
-                        field: 'email',
-                        filterable: true
-                    },
-                    {
-                        label: this.$t('501st-legion-id'),
-                        tdClass: 'text-right',
-                        field: this.getLegionId,
-                        filterable: true
-                    },
-                    {
-                        label: this.$t('costumes'),
-                        tdClass: 'text-right',
-                        field: 'costumes'
-                    }
-                ],
-                rows: []
-            }
-        },
-        mounted () {
-            this.getPrivateUsers()
+        showUserDetails: function (row, index) {
+            this.$router.push('user/' + row.user_id.replace('|', '-'))
         }
+    },
+    data () {
+        return {
+            breadcrumbs: [{
+                text: 'Home',
+                to: '/'
+            }, {
+                text: this.$t('users'),
+                active: true
+            }],
+            columns: [
+                {
+                    label: '',
+                    tdClass: 'text-right',
+                    field: 'picture'
+                },
+                {
+                    label: this.$t('name'),
+                    tdClass: 'text-right',
+                    field: 'user_metadata.username',
+                    filterable: true
+                },
+                {
+                    label: this.$t('email'),
+                    tdClass: 'text-right',
+                    field: 'email',
+                    filterable: true
+                },
+                {
+                    label: this.$t('501st-legion-id'),
+                    tdClass: 'text-right',
+                    field: this.getLegionId,
+                    filterable: true
+                },
+                {
+                    label: this.$t('costumes'),
+                    tdClass: 'text-right',
+                    field: 'costumes'
+                }
+            ],
+            rows: []
+        }
+    },
+    mounted () {
+        this.getPrivateUsers()
     }
+}
 </script>

@@ -21,7 +21,7 @@
             <h1>
                 {{event.name}}
                 <div>
-                    <small class="text-muted" v-for="allegiance in event.allegiances">
+                    <small class="text-muted" v-for="allegiance in event.allegiances" v-bind:key="allegiance">
                         {{allegiance}}
                     </small>
                 </div>
@@ -146,7 +146,7 @@
                 </div>
             </b-col>
         </b-row>
-        <div class="jumbotron mb-3" v-for="(eventDate, index) in event.eventDates">
+        <div class="jumbotron mb-3" v-for="(eventDate, index) in event.eventDates" v-bind:key="index">
             <b-row>
                 <b-col md="12">
                     <div v-if="isSignedUp(eventDate)">
@@ -237,7 +237,7 @@
                     </vue-good-table>
                     <div class="mt-2" v-if="eventDate.cancelledUsers.length > 0">
                         {{$t('sign-outs')}}:
-                        <span class="add-comma-after" v-for="(cancelledUser, index) in eventDate.cancelledUsers">
+                        <span class="add-comma-after" v-for="cancelledUser in eventDate.cancelledUsers" v-bind:key="cancelledUser.username">
                             <span v-if="cancelledUser.username">
                                 {{cancelledUser.username}}
                             </span>
@@ -304,7 +304,7 @@
                     <div v-if="event.canRegisterGuests">
                         <div class="mt-2" v-if="eventDate.guests && eventDate.guests.length > 0">
                             {{$t('guests')}}:
-                            <span class="add-comma-after" v-for="(guest, index) in eventDate.guests">{{guest}}</span>
+                            <span class="add-comma-after" v-for="guest in eventDate.guests" v-bind:key="guest">{{guest}}</span>
                         </div>
                         <b-button v-b-modal="'add-guest-' + index" size="sm mt-2">
                             <i class="fa fa-plus" aria-hidden="true"></i>
@@ -345,323 +345,323 @@
 </template>
 
 <script>
-    import Axios from 'axios'
-    import moment from 'moment'
-    import { isLoggedIn } from '../utils/auth'
-    import { getPrivateEvent } from '../utils/events-api'
-    import EventForm from './EventForm.vue'
-    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+import Axios from 'axios'
+import moment from 'moment'
+import { isLoggedIn } from '../utils/auth'
+import { getPrivateEvent } from '../utils/events-api'
+import EventForm from './EventForm.vue'
+Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
-    moment.locale('nl')
+moment.locale('nl')
 
-    export default {
-        name: 'event-details',
-        components: {
-            EventForm
+export default {
+    name: 'event-details',
+    components: {
+        EventForm
+    },
+    filters: {
+        humanreadableDate: function (date) {
+            return moment(date).format('dddd D MMMM YYYY')
+        }
+    },
+    props: ['id'],
+    computed: {
+        profile () {
+            return this.$store.state.profile
         },
-        filters: {
-            humanreadableDate: function (date) {
-                return moment(date).format('dddd D MMMM YYYY')
+        profileCostumes () {
+            let costumeOptions = []
+            if (this.$store.state.profile['https://iris.501st.nl/user_metadata'] !== undefined) {
+                for (let costume of this.$store.state.profile['https://iris.501st.nl/user_metadata'].costumes) {
+                    costumeOptions.push({
+                        text: costume.name,
+                        value: costume.name
+                    })
+                }
+            }
+            return costumeOptions
+        }
+    },
+    methods: {
+        getEventStartTimeForCalendar (date) {
+            if (date) {
+                const dateForCalendar = moment(date).set(
+                    {
+                        hour: parseInt(this.$data.event.gatherTime.substring(0, 2)),
+                        minute: parseInt(this.$data.event.gatherTime.substring(3, 2))
+                    }
+                )
+                return dateForCalendar.toDate()
             }
         },
-        props: ['id'],
-        computed: {
-            profile () {
-                return this.$store.state.profile
-            },
-            profileCostumes () {
-                let costumeOptions = []
-                if (this.$store.state.profile['https://iris.501st.nl/user_metadata'] !== undefined) {
-                    for (let costume of this.$store.state.profile['https://iris.501st.nl/user_metadata'].costumes) {
-                        costumeOptions.push({
-                            text: costume.name,
-                            value: costume.name
-                        })
-                    }
-                }
-                return costumeOptions
+        getEventEndTimeForCalendar (date) {
+            if (date) {
+                var eventDate = new Date(date)
+                eventDate.setHours(this.$data.event.endTime.substring(0, 2) + 1)
+                eventDate.setMinutes(this.$data.event.endTime.substring(3, 2))
+
+                return eventDate
             }
         },
-        methods: {
-            getEventStartTimeForCalendar (date) {
-                if (date) {
-                    const dateForCalendar = moment(date).set(
-                        {
-                            hour: parseInt(this.$data.event.gatherTime.substring(0, 2)),
-                            minute: parseInt(this.$data.event.gatherTime.substring(3, 2))
-                        }
-                    )
-                    return dateForCalendar.toDate()
+        formatDateForRow (rowObject) {
+            return moment(rowObject.signUpDate).format('D-M-YYYY h:mm')
+        },
+        isSignedUp: function (eventDate) {
+            for (let user of eventDate.signedUpUsers) {
+                if (user.userId === this.$store.state.profile.sub) {
+                    return true
                 }
-            },
-            getEventEndTimeForCalendar (date) {
-                if (date) {
-                    var eventDate = new Date(date)
-                    eventDate.setHours(this.$data.event.endTime.substring(0, 2) + 1)
-                    eventDate.setMinutes(this.$data.event.endTime.substring(3, 2))
+            }
+            return false
+        },
+        signupPossible: function (eventDate) {
+            const eventDateMoment = moment(eventDate.date)
+            const isInPast = moment().diff(eventDateMoment, 'day') > 7
 
-                    return eventDate
+            for (let user of eventDate.cancelledUsers) {
+                if (user.userId === this.$store.state.profile.sub) {
+                    return false
                 }
-            },
-            formatDateForRow (rowObject) {
-                return moment(rowObject.signUpDate).format('D-M-YYYY h:mm')
-            },
-            isSignedUp: function (eventDate) {
-                for (let user of eventDate.signedUpUsers) {
-                    if (user.userId === this.$store.state.profile.sub) {
-                        return true
-                    }
-                }
+            }
+
+            if (!eventDate.open) {
                 return false
-            },
-            signupPossible: function (eventDate) {
-                const eventDateMoment = moment(eventDate.date)
-                const isInPast = moment().diff(eventDateMoment, 'day') > 7
+            }
 
-                for (let user of eventDate.cancelledUsers) {
-                    if (user.userId === this.$store.state.profile.sub) {
-                        return false
-                    }
-                }
-
-                if (!eventDate.open) {
-                    return false
-                }
-
-                if (eventDate.availableSpots <= eventDate.signedUpUsers.length) {
-                    return false
-                }
-
-                if (isInPast) {
-                    return false
-                }
-
-                return true
-            },
-            getProgressBarWidth: function (eventDate) {
-                if (eventDate.signedUpUsers) {
-                    return Math.round((eventDate.signedUpUsers.length / eventDate.availableSpots) * 100)
-                }
-            },
-            getSpotsLeft: function (eventDate) {
-                if (eventDate.signedUpUsers) {
-                    return (eventDate.availableSpots - eventDate.signedUpUsers.length)
-                }
-            },
-            hasSignedUpUsers: function (eventDate) {
-                if (eventDate && eventDate.signedUpUsers) {
-                    if (eventDate.signedUpUsers.length > 0) {
-                        return true
-                    }
-                }
+            if (eventDate.availableSpots <= eventDate.signedUpUsers.length) {
                 return false
-            },
-            getGoogleMapsDirectionsUrl () {
-                const event = this.$data.event
-                return `https://www.google.com/maps/search/?api=1&query=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}`
-            },
-            getGoogleMapsStaticImageUrl () {
-                const event = this.$data.event
-                return `https://maps.googleapis.com/maps/api/staticmap?center=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}&zoom=13&size=600x200&maptype=roadmap&markers=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}&key=AIzaSyAYazeF-nhbaP3tkZTqsoipY7JOfXb7qAM`
-            },
-            getFirstDate: function () {
-                return this.$data.event.eventDates[0].date
-            },
-            getLastDate: function () {
-                const eventDates = this.$data.event.eventDates
-                return eventDates[eventDates.length - 1].date
-            },
-            moment: function () {
-                return moment()
-            },
-            isLoggedIn () {
-                return isLoggedIn()
-            },
-            getPrivateEvent () {
-                getPrivateEvent(this.$route.params.id).then((event) => {
-                    this.event = event
-                })
-            },
-            showModal () {
-                this.$refs.myModalRef.show()
-            },
-            hideSignUpModal (index) {
-                this.$refs[`modal${index}`][0].hide()
-            },
-            hideSignUpModalGuest (index) {
-                this.$refs[`modal-guest-${index}`][0].hide()
-            },
-            hideSignOutModal (index, modalIndex) {
-                if (this.$refs[`sign-out-modal${index}-${modalIndex}`][0]) {
-                    this.$refs[`sign-out-modal${index}-${modalIndex}`][0].hide()
-                }
-            },
-            signUp (index) {
-                const that = this
-                const signUpData = {
-                    eventId: this.$data.event._id,
-                    eventDatesIndex: index,
-                    costume: this.$data.selectedCostume,
-                    username: this.$store.state.profile['https://iris.501st.nl/user_metadata'].username,
-                    avatar: this.$store.state.profile['https://iris.501st.nl/legion_thumbnail'],
-                    userId: this.$store.state.profile.sub
-                }
-                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+            }
 
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        Axios.put(`${process.env.API_URL}/api/private/event/signup`, signUpData)
-                            .then(function (response) {
-                                if (response.data.success) {
-                                    that.hideSignUpModal(index)
-                                    that.showSuccessSignup({
-                                        message: that.$t('sign-up-success')
-                                    })
-                                    that.getPrivateEvents()
-                                } else {
-                                    that.$router.push('events')
-                                }
-                            })
-                            .catch(function (error) {
-                                console.log(error)
-                            })
-                    } else {
-                        alert('Please correctly fill in all the fields')
-                    }
-                })
-            },
-            signUpGuest: function (index, guestName) {
-                const that = this
-                const signUpData = {
-                    eventId: this.$data.event._id,
-                    eventDatesIndex: index,
-                    guestName
-                }
+            if (isInPast) {
+                return false
+            }
 
-                if (signUpData && signUpData.guestName) {
-                    Axios.put(`${process.env.API_URL}/api/private/event/signupguest`, signUpData)
+            return true
+        },
+        getProgressBarWidth: function (eventDate) {
+            if (eventDate.signedUpUsers) {
+                return Math.round((eventDate.signedUpUsers.length / eventDate.availableSpots) * 100)
+            }
+        },
+        getSpotsLeft: function (eventDate) {
+            if (eventDate.signedUpUsers) {
+                return (eventDate.availableSpots - eventDate.signedUpUsers.length)
+            }
+        },
+        hasSignedUpUsers: function (eventDate) {
+            if (eventDate && eventDate.signedUpUsers) {
+                if (eventDate.signedUpUsers.length > 0) {
+                    return true
+                }
+            }
+            return false
+        },
+        getGoogleMapsDirectionsUrl () {
+            const event = this.$data.event
+            return `https://www.google.com/maps/search/?api=1&query=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}`
+        },
+        getGoogleMapsStaticImageUrl () {
+            const event = this.$data.event
+            return `https://maps.googleapis.com/maps/api/staticmap?center=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}&zoom=13&size=600x200&maptype=roadmap&markers=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}&key=AIzaSyAYazeF-nhbaP3tkZTqsoipY7JOfXb7qAM`
+        },
+        getFirstDate: function () {
+            return this.$data.event.eventDates[0].date
+        },
+        getLastDate: function () {
+            const eventDates = this.$data.event.eventDates
+            return eventDates[eventDates.length - 1].date
+        },
+        moment: function () {
+            return moment()
+        },
+        isLoggedIn () {
+            return isLoggedIn()
+        },
+        getPrivateEvent () {
+            getPrivateEvent(this.$route.params.id).then((event) => {
+                this.event = event
+            })
+        },
+        showModal () {
+            this.$refs.myModalRef.show()
+        },
+        hideSignUpModal (index) {
+            this.$refs[`modal${index}`][0].hide()
+        },
+        hideSignUpModalGuest (index) {
+            this.$refs[`modal-guest-${index}`][0].hide()
+        },
+        hideSignOutModal (index, modalIndex) {
+            if (this.$refs[`sign-out-modal${index}-${modalIndex}`][0]) {
+                this.$refs[`sign-out-modal${index}-${modalIndex}`][0].hide()
+            }
+        },
+        signUp (index) {
+            const that = this
+            const signUpData = {
+                eventId: this.$data.event._id,
+                eventDatesIndex: index,
+                costume: this.$data.selectedCostume,
+                username: this.$store.state.profile['https://iris.501st.nl/user_metadata'].username,
+                avatar: this.$store.state.profile['https://iris.501st.nl/legion_thumbnail'],
+                userId: this.$store.state.profile.sub
+            }
+            Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    Axios.put(`${process.env.VUE_APP_API_URL}/api/private/event/signup`, signUpData)
                         .then(function (response) {
-                            that.hideSignUpModalGuest(index)
-                            that.showSuccessSignup({
-                                message: that.$t('sign-up-success')
-                            })
-                            that.getPrivateEvents()
+                            if (response.data.success) {
+                                that.hideSignUpModal(index)
+                                that.showSuccessSignup({
+                                    message: that.$t('sign-up-success')
+                                })
+                                that.getPrivateEvents()
+                            } else {
+                                that.$router.push('events')
+                            }
                         })
                         .catch(function (error) {
                             console.log(error)
                         })
+                } else {
+                    alert('Please correctly fill in all the fields')
                 }
-            },
-            signOut: function (props, eventDataIndex, modalIndex) {
-                const that = this
-                const signOutData = {
-                    eventId: this.$data.event._id,
-                    eventDateIndex: eventDataIndex,
-                    userId: props.row.userId,
-                    indexToMoveToCancelled: props.index,
-                    signoutReason: props.row.signoutReason ? props.row.signoutReason : this.$t('no-reason-speficied')
-                }
-                Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
-                Axios.post(`${process.env.API_URL}/api/private/event/signout`, signOutData)
-                    .then(function () {
-                        that.hideSignOutModal(eventDataIndex, modalIndex)
+            })
+        },
+        signUpGuest: function (index, guestName) {
+            const that = this
+            const signUpData = {
+                eventId: this.$data.event._id,
+                eventDatesIndex: index,
+                guestName
+            }
+
+            if (signUpData && signUpData.guestName) {
+                Axios.put(`${process.env.VUE_APP_API_URL}/api/private/event/signupguest`, signUpData)
+                    .then(function (response) {
+                        that.hideSignUpModalGuest(index)
+                        that.showSuccessSignup({
+                            message: that.$t('sign-up-success')
+                        })
                         that.getPrivateEvents()
                     })
-            },
-            emailEvent () {
-                console.log(this)
-                // if (confirm(this.$t('email-sure'))) {
-                //     Axios.post(`${process.env.API_URL}/api/private/email`, {
-                //         id: this.$data.event._id
-                //     })
-                //         .then(function (response) {
-                //             console.log(response)
-                //         })
-                //         .catch(function (error) {
-                //             console.log(error)
-                //         })
-                // }
+                    .catch(function (error) {
+                        console.log(error)
+                    })
             }
         },
-        data () {
-            return {
-                breadcrumbs: [{
-                    text: 'Home',
-                    to: '/'
-                }, {
-                    text: this.$t('events'),
-                    to: '/events'
-                }, {
-                    text: this.$t('details'),
-                    active: true
-                }],
-                selectedCostume: null,
-                event: {
-                    name: '',
-                    description: '',
-                    eventDates: [
-                        {
-                            date: '',
-                            availableSpots: 0,
-                            open: true,
-                            signedUpUsers: [],
-                            cancelledUsers: []
-                        }
-                    ],
-                    gatherTime: '',
-                    startTime: '',
-                    endTime: '',
-                    forumUrl: '',
-                    facebookEvent: '',
-                    websiteUrl: '',
-                    publiclyAccessible: true,
-                    dressingroomAvailable: true,
-                    travelRestitution: true,
-                    parkingRestitution: true,
-                    parking: true,
-                    lunch: true,
-                    drinks: true,
-                    canRegisterGuests: true,
-                    isArchived: false
-                },
-                columns: [
+        signOut: function (props, eventDataIndex, modalIndex) {
+            const that = this
+            const signOutData = {
+                eventId: this.$data.event._id,
+                eventDateIndex: eventDataIndex,
+                userId: props.row.userId,
+                indexToMoveToCancelled: props.index,
+                signoutReason: props.row.signoutReason ? props.row.signoutReason : this.$t('no-reason-speficied')
+            }
+            Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+            Axios.post(`${process.env.VUE_APP_API_URL}/api/private/event/signout`, signOutData)
+                .then(function () {
+                    that.hideSignOutModal(eventDataIndex, modalIndex)
+                    that.getPrivateEvents()
+                })
+        },
+        emailEvent () {
+            console.log(this)
+            // if (confirm(this.$t('email-sure'))) {
+            //     Axios.post(`${process.env.VUE_APP_API_URL}/api/private/email`, {
+            //         id: this.$data.event._id
+            //     })
+            //         .then(function (response) {
+            //             console.log(response)
+            //         })
+            //         .catch(function (error) {
+            //             console.log(error)
+            //         })
+            // }
+        }
+    },
+    data () {
+        return {
+            breadcrumbs: [{
+                text: 'Home',
+                to: '/'
+            }, {
+                text: this.$t('events'),
+                to: '/events'
+            }, {
+                text: this.$t('details'),
+                active: true
+            }],
+            selectedCostume: null,
+            event: {
+                name: '',
+                description: '',
+                eventDates: [
                     {
-                        label: ''
-                    },
-                    {
-                        label: this.$t('name'),
-                        field: 'username',
-                        tdClass: 'text-left'
-                    },
-                    {
-                        label: this.$t('signup-date'),
-                        field: this.formatDateForRow,
-                        tdClass: 'text-right'
-                    },
-                    {
-                        label: this.$t('costume'),
-                        field: 'costume',
-                        tdClass: 'text-right'
-                    },
-                    {
-                        label: '',
-                        tdClass: 'text-right'
+                        date: '',
+                        availableSpots: 0,
+                        open: true,
+                        signedUpUsers: [],
+                        cancelledUsers: []
                     }
                 ],
-                rows: []
-            }
-        },
-        notifications: {
-            showSuccessSignup: {
-                type: 'success',
-                title: 'Signed up',
-                message: 'Success!'
-            }
-        },
-        mounted () {
-            this.getPrivateEvent()
+                gatherTime: '',
+                startTime: '',
+                endTime: '',
+                forumUrl: '',
+                facebookEvent: '',
+                websiteUrl: '',
+                publiclyAccessible: true,
+                dressingroomAvailable: true,
+                travelRestitution: true,
+                parkingRestitution: true,
+                parking: true,
+                lunch: true,
+                drinks: true,
+                canRegisterGuests: true,
+                isArchived: false
+            },
+            columns: [
+                {
+                    label: ''
+                },
+                {
+                    label: this.$t('name'),
+                    field: 'username',
+                    tdClass: 'text-left'
+                },
+                {
+                    label: this.$t('signup-date'),
+                    field: this.formatDateForRow,
+                    tdClass: 'text-right'
+                },
+                {
+                    label: this.$t('costume'),
+                    field: 'costume',
+                    tdClass: 'text-right'
+                },
+                {
+                    label: '',
+                    tdClass: 'text-right'
+                }
+            ],
+            rows: []
         }
+    },
+    notifications: {
+        showSuccessSignup: {
+            type: 'success',
+            title: 'Signed up',
+            message: 'Success!'
+        }
+    },
+    mounted () {
+        this.getPrivateEvent()
     }
+}
 </script>
 <style scoped>
     .alert {

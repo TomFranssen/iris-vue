@@ -4,7 +4,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VeeValidate from 'vee-validate'
 import BootstrapVue from 'bootstrap-vue'
-import App from './App'
+import App from './App.vue'
 import router from './router'
 import VuexStore from './vuex/store'
 import translations from './i18n/i18n'
@@ -16,6 +16,7 @@ import VueNotifications from 'vue-notifications'
 import Noty from 'noty'
 import 'noty/lib/noty.css'
 import 'vue-instant/dist/vue-instant.css'
+import './registerServiceWorker'
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
 
@@ -58,12 +59,9 @@ const i18n = new VueI18n({
     messages: translations
 })
 
-/* eslint-disable no-new */
 new Vue({
     i18n,
-    el: '#app',
     router,
     store,
-    template: '<App/>',
-    components: { App }
-})
+    render: h => h(App)
+}).$mount('#app')

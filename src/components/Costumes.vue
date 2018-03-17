@@ -36,67 +36,66 @@
 </template>
 
 <script>
-    import Axios from 'axios'
-    import { getPrivateCostumes } from '../utils/costume-api'
-    Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+import Axios from 'axios'
+import { getPrivateCostumes } from '../utils/costume-api'
+Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
-    export default {
-        name: 'events',
-        methods: {
-            getPrivateCostumes () {
-                getPrivateCostumes().then((costumes) => {
-                    this.rows = costumes
-                })
-            },
-            saveCostume: function () {
-                const self = this
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if (confirm('Do you want to add this costume?')) {
-                            Axios.post(`${process.env.API_URL}/api/private/costumes`, this.$data)
-                                .then(function (response) {
-                                    if (response.data.message) {
-                                        alert(response.data.message)
-                                        self.$router.push('costumes')
-                                    } else {
-                                        console.log(response)
-                                    }
-                                })
-                                .catch(function (error) {
-                                    console.log(error)
-                                })
-                        }
-                        return
-                    }
-                    alert('Please correctly fill in all the fields.')
-                    this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
-                })
-            }
+export default {
+    name: 'events',
+    methods: {
+        getPrivateCostumes () {
+            getPrivateCostumes().then((costumes) => {
+                this.rows = costumes
+            })
         },
-        data () {
-            return {
-                breadcrumbs: [{
-                    text: 'Home',
-                    to: '/'
-                }, {
-                    text: this.$t('costumes'),
-                    active: true
-                }],
-                name: '',
-                columns: [
-                    {
-                        label: this.$t('name'),
-                        tdClass: 'text-right',
-                        field: 'name',
-                        filterable: true
+        saveCostume: function () {
+            const self = this
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    if (confirm('Do you want to add this costume?')) {
+                        Axios.post(`${process.env.VUE_APP_API_URL}/api/private/costumes`, this.$data)
+                            .then(function (response) {
+                                if (response.data.message) {
+                                    alert(response.data.message)
+                                    self.$router.push('costumes')
+                                } else {
+                                    console.log(response)
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error)
+                            })
                     }
-                ],
-                rows: []
-            }
-        },
-        mounted () {
-            this.getPrivateCostumes()
+                    return
+                }
+                alert('Please correctly fill in all the fields.')
+                this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
+            })
         }
+    },
+    data () {
+        return {
+            breadcrumbs: [{
+                text: 'Home',
+                to: '/'
+            }, {
+                text: this.$t('costumes'),
+                active: true
+            }],
+            name: '',
+            columns: [
+                {
+                    label: this.$t('name'),
+                    tdClass: 'text-right',
+                    field: 'name',
+                    filterable: true
+                }
+            ],
+            rows: []
+        }
+    },
+    mounted () {
+        this.getPrivateCostumes()
     }
+}
 </script>
-

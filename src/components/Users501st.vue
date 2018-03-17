@@ -53,85 +53,85 @@
 </template>
 
 <script>
-    import { get501stUsers } from '../utils/users-api'
+import { get501stUsers } from '../utils/users-api'
 
-    export default {
-        name: 'events',
-        methods: {
-            get501stUsers () {
-                get501stUsers().then((info) => {
-                    this.info = info
-                })
-            },
-            getLegionId (rowObj) {
-                return rowObj.legionId.replace('&nbsp;', ' ')
-            }
+export default {
+    name: 'events',
+    methods: {
+        get501stUsers () {
+            get501stUsers().then((info) => {
+                this.info = info
+            })
         },
-        data () {
-            return {
-                breadcrumbs: [{
-                    text: 'Home',
-                    to: '/'
-                }, {
-                    text: '501st Users',
-                    active: true
-                }],
-                info: {
-                    name: '',
-                    unit: {
-                        unitSize: '',
-                        officers: [],
-                        members: []
-                    }
-                },
-                officerColumns: [
-                    {
-                        label: 'Full name',
-                        field: 'fullName',
-                        filterable: true
-                    },
-                    {
-                        label: 'Office',
-                        field: 'office',
-                        filterable: true
-                    },
-                    {
-                        label: 'Office Acronym',
-                        field: 'officeAcronym',
-                        filterable: true
-                    },
-                    {
-                        label: 'Legion ID',
-                        field: this.getLegionId,
-                        filterable: true
-                    },
-                    {
-                        label: '501st Profile',
-                        field: 'profileUrl',
-                        filterable: true
-                    }
-                ],
-                memberColumns: [
-                    {
-                        label: 'Thumnail',
-                        field: 'thumbnail',
-                        filterable: true
-                    },
-                    {
-                        label: 'Legion ID',
-                        field: this.getLegionId,
-                        filterable: true
-                    },
-                    {
-                        label: '501st Profile',
-                        field: 'link',
-                        filterable: true
-                    }
-                ]
-            }
-        },
-        mounted () {
-            this.get501stUsers()
+        getLegionId (rowObj) {
+            return rowObj.legionId.replace('&nbsp;', ' ')
         }
+    },
+    data () {
+        return {
+            breadcrumbs: [{
+                text: 'Home',
+                to: '/'
+            }, {
+                text: '501st Users',
+                active: true
+            }],
+            info: {
+                name: '',
+                unit: {
+                    unitSize: '',
+                    officers: [],
+                    members: []
+                }
+            },
+            officerColumns: [
+                {
+                    label: 'Full name',
+                    field: 'fullName',
+                    filterable: true
+                },
+                {
+                    label: 'Office',
+                    field: 'office',
+                    filterable: true
+                },
+                {
+                    label: 'Office Acronym',
+                    field: 'officeAcronym',
+                    filterable: true
+                },
+                {
+                    label: 'Legion ID',
+                    field: this.getLegionId,
+                    filterable: true
+                },
+                {
+                    label: '501st Profile',
+                    field: 'profileUrl',
+                    filterable: true
+                }
+            ],
+            memberColumns: [
+                {
+                    label: 'Thumnail',
+                    field: 'thumbnail',
+                    filterable: true
+                },
+                {
+                    label: 'Legion ID',
+                    field: this.getLegionId,
+                    filterable: true
+                },
+                {
+                    label: '501st Profile',
+                    field: 'link',
+                    filterable: true
+                }
+            ]
+        }
+    },
+    mounted () {
+        this.get501stUsers()
     }
+}
 </script>
