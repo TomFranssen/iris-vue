@@ -89,7 +89,7 @@
                             <b-form-input
                                 v-validate="'required'"
                                 name="max-signup-date"
-                                v-model="event.maxSignupDate"
+                                v-model="computedMaxSignupDate"
                                 id="max-signup-date"
                                 size="sm"
                                 type="date"
@@ -307,23 +307,23 @@
                             <b-row class="form-row">
                                 <b-col sm="3"><label>{{$t('date')}}</label></b-col>
                                 <b-col sm="9">
-                                    <b-form-input
+                                    <input
                                         v-validate="'required'"
                                         v-bind:name="'eventdate-' + index"
-                                        v-model="eventDate.date"
-                                        v-bind:id="'max-signup-date-' + index"
-                                        size="sm"
+                                        v-bind:value="eventDate.date | dateToString"
+                                        v-on:input="eventDate.date = $event.target.value + 'T00:00:00.000Z'"
+                                        v-bind:id="'event-day-date-' + index"
+                                        class="form-control form-control-sm"
                                         type="date"
                                         placeholder="2018-12-31"
-                                    >
-                                    </b-form-input>
+                                    />
                                     <p class="text-danger" v-if="errors.has('eventdate-' + index)">{{ errors.first('eventdate-' + index) }}</p>
                                 </b-col>
                             </b-row>
                             <b-row class="form-row">
                                 <b-col sm="3"><label>{{$t('available-spots')}}</label></b-col>
                                 <b-col sm="9">
-                                    <b-form-input v-validate="'required'" v-model="eventDate.availableSpots" v-bind:name="'eventdate-availablespots-' + index" id="available-spots" size="sm" type="number"></b-form-input>
+                                    <b-form-input v-validate="'required'" v-model.number="eventDate.availableSpots" v-bind:name="'eventdate-availablespots-' + index" id="available-spots" size="sm" type="number"></b-form-input>
                                     <p class="text-danger" v-if="errors.has('eventdate-availablespots-' + index)">{{ errors.first('eventdate-availablespots-' + index) }}</p>
                                 </b-col>
                             </b-row>
@@ -421,12 +421,34 @@
 </template>
 <script>
 import Axios from 'axios'
+import DateInput from './DateInput.vue'
 const MAX_DAYS = 20
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
 export default {
+    components: {
+        DateInput
+    },
     name: 'EventForm',
     props: ['event', 'edit'],
+    computed: {
+        computedMaxSignupDate: {
+            get: function (test) {
+                console.log(test)
+                if (this.event.maxSignupDate) {
+                    return this.event.maxSignupDate.substring(0, 10)
+                }
+            },
+            set: function (newValue) {
+                this.event.maxSignupDate = newValue + 'T00:00:00.000Z'
+            }
+        }
+    },
+    filters: {
+        dateToString (date) {
+            return date.toString().substr(0, 10)
+        }
+    },
     methods: {
         canAddDate: function () {
             return this.event.eventDates.length < MAX_DAYS

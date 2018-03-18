@@ -30,10 +30,13 @@
         <div>
             <p>{{event.description}}</p>
         </div>
-        <b-row class="mb-3">
+        <b-row class="mb-3 mail-content">
             <b-col md="5">
                 <h2>{{$t('basic-info')}}</h2>
                 <i class="fa fa-calendar" aria-hidden="true"></i>
+                <span class="sr-only">
+                    {{$t('date')}}
+                </span>
                 <span v-if="getFirstDate()">
                     {{ getFirstDate() | moment('DD MMMM YYYY') }}
                 </span>
@@ -45,14 +48,14 @@
                     {{$t('signup-until')}}
                     {{event.maxSignupDate | moment('DD MMMM')}}
                 </div>
-                <div class="times">
+                <div class="times" style="margin-bottom: 10px;">
                     <div>
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                         {{$t('from')}} {{event.startTime}}
                         {{$t('untill')}}
                         {{event.endTime}}
-                        <div class="text-muted text-lowercase">
-                            {{event.gatherTime}} {{$t('gather-time')}}
+                        <div class="text-muted">
+                            {{$t('gather-time')}} {{event.gatherTime}}
                         </div>
                     </div>
                 </div>
@@ -78,44 +81,54 @@
             <b-col md="3">
                 <div>
                     <h2>{{$t('details')}}</h2>
-                    <ul class="fa-ul">
+                    <ul class="fa-ul" style="list-style: none; padding: 0;">
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.publiclyAccessible, 'fa-times': !event.publiclyAccessible }"></i>
+                            <span v-if="event.publiclyAccessible" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             {{$t('publicly-accessible')}}
                         </li>
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.dressingroomAvailable, 'fa-times': !event.dressingroomAvailable }"></i>
+                            <span v-if="event.dressingroomAvailable" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             {{$t('dressingroom-available')}}
                         </li>
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.travelRestitution, 'fa-times': !event.travelRestitution }"></i>
+                            <span v-if="event.travelRestitution" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             {{$t('travel-restitution')}}
                         </li>
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.parking, 'fa-times': !event.parking }"></i>
+                            <span v-if="event.parking" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             {{$t('parking-available')}}
                         </li>
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.parkingRestitution, 'fa-times': !event.parkingRestitution }"></i>
+                            <span v-if="event.parkingRestitution" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             {{$t('parking-restitution')}}
                         </li>
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.lunch, 'fa-times': !event.lunch }"></i>
+                            <span v-if="event.lunch" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             {{$t('lunch-available')}}
                         </li>
                         <li>
+                            <span v-if="event.drinks" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             <i class="fa-li fa" v-bind:class="{ 'fa-check': event.drinks, 'fa-times': !event.drinks }"></i>
                             {{$t('drinks-available')}}
                         </li>
                     </ul>
                     <h2>{{$t('rules')}}</h2>
-                    <ul class="fa-ul">
+                    <ul class="fa-ul" style="list-style: none; padding: 0;">
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.canRegisterGuests, 'fa-times': !event.canRegisterGuests }"></i>
+                            <span v-if="event.canRegisterGuests" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             {{$t('guests-allowed')}}
                         </li>
                         <li>
-                            <i class="fa-li fa" v-bind:class="{ 'fa-check': event.blastersAllowed, 'fa-times': !event.blastersAllowed }"></i>
+                            <span v-if="event.blastersAllowed" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
                             {{$t('blasters-allowed')}}
                         </li>
                     </ul>
@@ -246,7 +259,8 @@
 
                     <div v-if="!isSignedUp(eventDate)">
                         <b-alert show variant="warning" v-if="!signupPossible(eventDate)">
-                            {{$t('sign-up-not-possible')}}
+                            {{$t('sign-up-not-possible')}}:
+                            {{eventDate.notPossibleReason}}
                         </b-alert>
                         <div class="row" v-if="signupPossible(eventDate)">
                             <div class="col mt-3">
@@ -420,19 +434,23 @@ export default {
 
             for (let user of eventDate.cancelledUsers) {
                 if (user.userId === this.$store.state.profile.sub) {
+                    eventDate.notPossibleReason = this.$t('reason-again')
                     return false
                 }
             }
 
             if (!eventDate.open) {
+                eventDate.notPossibleReason = this.$t('reason-not-open')
                 return false
             }
 
             if (eventDate.availableSpots <= eventDate.signedUpUsers.length) {
+                eventDate.notPossibleReason = this.$t('reason-no-spots-left')
                 return false
             }
 
             if (isInPast) {
+                eventDate.notPossibleReason = this.$t('reason-in-the-past')
                 return false
             }
 
@@ -517,7 +535,7 @@ export default {
                                 that.showSuccessSignup({
                                     message: that.$t('sign-up-success')
                                 })
-                                that.getPrivateEvents()
+                                that.getPrivateEvent()
                             } else {
                                 that.$router.push('events')
                             }
@@ -545,7 +563,7 @@ export default {
                         that.showSuccessSignup({
                             message: that.$t('sign-up-success')
                         })
-                        that.getPrivateEvents()
+                        that.getPrivateEvent()
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -565,22 +583,23 @@ export default {
             Axios.post(`${process.env.VUE_APP_API_URL}/api/private/event/signout`, signOutData)
                 .then(function () {
                     that.hideSignOutModal(eventDataIndex, modalIndex)
-                    that.getPrivateEvents()
+                    that.getPrivateEvent()
                 })
         },
         emailEvent () {
             console.log(this)
-            // if (confirm(this.$t('email-sure'))) {
-            //     Axios.post(`${process.env.VUE_APP_API_URL}/api/private/email`, {
-            //         id: this.$data.event._id
-            //     })
-            //         .then(function (response) {
-            //             console.log(response)
-            //         })
-            //         .catch(function (error) {
-            //             console.log(error)
-            //         })
-            // }
+            if (confirm(this.$t('email-sure'))) {
+                Axios.post(`${process.env.VUE_APP_API_URL}/api/private/email`, {
+                    id: this.$data.event._id,
+                    html: document.querySelectorAll('.mail-content')[0].innerHTML
+                })
+                    .then(function (response) {
+                        console.log(response)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            }
         }
     },
     data () {

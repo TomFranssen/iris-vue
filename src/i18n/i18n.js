@@ -31,7 +31,6 @@ const translations = {
         'days': 'Days',
         'day': 'Day',
         'remove-day': 'Remove day',
-        'date': 'Date',
         'available-spots': 'Available spots',
         'open-for-registration': 'Open for registration',
         'add-day': 'Add extra day',
@@ -110,7 +109,12 @@ const translations = {
         'save-event': 'Save event',
         'send-notification': 'E-mail notification',
         'blasters-allowed': 'Blasters allowed',
-        'rules': 'Regels'
+        'rules': 'Regels',
+        'date': 'Date',
+        'reason-again': 'you already cancelled',
+        'reason-not-open': 'event not open for registration',
+        'reason-no-spots-left': 'no more spots left',
+        'reason-in-the-past': 'evenement has already taken place'
     },
     nl: {
         'info': 'Info',
@@ -144,7 +148,6 @@ const translations = {
         'days': 'Dagen',
         'day': 'Dag',
         'remove-day': 'Verwijder dag',
-        'date': 'Datum',
         'available-spots': 'Beschikbare plekken',
         'open-for-registration': 'Inschrijven toestaan',
         'add-day': 'Voeg extra dag toe',
@@ -224,7 +227,12 @@ const translations = {
         'email-sure': 'Weet je zeker dat je iedereen een e-mail wil sturen?',
         'send-notification': 'Verstuur aankondiging',
         'blasters-allowed': 'Blasters toegestaan',
-        'rules': 'Regels'
+        'rules': 'Regels',
+        'date': 'Datum',
+        'reason-again': 'je hebt al geannuleerd',
+        'reason-not-open': 'gesloten voor registratie',
+        'reason-no-spots-left': 'geen plekken vrij',
+        'reason-in-the-past': 'evenement heeft reeks plaatsgevonden'
     },
     de: {
         'info': 'Info',
