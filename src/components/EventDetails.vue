@@ -164,25 +164,13 @@
                 <b-col md="12">
                     <div v-if="isSignedUp(eventDate)">
                         <add-to-calendar
-                            v-bind:title="event.name"
-                            v-bind:location="event.street + ' ' + event.houseNumber + ' ' + event.postcode + ' ' + event.city"
-                            v-bind:start="getEventStartTimeForCalendar(eventDate.date)"
-                            v-bind:end="getEventEndTimeForCalendar(eventDate.date)"
-                            v-bind:details="event.description"
-                            inline-template
-                        >
-                            <div class="float-right">
-                                <google-calendar id="google-calendar">
-                                    <i class="fa fa-google"></i>
-                                    {{$t('add-to-google-calendar')}}
-                                </google-calendar>
-                                &nbsp;&nbsp;|&nbsp;&nbsp;
-                                <microsoft-calendar id="microsoft-calendar">
-                                    <i class="fa fa-windows"></i>
-                                    {{$t('add-to-microsoft-calendar')}}
-                                </microsoft-calendar>
-                            </div>
-                        </add-to-calendar>
+                            v-bind:name="event.name"
+                            v-bind:description="event.description"
+                            v-bind:start-date="getEventStartTimeForCalendar()"
+                        ></add-to-calendar>
+
+                        {{getEventStartTimeForCalendar()}}
+
                     </div>
                     <h2>
                         <div class="text-capitalize">
@@ -364,6 +352,7 @@ import moment from 'moment'
 import { isLoggedIn } from '../utils/auth'
 import { getPrivateEvent } from '../utils/events-api'
 import EventForm from './EventForm.vue'
+import AddToCalendar from './AddToCalendar.vue'
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
 moment.locale('nl')
@@ -371,7 +360,8 @@ moment.locale('nl')
 export default {
     name: 'event-details',
     components: {
-        EventForm
+        EventForm,
+        AddToCalendar
     },
     filters: {
         humanreadableDate: function (date) {
@@ -397,22 +387,16 @@ export default {
         }
     },
     methods: {
-        getEventStartTimeForCalendar (date) {
-            if (date) {
-                const dateForCalendar = moment(date).set(
-                    {
-                        hour: parseInt(this.$data.event.gatherTime.substring(0, 2)),
-                        minute: parseInt(this.$data.event.gatherTime.substring(3, 2))
-                    }
-                )
-                return dateForCalendar.toDate()
+        getEventStartTimeForCalendar () {
+            if (this.$data.event && this.$data.event.gatherTime) {
+                console.log(this.$data.event)
+
+                return ''
             }
         },
         getEventEndTimeForCalendar (date) {
             if (date) {
-                var eventDate = new Date(date)
-                eventDate.setHours(this.$data.event.endTime.substring(0, 2) + 1)
-                eventDate.setMinutes(this.$data.event.endTime.substring(3, 2))
+                var eventDate = this.$data.event.eventDates[0].date
 
                 return eventDate
             }

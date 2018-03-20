@@ -421,14 +421,10 @@
 </template>
 <script>
 import Axios from 'axios'
-import DateInput from './DateInput.vue'
 const MAX_DAYS = 20
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
 export default {
-    components: {
-        DateInput
-    },
     name: 'EventForm',
     props: ['event', 'edit'],
     computed: {

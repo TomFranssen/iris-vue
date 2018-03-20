@@ -11,7 +11,6 @@ import translations from './i18n/i18n'
 import VueI18n from 'vue-i18n'
 import VueGoodTable from 'vue-good-table'
 import VueInstant from 'vue-instant'
-import AddToCalendar from 'vue-add-to-calendar'
 import VueNotifications from 'vue-notifications'
 import Noty from 'noty'
 import 'noty/lib/noty.css'
@@ -35,7 +34,6 @@ Vue.use(Vuex)
 Vue.use(VueI18n)
 Vue.use(VueGoodTable)
 Vue.use(VueInstant)
-Vue.use(AddToCalendar)
 Vue.use(require('vue-moment'))
 
 function toast ({title, message, type, timeout, cb}) {
