@@ -2,9 +2,21 @@
     <div>
         <a
             v-bind:href="getGoogleCalendarUrl()"
-            target="_blank" rel="nofollow">Add to my calendar</a>
+            target="_blank" 
+            rel="nofollow"
+        >
+            Add to my calendar
+        </a>
+        <br>
         {{getGoogleCalendarUrl()}}
+        <br>
+        20140127T224000Z/20140320T221500Z
+        <br>
         {{startDate}}
+        <br>
+        {{endDate}}
+        <br>
+        {{location}}
     </div>
 </template>
 <script>
@@ -13,14 +25,16 @@ export default {
     props: [
         'name',
         'description',
-        'startDate'
+        'startDate',
+        'endDate',
+        'location'
     ],
     methods: {
         encodeURI: (value) => {
             return encodeURIComponent(value)
         },
         getGoogleCalendarUrl: function () {
-            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${this.name}&dates=20140127T224000Z/20140320T221500Z&details=${encodeURI(this.description)}&location=Waldorf+Astoria,+301+Park+Ave+,+New+York,+NY+10022&sf=true&output=xml`
+            return `https://www.google.com/calendar/render?action=TEMPLATE&text=${this.name}&dates=${this.startDate}/${this.endDate}&details=${encodeURI(this.description)}&location=${encodeURI(this.location)}`
         }
     }
 }

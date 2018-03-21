@@ -166,11 +166,10 @@
                         <add-to-calendar
                             v-bind:name="event.name"
                             v-bind:description="event.description"
-                            v-bind:start-date="getEventStartTimeForCalendar()"
+                            v-bind:start-date="getEventStartTimeForCalendar(eventDate)"
+                            v-bind:end-date="getEventEndTimeForCalendar(eventDate)"
+                            v-bind:location="event.street + ', ' + event.houseNumber + ', ' + event.postcode + ', ' + event.city"
                         ></add-to-calendar>
-
-                        {{getEventStartTimeForCalendar()}}
-
                     </div>
                     <h2>
                         <div class="text-capitalize">
@@ -387,18 +386,17 @@ export default {
         }
     },
     methods: {
-        getEventStartTimeForCalendar () {
-            if (this.$data.event && this.$data.event.gatherTime) {
-                console.log(this.$data.event)
-
-                return ''
+        getEventStartTimeForCalendar (date) {
+            if (date && this.$data.event && this.$data.event.gatherTime) {
+                const computedDate = (date.date.substring(0, 11) + this.$data.event.gatherTime + '00').replace(/-/g, '').replace(/\:/g, '')
+                return computedDate
             }
         },
         getEventEndTimeForCalendar (date) {
-            if (date) {
-                var eventDate = this.$data.event.eventDates[0].date
-
-                return eventDate
+            if (date && this.$data.event && this.$data.event.endTime) {
+                const computedDate = (date.date.substring(0, 11) + this.$data.event.endTime + '00').replace(/-/g, '').replace(/\:/g, '')
+                console.log(computedDate)
+                return computedDate
             }
         },
         formatDateForRow (rowObject) {
