@@ -164,6 +164,7 @@
                 <b-col md="12">
                     <div v-if="isSignedUp(eventDate)">
                         <add-to-calendar
+                            class="float-right"
                             v-bind:name="event.name"
                             v-bind:description="event.description"
                             v-bind:start-date="getEventStartTimeForCalendar(eventDate)"

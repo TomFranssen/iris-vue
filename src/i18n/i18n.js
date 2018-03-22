@@ -1,5 +1,5 @@
 const translations = {
-    en: {
+    'en-EN': {
         'info': 'Info',
         'change-language': 'Change language',
         'add-event': 'Add event',
@@ -116,7 +116,7 @@ const translations = {
         'reason-no-spots-left': 'no more spots left',
         'reason-in-the-past': 'evenement has already taken place'
     },
-    nl: {
+    'nl-NL': {
         'info': 'Info',
         'change-language': 'Verander taal',
         'add-event': 'Evenement toevoegen',
@@ -234,7 +234,7 @@ const translations = {
         'reason-no-spots-left': 'geen plekken vrij',
         'reason-in-the-past': 'evenement heeft reeks plaatsgevonden'
     },
-    de: {
+    'de-DE': {
         'info': 'Info',
         'change-language': 'Sprache ändern',
         'add-event': 'Ereignis hinzufügen',

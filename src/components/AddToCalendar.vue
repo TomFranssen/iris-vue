@@ -5,18 +5,8 @@
             target="_blank"
             rel="nofollow"
         >
-            Add to my calendar
+            {{$t('add-to-google-calendar')}}
         </a>
-        <br>
-        {{getGoogleCalendarUrl()}}
-        <br>
-        20140127T224000Z/20140320T221500Z
-        <br>
-        {{startDate}}
-        <br>
-        {{endDate}}
-        <br>
-        {{location}}
     </div>
 </template>
 <script>

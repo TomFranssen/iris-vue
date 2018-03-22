@@ -53,7 +53,7 @@ Vue.use(VueNotifications, options)
 const store = new Vuex.Store(VuexStore)
 
 const i18n = new VueI18n({
-    locale: 'nl',
+    locale: 'nl-NL',
     messages: translations
 })
 

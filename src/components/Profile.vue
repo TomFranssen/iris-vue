@@ -84,9 +84,9 @@ export default {
                 active: true
             }],
             languageOptions: [
-                { text: 'English', value: 'en' },
-                { text: 'Nederlands', value: 'nl' },
-                { text: 'Duits', value: 'de' }
+                { text: 'English', value: 'en-EN' },
+                { text: 'Nederlands', value: 'nl-NL' },
+                { text: 'Duits', value: 'de-DE' }
             ]
         }
     },
