@@ -168,7 +168,7 @@
                             v-bind:description="event.description"
                             v-bind:start-date="getEventStartTimeForCalendar(eventDate)"
                             v-bind:end-date="getEventEndTimeForCalendar(eventDate)"
-                            v-bind:location="event.street + ', ' + event.houseNumber + ', ' + event.postcode + ', ' + event.city"
+                            v-bind:location="event.street + ' ' + event.houseNumber + ', ' + event.postcode + ', ' + event.city"
                         ></add-to-calendar>
                     </div>
                     <h2>
@@ -388,13 +388,13 @@ export default {
     methods: {
         getEventStartTimeForCalendar (date) {
             if (date && this.$data.event && this.$data.event.gatherTime) {
-                const computedDate = (date.date.substring(0, 11) + this.$data.event.gatherTime + '00').replace(/-/g, '').replace(/\:/g, '')
+                const computedDate = (date.date.substring(0, 11) + this.$data.event.gatherTime + '00').replace(/-/g, '').replace(/:/g, '')
                 return computedDate
             }
         },
         getEventEndTimeForCalendar (date) {
             if (date && this.$data.event && this.$data.event.endTime) {
-                const computedDate = (date.date.substring(0, 11) + this.$data.event.endTime + '00').replace(/-/g, '').replace(/\:/g, '')
+                const computedDate = (date.date.substring(0, 11) + this.$data.event.endTime + '00').replace(/-/g, '').replace(/:/g, '')
                 console.log(computedDate)
                 return computedDate
             }

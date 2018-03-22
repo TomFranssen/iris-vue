@@ -2,7 +2,7 @@
     <div>
         <a
             v-bind:href="getGoogleCalendarUrl()"
-            target="_blank" 
+            target="_blank"
             rel="nofollow"
         >
             Add to my calendar
