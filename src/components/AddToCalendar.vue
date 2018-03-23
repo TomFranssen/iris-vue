@@ -2,9 +2,9 @@
     <div>
         <a
             v-bind:href="getGoogleCalendarUrl()"
-            target="_blank"
             rel="nofollow"
         >
+            <i class="fa fa-calendar" aria-hidden="true"></i>
             {{$t('add-to-google-calendar')}}
         </a>
     </div>

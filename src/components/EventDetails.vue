@@ -10,7 +10,7 @@
                     {{ getLastDate() | moment('D') }}
                 </div>
             </div>
-            <router-link class="btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">
+            <router-link class="ml-3 btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">
                 <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
             </router-link>
 
@@ -64,11 +64,11 @@
                     {{event.street}} {{event.houseNumber}}, {{event.postcode}}, {{event.city}}
                     <div class="map">
                         <div class="card">
-                            <a target="_blank" v-bind:href="getGoogleMapsDirectionsUrl()">
+                            <a v-bind:href="getGoogleMapsDirectionsUrl()">
                                 <img class="img-fluid card-img-top" v-bind:src="getGoogleMapsStaticImageUrl()" alt="">
                             </a>
                             <div class="card-body">
-                                <a v-bind:href="getGoogleMapsDirectionsUrl()" target="_blank" class="btn btn-primary btn-block">
+                                <a v-bind:href="getGoogleMapsDirectionsUrl()" class="btn btn-primary btn-block">
                                     {{$t('open-in-google-maps')}}
                                     <i class="fa fa-external-link" aria-hidden="true"></i>
                                 </a>
@@ -138,21 +138,21 @@
                 <h2>{{$t('more-info')}}</h2>
                 <div v-if="event.websiteUrl">
                     {{$t('website')}}:
-                    <a v-bind:href="event.websiteUrl" target="_blank" class="card-link">
+                    <a v-bind:href="event.websiteUrl" class="card-link">
                         {{event.websiteUrl}}
                     </a>
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
                 <div v-if="event.forumUrl">
                     {{$t('forum-url')}}:
-                    <a v-bind:href="event.forumUrl" target="_blank" class="card-link">
+                    <a v-bind:href="event.forumUrl" class="card-link">
                         {{event.forumUrl}}
                     </a>
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
                 <div v-if="event.facebookEvent">
                     {{$t('facebook')}}:
-                    <a v-bind:href="event.facebookEvent" target="_blank" class="card-link">
+                    <a v-bind:href="event.facebookEvent" class="card-link">
                         {{event.facebookEvent}}
                     </a>
                     <i class="fa fa-external-link" aria-hidden="true"></i>

@@ -114,7 +114,8 @@ const translations = {
         'reason-again': 'you already cancelled',
         'reason-not-open': 'event not open for registration',
         'reason-no-spots-left': 'no more spots left',
-        'reason-in-the-past': 'evenement has already taken place'
+        'reason-in-the-past': 'evenement has already taken place',
+        'view-archive': 'View archive'
     },
     'nl-NL': {
         'info': 'Info',
@@ -232,7 +233,8 @@ const translations = {
         'reason-again': 'je hebt al geannuleerd',
         'reason-not-open': 'gesloten voor registratie',
         'reason-no-spots-left': 'geen plekken vrij',
-        'reason-in-the-past': 'evenement heeft reeks plaatsgevonden'
+        'reason-in-the-past': 'evenement heeft reeks plaatsgevonden',
+        'view-archive': 'Bekijk archief'
     },
     'de-DE': {
         'info': 'Info',

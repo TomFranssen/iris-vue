@@ -28,8 +28,8 @@
             <router-link class="btn btn-primary" v-bind:to="'/add-event'">
                 <i class="fa fa-plus" aria-hidden="true"></i> {{$t('add-event')}}
             </router-link>
-            <router-link class="btn btn-primary" v-bind:to="'/events-archive'">
-                <i class="fa fa-archive" aria-hidden="true"></i> {{$t('archive')}}
+            <router-link class="ml-3 btn btn-primary" v-bind:to="'/events-archive'">
+                <i class="fa fa-archive" aria-hidden="true"></i> {{$t('view-archive')}}
             </router-link>
         </div>
     </div>
