@@ -7,22 +7,22 @@
                 :columns="columns"
                 :rows="rows"
                 :onClick="showUserDetails"
-                styleClass="table condensed table-bordered table-striped"
+                styleClass="table align-middle text-nowrap condensed table-bordered table-striped"
             >
                 <template slot="table-row" slot-scope="props">
-                    <td width="50">
+                    <td width="50" style="padding: 0;">
                         <div v-if="props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
                             <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
                         </div>
                     </td>
-                    <td>
+                    <td class="align-middle">
                         <div v-if="props.row.user_metadata && props.row.user_metadata.username">
                             {{props.row.user_metadata.username}}
                         </div>
                     </td>
-                    <td>{{props.row.email}}</td>
-                    <td>{{getLegionId(props.row)}}</td>
-                    <td>{{getCostumeCount(props.row)}}</td>
+                    <td class="align-middle">{{props.row.email}}</td>
+                    <td class="align-middle text-right">{{getLegionId(props.row)}}</td>
+                    <td class="align-middle text-center">{{getCostumeCount(props.row)}}</td>
                 </template>
             </vue-good-table>
         </template>

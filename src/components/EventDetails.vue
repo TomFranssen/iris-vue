@@ -10,14 +10,12 @@
                     {{ getLastDate() | moment('D') }}
                 </div>
             </div>
-            <router-link class="ml-3 btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">
+            <router-link v-if="$store.getters.isGec" class="ml-3 btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">
                 <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
             </router-link>
-
-            <b-btn class="float-right" variant="primary" v-on:click="emailEvent">
+            <b-btn v-if="$store.getters.isGec" class="float-right" variant="primary" v-on:click="emailEvent">
                 <i class="fa fa-envelope" aria-hidden="true"></i> {{$t('send-notification')}}
             </b-btn>
-
             <h1>
                 {{event.name}}
                 <div>
@@ -144,9 +142,8 @@
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
                 <div v-if="event.forumUrl">
-                    {{$t('forum-url')}}:
                     <a v-bind:href="event.forumUrl" class="card-link">
-                        {{event.forumUrl}}
+                        {{$t('view-event-on-forum')}}
                     </a>
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>

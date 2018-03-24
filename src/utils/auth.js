@@ -113,10 +113,6 @@ export function isLoggedIn () {
     return !!idToken && !isTokenExpired(idToken)
 }
 
-export function isMember () {
-    return true
-}
-
 function getTokenExpirationDate (encodedToken) {
     const token = decode(encodedToken)
     if (!token.exp) { return null }

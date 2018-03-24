@@ -40,6 +40,7 @@
                 </div>
                 <div>
                     <h2 class="mt-3">{{ $t("change-language") }}</h2>
+                    {{locale}}
                     <b-form-radio-group id="change-language" v-model="locale" :options="languageOptions" name="language">
                     </b-form-radio-group>
                 </div>

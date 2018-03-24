@@ -154,7 +154,9 @@ export default {
         if (this.isLoggedIn()) {
             this.getPrivateSignedUpEvents()
         }
-        localStorage.setItem('redirectUrl', this.$route.query.redirect)
+        if (this.$route.query.redirect) {
+            localStorage.setItem('redirectUrl', this.$route.query.redirect)
+        }
     }
 }
 </script>

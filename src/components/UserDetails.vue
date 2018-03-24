@@ -47,7 +47,7 @@
                     </b-row>
                 </div>
             </div>
-            <div class="col">
+            <div class="col" v-if="$store.getters.isGec">
                 <h1>{{$t('edit-user')}}</h1>
                 <form action="">
                     <b-row class="form-row">

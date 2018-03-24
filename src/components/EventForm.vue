@@ -21,7 +21,6 @@
                             <p class="text-danger" v-if="errors.has('name')">{{ errors.first('name') }}</p>
                         </b-col>
                     </b-row>
-
                     <b-row class="form-row">
                         <b-col sm="3">
                             <label for="description">{{$t('description')}}:</label>
@@ -108,7 +107,7 @@
                     </b-row>
                 </b-col>
                 <b-col lg>
-                    <h2>{{$t('location')}}</h2>
+                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('location')}}</h2>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="street">{{$t('street')}}:</label></b-col>
                         <b-col sm="9">
@@ -160,7 +159,7 @@
                     </b-row>
                 </b-col>
                 <b-col>
-                    <h2>{{$t('more-info')}}</h2>
+                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('more-info')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -245,7 +244,7 @@
                             </b-checkbox>
                         </b-col>
                     </b-row>
-                    <h2>{{$t('rules')}}</h2>
+                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('rules')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -270,7 +269,7 @@
                             </b-checkbox>
                         </b-col>
                     </b-row>
-                    <h2>{{$t('end-info')}}</h2>
+                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('end-info')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -287,7 +286,7 @@
             </b-row>
             <b-row>
                 <b-col lg>
-                    <h2>{{$t('days')}}</h2>
+                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('days')}}</h2>
                     <div v-for="(eventDate, index) in event.eventDates" v-bind:key="index">
                         <b-card class="mb-3">
                             <b-row class="form-row">

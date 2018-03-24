@@ -115,7 +115,12 @@ const translations = {
         'reason-not-open': 'event not open for registration',
         'reason-no-spots-left': 'no more spots left',
         'reason-in-the-past': 'evenement has already taken place',
-        'view-archive': 'View archive'
+        'view-archive': 'View archive',
+        'logout': 'Log out',
+        'manage-users': 'Manage users',
+        'manage-api': 'Manage API',
+        'manage-database': 'Manage database',
+        'view-event-on-forum': 'View event on forum'
     },
     'nl-NL': {
         'info': 'Info',
@@ -234,7 +239,12 @@ const translations = {
         'reason-not-open': 'gesloten voor registratie',
         'reason-no-spots-left': 'geen plekken vrij',
         'reason-in-the-past': 'evenement heeft reeks plaatsgevonden',
-        'view-archive': 'Bekijk archief'
+        'view-archive': 'Bekijk archief',
+        'logout': 'Uitloggen',
+        'manage-users': 'Beheer gebruikers',
+        'manage-api': 'Beheer API',
+        'manage-database': 'Beheer database',
+        'view-event-on-forum': 'Bekijk evenement op forum'
     },
     'de-DE': {
         'info': 'Info',
