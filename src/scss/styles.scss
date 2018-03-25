@@ -19,10 +19,19 @@ h1 {
     margin-bottom: 1rem;
 }
 
+.btn-block-xs {
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+    }
+}
+
 .navbar-brand {
     margin-right: 20px;
 }
 
+.signed-up-text {
+    color: green;
+}
 
 .date-square {
     display: inline-block;
@@ -80,6 +89,10 @@ h1 {
     background: none;
 }
 
+select {
+    padding: 6px !important;
+}
+
 .add-comma-after {
     &:after {
         content: ', ';
@@ -113,4 +126,15 @@ h1 {
 .jumbotron {
     border: 1px solid $gray-400;
     padding: 1rem;
+}
+
+.button-group {
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+        a,
+        button {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
 }

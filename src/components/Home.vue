@@ -37,11 +37,11 @@
                     :sortable="false"
                     :defaultSortBy="{field: getFirstDate, type: 'asc'}"
                     :onClick="showEventDetails"
-                    styleClass="table condensed table-bordered table-striped"
+                    styleClass="table condensed table-bordered table-striped text-nowrap"
                 >
                     <template slot="table-row" slot-scope="props">
                         <td class="text-left">{{ props.row.name }}</td>
-                        <td class="text-right text-nowrap">{{ props.row.city }}</td>
+                        <td class="text-right text-nowrap" style="min-width: 150px;">{{ props.row.city }}</td>
                         <td class="text-right text-nowrap">{{ getDaysCount(props.row) }}</td>
                         <td class="text-right text-nowrap">{{ getSignups(props.row) }}</td>
                         <td class="text-right text-nowrap">

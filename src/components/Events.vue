@@ -24,11 +24,11 @@
                 </template>
             </vue-good-table>
         </template>
-        <div class="mt-4">
-            <router-link class="btn btn-primary" v-bind:to="'/add-event'">
+        <div class="mt-4 button-group">
+            <router-link v-if="$store.getters.isGec" class="btn btn-primary mr-md-3" v-bind:to="'/add-event'">
                 <i class="fa fa-plus" aria-hidden="true"></i> {{$t('add-event')}}
             </router-link>
-            <router-link class="ml-3 btn btn-primary" v-bind:to="'/events-archive'">
+            <router-link class="btn btn-primary" v-bind:to="'/events-archive'">
                 <i class="fa fa-archive" aria-hidden="true"></i> {{$t('view-archive')}}
             </router-link>
         </div>
@@ -60,6 +60,7 @@ export default {
             return totalTakenSpots + ' / ' + totalAvailableSpots
         },
         getFirstDate: function (rowObject) {
+            console.log(rowObject)
             return rowObject.eventDates[0].date
         },
         getDaysCount: function (rowObject) {

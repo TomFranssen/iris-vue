@@ -6,6 +6,7 @@
                 <router-view></router-view>
             </div>
         </template>
+        <footer class="container mt-5">©{{ new Date().getFullYear() }} IRIS</footer>
     </div>
 </template>
 

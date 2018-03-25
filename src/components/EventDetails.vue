@@ -10,12 +10,14 @@
                     {{ getLastDate() | moment('D') }}
                 </div>
             </div>
-            <router-link v-if="$store.getters.isGec" class="ml-3 btn btn-primary float-right" v-bind:to="'/event/' + event._id + '/edit'">
-                <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
-            </router-link>
-            <b-btn v-if="$store.getters.isGec" class="float-right" variant="primary" v-on:click="emailEvent">
-                <i class="fa fa-envelope" aria-hidden="true"></i> {{$t('send-notification')}}
-            </b-btn>
+            <div class="button-group float-right">
+                <router-link v-if="$store.getters.isGec" class="float-right ml-3 btn btn-primary" v-bind:to="'/event/' + event._id + '/edit'">
+                    <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
+                </router-link>
+                <b-btn v-if="$store.getters.isGec" class="float-right" variant="primary" v-on:click="emailEvent">
+                    <i class="fa fa-envelope" aria-hidden="true"></i> {{$t('send-notification')}}
+                </b-btn>
+            </div>
             <h1>
                 {{event.name}}
                 <div>
@@ -29,7 +31,7 @@
             <p>{{event.description}}</p>
         </div>
         <b-row class="mb-3 mail-content">
-            <b-col md="5">
+            <b-col md="12" lg="5">
                 <h2>{{$t('basic-info')}}</h2>
                 <i class="fa fa-calendar" aria-hidden="true"></i>
                 <span class="sr-only">
@@ -46,7 +48,7 @@
                     {{$t('signup-until')}}
                     {{event.maxSignupDate | moment('DD MMMM')}}
                 </div>
-                <div class="times" style="margin-bottom: 10px;">
+                <div class="times mt-2" style="margin-bottom: 10px;">
                     <div>
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                         {{$t('from')}} {{event.startTime}}
@@ -58,14 +60,16 @@
                     </div>
                 </div>
                 <address>
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    {{event.street}} {{event.houseNumber}}, {{event.postcode}}, {{event.city}}
                     <div class="map">
                         <div class="card">
                             <a v-bind:href="getGoogleMapsDirectionsUrl()">
                                 <img class="img-fluid card-img-top" v-bind:src="getGoogleMapsStaticImageUrl()" alt="">
                             </a>
                             <div class="card-body">
+                                <div class="mb-2">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    {{event.street}} {{event.houseNumber}}, {{event.postcode}}, {{event.city}}
+                                </div>
                                 <a v-bind:href="getGoogleMapsDirectionsUrl()" class="btn btn-primary btn-block">
                                     {{$t('open-in-google-maps')}}
                                     <i class="fa fa-external-link" aria-hidden="true"></i>
@@ -76,7 +80,7 @@
                 </address>
             </b-col>
 
-            <b-col md="3">
+            <b-col md="6" lg="3">
                 <div>
                     <h2>{{$t('details')}}</h2>
                     <ul class="fa-ul" style="list-style: none; padding: 0;">
@@ -132,10 +136,9 @@
                     </ul>
                 </div>
             </b-col>
-            <b-col md="4">
+            <b-col md="6" lg="4">
                 <h2>{{$t('more-info')}}</h2>
                 <div v-if="event.websiteUrl">
-                    {{$t('website')}}:
                     <a v-bind:href="event.websiteUrl" class="card-link">
                         {{event.websiteUrl}}
                     </a>
@@ -148,9 +151,8 @@
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
                 <div v-if="event.facebookEvent">
-                    {{$t('facebook')}}:
                     <a v-bind:href="event.facebookEvent" class="card-link">
-                        {{event.facebookEvent}}
+                        {{$t('view-event-on-facebook')}}
                     </a>
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
@@ -159,25 +161,29 @@
         <div class="jumbotron mb-3" v-for="(eventDate, index) in event.eventDates" v-bind:key="index">
             <b-row>
                 <b-col md="12">
-                    <div v-if="isSignedUp(eventDate)">
-                        <add-to-calendar
-                            class="float-right"
-                            v-bind:name="event.name"
-                            v-bind:description="event.description"
-                            v-bind:start-date="getEventStartTimeForCalendar(eventDate)"
-                            v-bind:end-date="getEventEndTimeForCalendar(eventDate)"
-                            v-bind:location="event.street + ' ' + event.houseNumber + ', ' + event.postcode + ', ' + event.city"
-                        ></add-to-calendar>
-                    </div>
-                    <h2>
-                        <div class="text-capitalize">
-                            {{eventDate.date | humanreadableDate}}
+                    <div class="clearfix">
+                        <h2 class="float-sm-leftt">
+                            <div class="text-capitalize">
+                                {{eventDate.date | humanreadableDate}}
+                            </div>
+                            <small class="text-muted" v-if="signupPossible(eventDate)">
+                                {{getSpotsLeft(eventDate)}} {{$t('spots-left')}}
+                            </small>
+                        </h2>
+                        <div v-if="isSignedUp(eventDate)">
+                            <div class="signed-up-text">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                {{$t('you-are-singed-up')}}
+                            </div>
+                            <add-to-calendar
+                                v-bind:name="event.name"
+                                v-bind:description="event.description"
+                                v-bind:start-date="getEventStartTimeForCalendar(eventDate)"
+                                v-bind:end-date="getEventEndTimeForCalendar(eventDate)"
+                                v-bind:location="event.street + ' ' + event.houseNumber + ', ' + event.postcode + ', ' + event.city"
+                            ></add-to-calendar>
                         </div>
-                        <small class="text-muted" v-if="signupPossible(eventDate)">
-                            {{getSpotsLeft(eventDate)}} {{$t('spots-left')}}
-                        </small>
-                    </h2>
-
+                    </div>
                     <p v-if="!hasSignedUpUsers(eventDate) && signupPossible(eventDate)">
                         {{$t('no-users-signed-up-want-to-be-the-first')}}
                     </p>
@@ -188,13 +194,12 @@
                             v-bind:style="{ width: getProgressBarWidth(eventDate) + '%'}"
                         >{{getProgressBarWidth(eventDate)}}%</div>
                     </div>
-
                     <vue-good-table
                         v-if="eventDate.signedUpUsers.length > 0"
                         v-bind:columns="columns"
                         v-bind:rows="eventDate.signedUpUsers"
                         sortable="true"
-                        styleClass="table table-bordered condensed table-signed-up-users"
+                        styleClass="table table-bordered condensed table-signed-up-users text-nowrap"
                     >
                         <template slot="table-row-before" slot-scope="props">
                             <td class="text-center avatar">
@@ -211,7 +216,7 @@
                                         <b-col sm="9">
                                             <b-form-textarea
                                                 name="signout-reason"
-                                                v-model.trim="props.row.signoutReason"
+                                                v-model="props.row.signoutReason"
                                                 id="name"
                                                 size="sm"
                                                 :rows="4"
@@ -567,14 +572,20 @@ export default {
                 })
         },
         emailEvent () {
-            console.log(this)
-            if (confirm(this.$t('email-sure'))) {
+            var that = this
+            if (confirm(that.$t('email-sure'))) {
                 Axios.post(`${process.env.VUE_APP_API_URL}/api/private/email`, {
-                    id: this.$data.event._id,
+                    id: that.$data.event._id,
                     html: document.querySelectorAll('.mail-content')[0].innerHTML
                 })
                     .then(function (response) {
-                        console.log(response)
+                        if (response.status === 200) {
+                            that.showSuccessSignup({
+                                message: that.$t('mail-success')
+                            })
+                        } else {
+                            alert(response.data.message)
+                        }
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -654,6 +665,11 @@ export default {
         showSuccessSignup: {
             type: 'success',
             title: 'Signed up',
+            message: 'Success!'
+        },
+        showSuccessEmail: {
+            type: 'success',
+            title: 'E-mailed',
             message: 'Success!'
         }
     },

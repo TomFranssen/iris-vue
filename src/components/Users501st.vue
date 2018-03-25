@@ -3,13 +3,14 @@
         <b-breadcrumb :items="breadcrumbs"/>
         <h1>
             {{info.unit.name}}
-            <small class="text-muted">
-                ({{info.unit.unitSize}} {{$t('members')}})
-            </small>
         </h1>
 
-        <h2>{{$t('staff')}}</h2>
-
+        <h2 class="mt-4 mb-2">
+            {{$t('staff')}}
+            <small class="text-muted">
+                ({{officerLength}})
+            </small>
+        </h2>
         <vue-good-table
             v-bind:rows="info.unit.officers"
             v-bind:columns="officerColumns"
@@ -29,7 +30,12 @@
             </template>
         </vue-good-table>
 
-        <h2 class="">{{$t('members')}}</h2>
+        <h2 class="mt-4 mb-2">
+            {{$t('members')}}
+            <small class="text-muted">
+                ({{info.unit.unitSize}}
+            </small>
+        </h2>
 
         <vue-good-table
             v-bind:rows="info.unit.members"
@@ -65,6 +71,13 @@ export default {
         },
         getLegionId (rowObj) {
             return rowObj.legionId.replace('&nbsp;', ' ')
+        }
+    },
+    computed: {
+        officerLength: function () {
+            if (this.info && this.info.unit.officers) {
+                return this.info.unit.officers.length
+            }
         }
     },
     data () {

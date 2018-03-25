@@ -38,6 +38,7 @@ Vue.use(require('vue-moment'))
 
 function toast ({title, message, type, timeout, cb}) {
     if (type === VueNotifications.types.warn) type = 'warning'
+    timeout = 6000
     return new Noty({text: message, timeout, type}).show()
 }
 

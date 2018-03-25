@@ -120,7 +120,10 @@ const translations = {
         'manage-users': 'Manage users',
         'manage-api': 'Manage API',
         'manage-database': 'Manage database',
-        'view-event-on-forum': 'View event on forum'
+        'view-event-on-forum': 'View event on forum',
+        'view-event-on-facebook': 'View event on Facebook',
+        'you-are-singed-up': 'You are signed up',
+        'mail-success': 'E-mail has been send'
     },
     'nl-NL': {
         'info': 'Info',
@@ -244,7 +247,10 @@ const translations = {
         'manage-users': 'Beheer gebruikers',
         'manage-api': 'Beheer API',
         'manage-database': 'Beheer database',
-        'view-event-on-forum': 'Bekijk evenement op forum'
+        'view-event-on-forum': 'Bekijk evenement op forum',
+        'view-event-on-facebook': 'Bekijk evenement op Facebook',
+        'you-are-singed-up': 'Je bent ingeschreven',
+        'mail-success': 'E-mail is verstuurd'
     },
     'de-DE': {
         'info': 'Info',

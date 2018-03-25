@@ -40,7 +40,6 @@
                 </div>
                 <div>
                     <h2 class="mt-3">{{ $t("change-language") }}</h2>
-                    {{locale}}
                     <b-form-radio-group id="change-language" v-model="locale" :options="languageOptions" name="language">
                     </b-form-radio-group>
                 </div>
@@ -64,7 +63,11 @@ export default {
         },
         locale: {
             get () {
-                return this.$store.state.profile.locale
+                if (this.$store.state.profile.locale) {
+                    return this.$store.state.profile.locale
+                } else {
+                    return 'nl-NL'
+                }
             },
             set (value) {
                 this.$i18n.locale = value
