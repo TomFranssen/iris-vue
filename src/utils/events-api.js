@@ -9,7 +9,11 @@ function getPrivateEvents () {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
         }
-    }).then(response => response.data)
+    })
+        .then(response => response.data)
+        .catch(error => {
+            console.error(error)
+        })
 }
 
 function getPrivateArchivedEvents () {
@@ -18,7 +22,11 @@ function getPrivateArchivedEvents () {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
         }
-    }).then(response => response.data)
+    })
+        .then(response => response.data)
+        .catch(error => {
+            console.error(error)
+        })
 }
 
 function getPrivateSignedUpEvents () {
@@ -27,7 +35,11 @@ function getPrivateSignedUpEvents () {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
         }
-    }).then(response => response.data)
+    })
+        .then(response => response.data)
+        .catch(error => {
+            console.error(error)
+        })
 }
 
 function getPrivateEvent (id) {
@@ -37,5 +49,9 @@ function getPrivateEvent (id) {
             Authorization: `Bearer ${getAccessToken()}`,
             id
         }
-    }).then(response => response.data)
+    })
+        .then(response => response.data)
+        .catch(error => {
+            console.error(error)
+        })
 }
