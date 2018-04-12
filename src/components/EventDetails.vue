@@ -110,9 +110,9 @@
                             {{$t('parking-restitution')}}
                         </li>
                         <li>
-                            <span v-if="event.lunch" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
+                            <span v-if="event.food" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
                             <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
-                            {{$t('lunch-available')}}
+                            {{$t('food-available')}}
                         </li>
                         <li>
                             <span v-if="event.drinks" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
@@ -156,6 +156,20 @@
                     </a>
                     <i class="fa fa-external-link" aria-hidden="true"></i>
                 </div>
+                <div v-if="event._id && $store.getters.isGec">
+                    <h2 class="mt-3">{{$t('embed-in-forum')}}</h2>
+                    <b-input-group>
+                        <b-form-input readonly v-model="'[iris]' + event._id + '[/iris]'"></b-form-input>
+                        <b-input-group-append>
+                            <b-btn
+                                v-clipboard:copy="'[iris]' + event._id + '[/iris]'"
+                                v-clipboard:success="onCopy"
+                                v-clipboard:error="onCopyError"
+                            >{{$t('copy')}}</b-btn>
+                        </b-input-group-append>
+                    </b-input-group>
+                </div>
+
             </b-col>
         </b-row>
         <div class="jumbotron mb-3" v-for="(eventDate, index) in event.eventDates" v-bind:key="index">
@@ -163,7 +177,7 @@
                 <b-col md="12">
                     <div class="clearfix">
                         <h2 class="float-sm-leftt">
-                            <div class="text-capitalize">
+                            <div class="text-capitalize jumbotron-heading">
                                 {{eventDate.date | humanreadableDate}}
                             </div>
                             <small class="text-muted" v-if="signupPossible(eventDate)">
@@ -241,9 +255,7 @@
                     <div class="mt-2" v-if="eventDate.cancelledUsers.length > 0">
                         {{$t('sign-outs')}}:
                         <span class="add-comma-after" v-for="cancelledUser in eventDate.cancelledUsers" v-bind:key="cancelledUser.username">
-                            <span v-if="cancelledUser.username">
-                                {{cancelledUser.username}}
-                            </span>
+                            <span v-if="cancelledUser.username">{{cancelledUser.username}}</span>
                         </span>
                     </div>
 
@@ -288,7 +300,7 @@
                                                     </template>
                                                 </b-form-select>
                                                 <p class="text-danger" v-if="errors.has('selected-costume-' + index)">
-                                                    {{ errors.first('selected-costume-' + index) }}
+                                                    {{ $t(errors.first('selected-costume-' + index)) }}
                                                 </p>
                                             </form>
                                         </b-col>
@@ -376,10 +388,19 @@ export default {
             return this.$store.state.profile
         },
         profileCostumes () {
-            let costumeOptions = []
+            let costumeOptions = [
+                {
+                    text: 'Handler',
+                    value: 'Handler'
+                },
+                {
+                    text: 'Stand Duty',
+                    value: 'Stand Duty'
+                }
+            ]
             if (this.$store.state.profile['https://iris.501st.nl/user_metadata'] !== undefined) {
                 for (let costume of this.$store.state.profile['https://iris.501st.nl/user_metadata'].costumes) {
-                    costumeOptions.push({
+                    costumeOptions.unshift({
                         text: costume.name,
                         value: costume.name
                     })
@@ -389,6 +410,12 @@ export default {
         }
     },
     methods: {
+        onCopy: function (e) {
+            alert(this.$t('copied-text') + e.text)
+        },
+        onCopyError: function (e) {
+            alert(this.$t('copied-failed-text'))
+        },
         getEventStartTimeForCalendar (date) {
             if (date && this.$data.event && this.$data.event.gatherTime) {
                 const computedDate = (date.date.substring(0, 11) + this.$data.event.gatherTime + '00').replace(/-/g, '').replace(/:/g, '')
@@ -398,7 +425,6 @@ export default {
         getEventEndTimeForCalendar (date) {
             if (date && this.$data.event && this.$data.event.endTime) {
                 const computedDate = (date.date.substring(0, 11) + this.$data.event.endTime + '00').replace(/-/g, '').replace(/:/g, '')
-                console.log(computedDate)
                 return computedDate
             }
         },
@@ -443,12 +469,12 @@ export default {
         },
         getProgressBarWidth: function (eventDate) {
             if (eventDate.signedUpUsers) {
-                return Math.round((eventDate.signedUpUsers.length / eventDate.availableSpots) * 100)
+                return Math.round(((eventDate.signedUpUsers.length + eventDate.guests.length) / eventDate.availableSpots) * 100)
             }
         },
         getSpotsLeft: function (eventDate) {
             if (eventDate.signedUpUsers) {
-                return (eventDate.availableSpots - eventDate.signedUpUsers.length)
+                return (eventDate.availableSpots - eventDate.signedUpUsers.length - eventDate.guests.length)
             }
         },
         hasSignedUpUsers: function (eventDate) {
@@ -629,7 +655,7 @@ export default {
                 travelRestitution: true,
                 parkingRestitution: true,
                 parking: true,
-                lunch: true,
+                food: true,
                 drinks: true,
                 canRegisterGuests: true,
                 isArchived: false

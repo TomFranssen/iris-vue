@@ -62,6 +62,17 @@ export default {
                 return state.profile['https://iris.501st.nl/app_metadata'].authorization.groups.indexOf('Dutch Garrison GEC') >= 0
             }
         },
+        hasCostume: state => {
+            if (
+                state &&
+                state.profile &&
+                state.profile['https://iris.501st.nl/user_metadata'] &&
+                state.profile['https://iris.501st.nl/user_metadata'].costumes
+            ) {
+                console.log(state.profile['https://iris.501st.nl/user_metadata'].costumes.length > 0)
+                return state.profile['https://iris.501st.nl/user_metadata'].costumes.length > 0
+            }
+        },
         isGwm: state => {
             if (
                 state &&

@@ -2,7 +2,7 @@
     <div>
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
         <h1>{{$t('events')}}</h1>
-        <template>
+        <div v-if="$store.getters.hasCostume">
             <vue-good-table
                 :columns="columns"
                 :rows="rows"
@@ -15,7 +15,11 @@
                     <td class="text-left">{{ props.row.name }}</td>
                     <td class="text-right" style="min-width: 150px;">{{ props.row.city }}</td>
                     <td class="text-right">{{ getDaysCount(props.row) }}</td>
-                    <td class="text-right">{{ getSignups(props.row) }}</td>
+                    <td class="text-right">
+                        <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
+                            {{eventDate.signedUpUsers.length + eventDate.guests.length}} / {{eventDate.availableSpots}}
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
                             {{ eventDate.date | moment("dddd D-M-YYYY")}}
@@ -23,14 +27,19 @@
                     </td>
                 </template>
             </vue-good-table>
-        </template>
-        <div class="mt-4 button-group">
-            <router-link v-if="$store.getters.isGec" class="btn btn-primary mr-md-3" v-bind:to="'/add-event'">
-                <i class="fa fa-plus" aria-hidden="true"></i> {{$t('add-event')}}
-            </router-link>
-            <router-link class="btn btn-primary" v-bind:to="'/events-archive'">
-                <i class="fa fa-archive" aria-hidden="true"></i> {{$t('view-archive')}}
-            </router-link>
+            <div class="mt-4 button-group">
+                <router-link v-if="$store.getters.isGec" class="btn btn-primary mr-md-3" v-bind:to="'/add-event'">
+                    <i class="fa fa-plus" aria-hidden="true"></i> {{$t('add-event')}}
+                </router-link>
+                <router-link class="btn btn-primary" v-bind:to="'/events-archive'">
+                    <i class="fa fa-archive" aria-hidden="true"></i> {{$t('view-archive')}}
+                </router-link>
+            </div>
+        </div>
+        <div v-else>
+            <b-alert show variant="danger">
+                {{$t('no-costumes')}}
+            </b-alert>
         </div>
     </div>
 </template>
@@ -42,25 +51,8 @@ import { getPrivateEvents } from '../utils/events-api'
 
 export default {
     name: 'events',
-    filters: {
-        moment: function (date) {
-            return moment(date).format('D-MM-YYYY')
-        }
-    },
     methods: {
-        getSignups: function (rowObject) {
-            let totalAvailableSpots = 0
-            let totalTakenSpots = 0
-
-            for (let eventDate of rowObject.eventDates) {
-                totalAvailableSpots = totalAvailableSpots + eventDate.availableSpots
-                totalTakenSpots = totalTakenSpots + eventDate.signedUpUsers.length
-            }
-
-            return totalTakenSpots + ' / ' + totalAvailableSpots
-        },
         getFirstDate: function (rowObject) {
-            console.log(rowObject)
             return rowObject.eventDates[0].date
         },
         getDaysCount: function (rowObject) {

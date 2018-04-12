@@ -53,7 +53,7 @@ export default {
                 travelRestitution: false,
                 parking: false,
                 parkingRestitution: false,
-                lunch: false,
+                food: false,
                 drinks: false,
                 canRegisterGuests: false,
                 isArchived: false,

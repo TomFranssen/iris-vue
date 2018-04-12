@@ -223,12 +223,12 @@
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
-                                id="lunch"
-                                v-model="event.lunch"
+                                id="food"
+                                v-model="event.food"
                                 value="true"
                                 unchecked-value="false"
                             >
-                                {{$t('lunch-available')}}
+                                {{$t('food-available')}}
                             </b-checkbox>
                         </b-col>
                     </b-row>
@@ -338,26 +338,73 @@
                                     </b-checkbox>
                                 </b-col>
                             </b-row>
-                            <b-row class="form-row">
+                            <b-row class="form-row mt-4">
                                 <b-col sm="3">{{$t('signups')}}</b-col>
                                 <b-col sm="9">
                                     <div v-if="eventDate.signedUpUsers.length === 0">
                                         {{$t('no-signups')}}
                                     </div>
-                                    <b-button class="mr-2" v-for="(user, signupIndex) in eventDate.signedUpUsers" variant="outline-primary" v-bind:key="user.username" v-on:click="removeSignedUpUser(index, signupIndex)">
+                                    <b-button class="mr-2 mb-2" v-for="(user, signupIndex) in eventDate.signedUpUsers" variant="outline-primary" v-bind:key="user.username" v-on:click="removeSignedUpUser(index, signupIndex)">
                                         {{user.username}}
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </b-button>
                                 </b-col>
                             </b-row>
-                            <b-row class="form-row">
+
+                            <b-row class="form-row mt-4" v-if="getFilteredRows(eventDate.signedUpUsers).length > 0">
+                                <b-col md="3">
+                                </b-col>
+                                <b-col md="9">
+                                    <div>
+                                        <b-btn v-b-toggle="'collapse-'" class="m-1">{{$t('add-more-signups')}}</b-btn>
+                                        <b-collapse v-bind:id="'collapse-'">
+                                            <template>
+                                                <vue-good-table
+                                                    :columns="columns"
+                                                    :rows="getFilteredRows(eventDate.signedUpUsers)"
+                                                    styleClass="table mt-3 align-middle text-nowrap condensed table-bordered table-striped"
+                                                >
+                                                    <template slot="table-row" slot-scope="props">
+                                                        <td width="50" style="padding: 0;">
+                                                            <div v-if="props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
+                                                                <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <div v-if="props.row.user_metadata && props.row.user_metadata.username">
+                                                                {{props.row.user_metadata.username}}
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <div v-if="props.row.user_metadata && props.row.user_metadata.costumes">
+                                                                <select v-model="props.row.selectedCostume">
+                                                                    <option disabled value="undefined">{{$t('choose-your-costume')}}</option>
+                                                                    <option v-for="costume in props.row.user_metadata.costumes" v-bind:key="costume.name" v-bind:value="costume.name">
+                                                                        {{costume.name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-right">
+                                                            <b-button v-on:click="signUpUserToEvent(eventDate.signedUpUsers, props.row, props.row.selectedCostume)" variant="secondary"><i aria-hidden="true" class="fa fa-plus"></i> {{$t('sign-up')}}
+                                                            </b-button>
+                                                        </td>
+                                                    </template>
+                                                </vue-good-table>
+                                            </template>
+                                        </b-collapse>
+                                    </div>
+                                </b-col>
+                            </b-row>
+
+                            <b-row class="form-row mt-4">
                                 <b-col sm="3">{{$t('sign-outs')}}</b-col>
                                 <b-col sm="9">
                                     <div v-if="eventDate.cancelledUsers.length === 0">
                                         {{$t('no-cancelled-users')}}
                                     </div>
                                     <div v-for="(user, cancelledIndex) in eventDate.cancelledUsers" v-bind:key="user.username">
-                                        <b-button class="mr-2" variant="outline-primary" v-bind:key="user.username" v-on:click="removeCancelledUser(index, cancelledIndex)">
+                                        <b-button class="mr-2 mb-2" variant="outline-primary" v-bind:key="user.username" v-on:click="removeCancelledUser(index, cancelledIndex)">
                                             {{user.username}}
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </b-button>
@@ -365,7 +412,7 @@
                                     </div>
                                 </b-col>
                             </b-row>
-                            <b-row class="form-row">
+                            <b-row class="form-row mt-4">
                                 <b-col sm="3">{{$t('guests')}}</b-col>
                                 <b-col sm="9">
                                     <div v-if="eventDate.guests.length === 0">
@@ -388,8 +435,7 @@
                                             </b-form-input>
                                         </b-col>
                                         <b-col sm="3">
-                                            <b-button variant="outline-primary"  v-on:click="addGuest(index, eventDate.addGuestData)">
-                                                {{$t('add-guest')}}
+                                            <b-button variant="secondary"  v-on:click="addGuest(index, eventDate.addGuestData)"><i aria-hidden="true" class="fa fa-plus"></i> {{$t('add-guest')}}
                                             </b-button>
                                         </b-col>
                                     </b-row>
@@ -420,16 +466,44 @@
 </template>
 <script>
 import Axios from 'axios'
+import { getPrivateUsers } from '../utils/users-api'
 const MAX_DAYS = 20
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
 export default {
+    data () {
+        return {
+            columns: [
+                {
+                    label: '',
+                    tdClass: 'text-right',
+                    field: 'picture'
+                },
+                {
+                    label: this.$t('name'),
+                    tdClass: 'text-right',
+                    field: 'user_metadata.username',
+                    filterable: true
+                },
+                {
+                    label: '',
+                    tdClass: 'text-right',
+                    field: 'add-user'
+                },
+                {
+                    label: '',
+                    tdClass: 'text-right',
+                    field: 'add-user-button'
+                }
+            ],
+            rows: []
+        }
+    },
     name: 'EventForm',
     props: ['event', 'edit'],
     computed: {
         computedMaxSignupDate: {
             get: function (test) {
-                console.log(test)
                 if (this.event.maxSignupDate) {
                     return this.event.maxSignupDate.substring(0, 10)
                 }
@@ -445,6 +519,26 @@ export default {
         }
     },
     methods: {
+        getFilteredRows (signedUpUsers) {
+            function isAlreadySignedUp (value) {
+                if (value && value.user_metadata && value.user_metadata.username) {
+                    for (const user of signedUpUsers) {
+                        if (user.username === value.user_metadata.username) {
+                            return false
+                        }
+                    }
+                    return true
+                }
+            }
+            var filtered = this.rows.filter(isAlreadySignedUp)
+
+            return filtered
+        },
+        getPrivateUsers () {
+            getPrivateUsers().then((users) => {
+                this.rows = users
+            })
+        },
         canAddDate: function () {
             return this.event.eventDates.length < MAX_DAYS
         },
@@ -452,7 +546,9 @@ export default {
             return index >= 1
         },
         addGuest: function (eventDateIndex, guest) {
-            this.event.eventDates[eventDateIndex].guests.push(guest)
+            if (guest) {
+                this.event.eventDates[eventDateIndex].guests.push(guest)
+            }
         },
         removeGuest: function (eventDateIndex, guestIndex) {
             this.event.eventDates[eventDateIndex].guests.splice(guestIndex, 1)
@@ -472,6 +568,20 @@ export default {
         },
         removeSignedUpUser: function (eventDateIndex, signedUpUserIndex) {
             this.event.eventDates[eventDateIndex].signedUpUsers.splice(signedUpUserIndex, 1)
+        },
+        signUpUserToEvent: function (signedUpUsers, user, selectedCostume) {
+            if (selectedCostume) {
+                const signUpData = {
+                    signUpDate: new Date(),
+                    username: user.user_metadata.username,
+                    costume: selectedCostume,
+                    avatar: user.user_metadata.legion_thumbnail,
+                    userId: user.user_id
+                }
+                signedUpUsers.push(signUpData)
+            } else {
+                alert(this.$t('choose-your-costume'))
+            }
         },
         removeCancelledUser: function (eventDateIndex, cancelledUserIndex) {
             this.event.eventDates[eventDateIndex].cancelledUsers.splice(cancelledUserIndex, 1)
@@ -508,6 +618,9 @@ export default {
                 this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
             })
         }
+    },
+    mounted () {
+        this.getPrivateUsers()
     }
 }
 </script>

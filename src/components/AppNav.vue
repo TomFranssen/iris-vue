@@ -6,9 +6,9 @@
             <b-collapse is-nav id="nav_collapse">
                 <b-navbar-nav>
                     <b-nav-item v-show="isLoggedIn() && $store.getters.isMember" to="/events">{{$t('events')}}</b-nav-item>
-                    <b-nav-item v-show="isLoggedIn() && $store.getters.isMember" to="/users">{{$t('users')}}</b-nav-item>
+                    <b-nav-item v-show="isLoggedIn() && $store.getters.isMember && $store.getters.isGec" to="/users">{{$t('users')}}</b-nav-item>
                     <b-nav-item v-show="isLoggedIn() && $store.getters.isMember && $store.getters.isGec" to="/users-501st">{{$t('users-501st')}}</b-nav-item>
-                    <b-nav-item v-show="isLoggedIn() && $store.getters.isGec" to="/costumes">{{$t('costumes')}}</b-nav-item>
+                    <b-nav-item v-show="isLoggedIn() && $store.getters.isMember && $store.getters.isGwm" to="/costumes">{{$t('costumes')}}</b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto">
                     <b-navbar-nav v-show="!isLoggedIn()" right>

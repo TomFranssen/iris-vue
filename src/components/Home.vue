@@ -25,39 +25,50 @@
                 </p>
                 <b-button @click="handleLogout()">{{$t('log-out')}}</b-button>
             </div>
-
-            <div v-if="rows.length > 0">
-                <h1>
-                    {{$t('your-signups')}}
-                </h1>
-                <vue-good-table
-                    v-if="rows"
-                    :columns="columns"
-                    :rows="rows"
-                    :sortable="false"
-                    :defaultSortBy="{field: getFirstDate, type: 'asc'}"
-                    :onClick="showEventDetails"
-                    styleClass="table condensed table-bordered table-striped text-nowrap"
-                >
-                    <template slot="table-row" slot-scope="props">
-                        <td class="text-left">{{ props.row.name }}</td>
-                        <td class="text-right text-nowrap" style="min-width: 150px;">{{ props.row.city }}</td>
-                        <td class="text-right text-nowrap">{{ getDaysCount(props.row) }}</td>
-                        <td class="text-right text-nowrap">{{ getSignups(props.row) }}</td>
-                        <td class="text-right text-nowrap">
-                            <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
-                                {{ eventDate.date | moment("dddd D-M-YYYY")}}
-                            </div>
-                        </td>
-                    </template>
-                </vue-good-table>
+            <div v-if="$store.getters.hasCostume">
+                <div v-if="rows.length > 0">
+                    <h1>
+                        {{$t('your-signups')}}
+                    </h1>
+                    <vue-good-table
+                        v-if="rows"
+                        :columns="columns"
+                        :rows="rows"
+                        :sortable="false"
+                        :defaultSortBy="{field: getFirstDate, type: 'asc'}"
+                        :onClick="showEventDetails"
+                        styleClass="table condensed table-bordered table-striped text-nowrap"
+                    >
+                        <template slot="table-row" slot-scope="props">
+                            <td class="text-left">{{ props.row.name }}</td>
+                            <td class="text-right text-nowrap" style="min-width: 150px;">{{ props.row.city }}</td>
+                            <td class="text-right text-nowrap">{{ getDaysCount(props.row) }}</td>
+                            <td class="text-right">
+                                <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
+                                    {{eventDate.signedUpUsers.length + eventDate.guests.length}} / {{eventDate.availableSpots}}
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
+                                    {{ eventDate.date | moment("dddd D-M-YYYY")}}
+                                </div>
+                            </td>
+                        </template>
+                    </vue-good-table>
+                </div>
             </div>
-
+            <div v-else>
+                <h1>
+                    {{$t('welcome')}}
+                </h1>
+                <b-alert show variant="danger">
+                    {{$t('no-costumes')}}
+                </b-alert>
+            </div>
         </div>
     </div>
 </template>
 <script>
-import moment from 'moment'
 import { isLoggedIn, login, logout } from '../utils/auth'
 import { getPrivateSignedUpEvents } from '../utils/events-api'
 
@@ -86,9 +97,6 @@ export default {
         },
         getDaysCount: function (rowObject) {
             return rowObject.eventDates.length
-        },
-        moment: function () {
-            return moment()
         },
         isLoggedIn () {
             return isLoggedIn()

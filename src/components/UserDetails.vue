@@ -5,7 +5,7 @@
         <h1>{{$t('user-details')}}</h1>
         <div>
             <b-row class="form-row">
-                <b-col cols="5">{{$t('username')}}:</b-col>
+                <b-col cols="5" md="4" lg="2">{{$t('username')}}:</b-col>
                 <b-col>
                     {{user.user_metadata.username}}
                 </b-col>
@@ -13,7 +13,7 @@
         </div>
         <div>
             <b-row class="form-row">
-                <b-col cols="5">{{$t('legion_thumbnail')}}:</b-col>
+                <b-col cols="5" md="4" lg="2">{{$t('legion_thumbnail')}}:</b-col>
                 <b-col>
                     <img v-bind:src="user.user_metadata.legion_thumbnail" alt="">
                 </b-col>
@@ -21,7 +21,7 @@
         </div>
         <div>
             <b-row class="form-row">
-                <b-col cols="5">{{$t('501st-legion-id')}}:</b-col>
+                <b-col cols="5" md="4" lg="2">{{$t('501st-legion-id')}}:</b-col>
                 <b-col>
                     {{getLegionId(user)}}
                 </b-col>
@@ -29,7 +29,7 @@
         </div>
         <div>
             <b-row class="form-row">
-                <b-col cols="5">{{$t('email')}}:</b-col>
+                <b-col cols="5" md="4" lg="2">{{$t('email')}}:</b-col>
                 <b-col>
                     {{user.email}}
                 </b-col>
@@ -37,7 +37,7 @@
         </div>
         <div>
             <b-row class="form-row">
-                <b-col cols="5">{{$t('costumes')}}:</b-col>
+                <b-col cols="5" md="4" lg="2">{{$t('costumes')}}:</b-col>
                 <b-col>
                     <div v-for="costume in user.user_metadata.costumes" v-bind:key="costume.name">
                         {{costume.name}}
@@ -50,28 +50,28 @@
             <h1>{{$t('edit-user')}}</h1>
             <form action="">
                 <b-row class="form-row">
-                    <b-col cols="5"><label for="username">{{$t('username')}}:</label></b-col>
+                    <b-col cols="5" md="4" lg="2"><label for="username">{{$t('username')}}:</label></b-col>
                     <b-col>
                         <b-form-input name="username" v-model.trim="user.user_metadata.username" id="username" size="sm" type="text"></b-form-input>
                         <p class="text-danger" v-if="errors.has('username')">{{ errors.first('username') }}</p>
                     </b-col>
                 </b-row>
                 <b-row class="form-row">
-                    <b-col cols="5"><label for="username">{{$t('legion_thumbnail')}}:</label></b-col>
+                    <b-col cols="5" md="4" lg="2"><label for="username">{{$t('legion_thumbnail')}}:</label></b-col>
                     <b-col>
                         <b-form-input name="legion_thumbnail" v-model.trim="user.user_metadata.legion_thumbnail" id="legion_thumbnail" size="sm" type="text"></b-form-input>
                         <p class="text-danger" v-if="errors.has('legion_thumbnail')">{{ errors.first('legion_thumbnail') }}</p>
                     </b-col>
                 </b-row>
                 <b-row class="form-row">
-                    <b-col cols="5"><label for="legion-id">{{$t('501st-legion-id')}}:</label></b-col>
+                    <b-col cols="5" md="4" lg="2"><label for="legion-id">{{$t('501st-legion-id')}}:</label></b-col>
                     <b-col>
                         <b-form-input name="legion-id" v-model.trim="user.user_metadata.legion_id" id="legion-id" size="sm" type="text"></b-form-input>
                         <p class="text-danger" v-if="errors.has('legion-id')">{{ errors.first('legion-id') }}</p>
                     </b-col>
                 </b-row>
                 <b-row class="form-row" v-for="(costume, index) in user.user_metadata.costumes" v-bind:key="index">
-                    <b-col class="col-5"><label>{{$t('costume')}} {{index + 1}}</label></b-col>
+                    <b-col cols="5" md="4" lg="2"><label>{{$t('costume')}} {{index + 1}}</label></b-col>
                     <b-col>
                         <vue-instant
                             v-on:input="changed()"
