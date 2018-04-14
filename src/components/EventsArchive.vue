@@ -10,17 +10,32 @@
                 :defaultSortBy="{field: getFirstDate, type: 'asc'}"
                 :onClick="showEventDetails"
                 styleClass="table condensed table-bordered table-striped text-nowrap"
+                v-bind:search-options="{
+                    enabled: true,
+                    placeholder: $t('search-for-name')
+                }"
             >
+
                 <template slot="table-row" slot-scope="props">
-                    <td class="text-left">{{ props.row.name }}</td>
-                    <td class="text-right" style="min-width: 150px;">{{ props.row.city }}</td>
-                    <td class="text-right">{{ getDaysCount(props.row) }}</td>
-                    <td class="text-right">{{ getSignups(props.row) }}</td>
-                    <td class="text-right">
+                    <div v-if="props.column.field === 'name'">
+                        {{props.row.name}}
+                    </div>
+                    <div v-if="props.column.field === 'city'">
+                        {{props.row.city}}
+                    </div>
+                    <div v-if="props.column.field === 'days'">
+                        {{getDaysCount(props.row)}}
+                    </div>
+                    <div v-if="props.column.field === 'sign-ups'">
                         <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
-                            {{ eventDate.date | moment("dddd D-M-YYYY")}}
+                            {{eventDate.signedUpUsers.length + eventDate.guests.length}} / {{eventDate.availableSpots}}
                         </div>
-                    </td>
+                    </div>
+                    <div v-if="props.column.field === 'dates'">
+                        <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
+                            {{eventDate.date  | moment("dddd D-M-YYYY") }}
+                        </div>
+                    </div>
                 </template>
             </vue-good-table>
         </template>
@@ -96,12 +111,12 @@ export default {
                 {
                     label: this.$t('name'),
                     field: 'name',
-                    tdClass: 'text-right',
+                    tdClass: 'text-left',
                     filterable: true
                 },
                 {
                     label: this.$t('location'),
-                    tdClass: 'text-right',
+                    tdClass: 'text-left',
                     field: 'city',
                     filterable: true,
                     filterDropdown: true,
@@ -110,21 +125,17 @@ export default {
                 {
                     label: this.$t('days'),
                     tdClass: 'text-center',
-                    field: this.getDaysCount
+                    field: 'days'
                 },
                 {
                     label: this.$t('signups'),
-                    tdClass: 'text-center',
-                    field: this.getSignups
+                    tdClass: 'text-right',
+                    field: 'sign-ups'
                 },
                 {
                     label: this.$t('date'),
-                    field: this.getFirstDate,
-                    type: 'date',
-                    outputFormat: 'D-MM-YYYY',
-                    inputFormat: 'YYYY-MM-DD',
                     tdClass: 'text-right',
-                    width: '130px'
+                    field: 'dates'
                 }
             ],
             rows: []

@@ -183,7 +183,6 @@ export default {
                     if (confirm(this.$t('do-you-want-to-change-user'))) {
                         Axios.patch(`${process.env.VUE_APP_API_URL}/api/private/user`, this.$data)
                             .then(function (response) {
-                                console.log(response.data.status)
                                 if (response.status === 200) {
                                     alert(self.$t('user-saved'))
                                 }

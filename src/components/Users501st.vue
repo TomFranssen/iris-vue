@@ -18,15 +18,23 @@
             styleClass="table condensed table-bordered table-striped"
         >
             <template slot="table-row" slot-scope="props">
-                <td>{{props.row.fullName}}</td>
-                <td>{{getLegionId(props.row)}}</td>
-                <td>{{props.row.officeAcronym}}</td>
-                <td>{{getLegionId(props.row)}}</td>
-                <td class="text-right">
+                <div v-if="props.column.field === 'office'">
+                    {{props.row.office}}
+                </div>
+                <div v-if="props.column.field === 'full-name'">
+                    {{props.row.fullName}}
+                </div>
+                <div v-if="props.column.field === 'office-acronym'">
+                    {{props.row.officeAcronym}}
+                </div>
+                <div v-if="props.column.field === 'legion-id'">
+                    {{getLegionId(props.row)}}
+                </div>
+                <div v-if="props.column.field === 'profile-url'">
                     <a v-bind:href="props.row.profileUrl" class="btn btn-primary">
                         View 501st profile
                     </a>
-                </td>
+                </div>
             </template>
         </vue-good-table>
 
@@ -44,15 +52,17 @@
             styleClass="table condensed table-bordered table-striped"
         >
             <template slot="table-row" slot-scope="props">
-                <td width="50">
+                <div v-if="props.column.field === 'thumbnail'">
                     <img v-bind:src="props.row.thumbnail" width="50" />
-                </td>
-                <td>{{getLegionId(props.row)}}</td>
-                <td class="text-right">
+                </div>
+                <div v-if="props.column.field === 'legion-id'">
+                    {{getLegionId(props.row)}}
+                </div>
+                <div v-if="props.column.field === 'link'">
                     <a v-bind:href="props.row.link" class="btn btn-primary">
                         View 501st profile
                     </a>
-                </td>
+                </div>
             </template>
         </vue-good-table>
     </div>
@@ -99,40 +109,40 @@ export default {
             },
             officerColumns: [
                 {
-                    label: 'Full name',
-                    field: 'fullName',
-                    filterable: true
-                },
-                {
                     label: 'Office',
                     field: 'office',
                     filterable: true
                 },
                 {
+                    label: 'Full name',
+                    field: 'full-name',
+                    filterable: true
+                },
+                {
                     label: 'Office Acronym',
-                    field: 'officeAcronym',
+                    field: 'office-acronym',
                     filterable: true
                 },
                 {
                     label: 'Legion ID',
-                    field: this.getLegionId,
+                    field: 'legion-id',
                     filterable: true
                 },
                 {
                     label: '501st Profile',
-                    field: 'profileUrl',
+                    field: 'profile-url',
                     filterable: true
                 }
             ],
             memberColumns: [
                 {
-                    label: 'Thumnail',
+                    label: 'Thumbnail',
                     field: 'thumbnail',
                     filterable: true
                 },
                 {
                     label: 'Legion ID',
-                    field: this.getLegionId,
+                    field: 'legion-id',
                     filterable: true
                 },
                 {

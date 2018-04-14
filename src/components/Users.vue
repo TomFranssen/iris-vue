@@ -6,24 +6,51 @@
             <vue-good-table
                 :columns="columns"
                 :rows="rows"
-                :onClick="showUserDetails"
-                styleClass="table align-middle text-nowrap condensed table-bordered table-striped"
+                @on-row-click="showUserDetails"
+                styleClass="vgt-table condensed text-nowrap table-signed-up-users"
+                v-bind:search-options="{
+                    enabled: true,
+                    placeholder: $t('search')
+                }"
+                v-bind:paginationOptions="{
+                    enabled: true,
+                    perPage: 20,
+                    perPageDropdown: [20, 50],
+                    dropdownAllowAll: true,
+                    nextLabel: $t('next'),
+                    prevLabel: $t('previous'),
+                    rowsPerPageLabel: $t('per-page'),
+                    ofLabel: $t('of'),
+                    allLabel: $t('all'),
+                }"
             >
                 <template slot="table-row" slot-scope="props">
-                    <td width="50" style="padding: 0;">
+                    <div v-if="props.column.field === 'avatar'">
                         <div v-if="props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
                             <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
                         </div>
-                    </td>
-                    <td class="align-middle">
+                        <div v-else>
+                            <img src="https://images.501st.com/memberdata/templates/tk_thumb.gif" alt="" width="50">
+                        </div>
+                    </div>
+                    <div v-if="props.column.field === 'username'">
                         <div v-if="props.row.user_metadata && props.row.user_metadata.username">
                             {{props.row.user_metadata.username}}
                         </div>
-                    </td>
-                    <td class="align-middle">{{props.row.email}}</td>
-                    <td class="align-middle text-right">{{getLegionId(props.row)}}</td>
-                    <td class="align-middle text-center">{{getCostumeCount(props.row)}}</td>
+                    </div>
+                    <div v-if="props.column.field === 'email'">
+                        {{props.row.email}}
+                    </div>
+                    <div v-if="props.column.field === 'legion-id'">
+                        {{getLegionId(props.row)}}
+                    </div>
+                    <div v-if="props.column.field === 'costumes'">
+                        {{getCostumeCount(props.row)}}
+                    </div>
                 </template>
+                <div slot="emptystate">
+                    {{$t('users-loading')}}
+                </div>
             </vue-good-table>
         </template>
     </div>
@@ -63,7 +90,7 @@ export default {
             }
         },
         showUserDetails: function (row, index) {
-            this.$router.push('user/' + row.user_id.replace('|', '-'))
+            this.$router.push('user/' + row.row.user_id.replace('|', '-'))
         }
     },
     data () {
@@ -78,25 +105,25 @@ export default {
             columns: [
                 {
                     label: '',
-                    tdClass: 'text-right',
-                    field: 'picture'
+                    tdClass: 'text-left',
+                    field: 'avatar'
                 },
                 {
                     label: this.$t('name'),
-                    tdClass: 'text-right',
-                    field: 'user_metadata.username',
+                    tdClass: 'text-left',
+                    field: 'username',
                     filterable: true
                 },
                 {
                     label: this.$t('email'),
-                    tdClass: 'text-right',
+                    tdClass: 'text-left',
                     field: 'email',
                     filterable: true
                 },
                 {
                     label: this.$t('501st-legion-id'),
                     tdClass: 'text-right',
-                    field: this.getLegionId,
+                    field: 'legion-id',
                     filterable: true
                 },
                 {

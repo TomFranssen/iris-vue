@@ -213,16 +213,23 @@
                         v-bind:columns="columns"
                         v-bind:rows="eventDate.signedUpUsers"
                         sortable="true"
-                        styleClass="table table-bordered condensed table-signed-up-users text-nowrap"
+                        styleClass="vgt-table condensed text-nowrap table-signed-up-users"
                     >
-                        <template slot="table-row-before" slot-scope="props">
-                            <td class="text-center avatar">
-                                <img v-bind:src="props.row.avatar" v-if="props.row.avatar" alt="">
-                            </td>
-                        </template>
-                        <template slot="table-row-after" slot-scope="props">
-                            <td width="50px">
-                                <b-btn v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + index + '-' + props.row.originalIndex">{{$t('sign-out')}}</b-btn>
+                        <template slot="table-row" slot-scope="props">
+                            <div v-if="props.column.field === 'avatar'">
+                                <img v-bind:src="props.row.avatar" width="50" />
+                            </div>
+                            <div v-if="props.column.field === 'username'">
+                                {{props.row.username}}
+                            </div>
+                            <div v-if="props.column.field === 'date'">
+                                {{props.row.signUpDate | moment("dddd D-M-YYYY hh:mm")}}
+                            </div>
+                            <div v-if="props.column.field === 'costume'">
+                                {{props.row.costume}}
+                            </div>
+                            <div v-if="props.column.field === 'sign-out'">
+                                <b-btn class="float-right" v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + index + '-' + props.row.originalIndex">{{$t('sign-out')}}</b-btn>
                                 <b-modal v-bind:ref="'sign-out-modal' + index + '-' + props.row.originalIndex" v-bind:id="'sign-out-modal-' + index + '-' + props.row.originalIndex"  v-bind:title="$t('sign-out')">
                                     <p>{{$t('sign-out-agreement')}}</p>
                                     <b-row class="form-row">
@@ -249,7 +256,7 @@
                                         </b-btn>
                                     </div>
                                 </b-modal>
-                            </td>
+                            </div>
                         </template>
                     </vue-good-table>
                     <div class="mt-2" v-if="eventDate.cancelledUsers.length > 0">
@@ -427,9 +434,6 @@ export default {
                 const computedDate = (date.date.substring(0, 11) + this.$data.event.endTime + '00').replace(/-/g, '').replace(/:/g, '')
                 return computedDate
             }
-        },
-        formatDateForRow (rowObject) {
-            return moment(rowObject.signUpDate).format('D-M-YYYY h:mm')
         },
         isSignedUp: function (eventDate) {
             for (let user of eventDate.signedUpUsers) {
@@ -662,26 +666,24 @@ export default {
             },
             columns: [
                 {
-                    label: ''
+                    label: '',
+                    field: 'avatar'
                 },
                 {
                     label: this.$t('name'),
-                    field: 'username',
-                    tdClass: 'text-left'
+                    field: 'username'
                 },
                 {
                     label: this.$t('signup-date'),
-                    field: this.formatDateForRow,
-                    tdClass: 'text-right'
+                    field: 'date'
                 },
                 {
                     label: this.$t('costume'),
-                    field: 'costume',
-                    tdClass: 'text-right'
+                    field: 'costume'
                 },
                 {
                     label: '',
-                    tdClass: 'text-right'
+                    field: 'sign-out'
                 }
             ],
             rows: []
@@ -700,7 +702,13 @@ export default {
         }
     },
     mounted () {
-        this.getPrivateEvent()
+        console.log(this.$route.params.id)
+        if (this.$route.params.id && this.$route.params.id !== 'undefined') {
+            this.getPrivateEvent()
+        } else {
+            alert('No event ID found')
+            this.$router.push('/events/')
+        }
     }
 }
 </script>

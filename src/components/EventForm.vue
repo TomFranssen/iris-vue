@@ -357,39 +357,49 @@
                                 <b-col md="9">
                                     <div>
                                         <b-btn v-b-toggle="'collapse-'" class="m-1">{{$t('add-more-signups')}}</b-btn>
-                                        <b-collapse v-bind:id="'collapse-'">
+                                        <b-collapse class="mt-4" v-bind:id="'collapse-'">
                                             <template>
                                                 <vue-good-table
-                                                    :columns="columns"
-                                                    :rows="getFilteredRows(eventDate.signedUpUsers)"
-                                                    styleClass="table mt-3 align-middle text-nowrap condensed table-bordered table-striped"
+                                                    v-bind:columns="columns"
+                                                    v-bind:search-options="{
+                                                        enabled: true,
+                                                        placeholder: $t('search-for-name')
+                                                    }"
+                                                    v-bind:paginationOptions="{
+                                                        enabled: true,
+                                                        perPage: 8,
+                                                        perPageDropdown: [8, 20, 50],
+                                                        dropdownAllowAll: true,
+                                                        nextLabel: $t('next'),
+                                                        prevLabel: $t('previous'),
+                                                        rowsPerPageLabel: $t('per-page'),
+                                                        ofLabel: $t('of'),
+                                                        allLabel: $t('all'),
+                                                    }"
+                                                    styleClass="vgt-table condensed"
+                                                    v-bind:rows="getFilteredRows(eventDate.signedUpUsers)"
                                                 >
                                                     <template slot="table-row" slot-scope="props">
-                                                        <td width="50" style="padding: 0;">
-                                                            <div v-if="props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
-                                                                <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
-                                                            </div>
-                                                        </td>
-                                                        <td class="align-middle">
-                                                            <div v-if="props.row.user_metadata && props.row.user_metadata.username">
-                                                                {{props.row.user_metadata.username}}
-                                                            </div>
-                                                        </td>
-                                                        <td class="align-middle">
-                                                            <div v-if="props.row.user_metadata && props.row.user_metadata.costumes">
-                                                                <select v-model="props.row.selectedCostume">
-                                                                    <option disabled value="undefined">{{$t('choose-your-costume')}}</option>
-                                                                    <option v-for="costume in props.row.user_metadata.costumes" v-bind:key="costume.name" v-bind:value="costume.name">
-                                                                        {{costume.name}}
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </td>
-                                                        <td class="align-middle text-right">
-                                                            <b-button v-on:click="signUpUserToEvent(eventDate.signedUpUsers, props.row, props.row.selectedCostume)" variant="secondary"><i aria-hidden="true" class="fa fa-plus"></i> {{$t('sign-up')}}
-                                                            </b-button>
-                                                        </td>
+                                                        <div v-if="props.column.field === 'picture' && props.row.user_metadata && props.row.user_metadata.legion_thumbnail">
+                                                            <img v-bind:src="props.row.user_metadata.legion_thumbnail" width="50" />
+                                                        </div>
+                                                        <div v-if="props.column.field === 'user_metadata.username' && props.row.user_metadata && props.row.user_metadata.username">
+                                                            {{props.row.user_metadata.username}}
+                                                        </div>
+                                                        <div v-if="props.column.field === 'add-user' && props.row.user_metadata && props.row.user_metadata.costumes">
+                                                            <select class="form-control" v-model="props.row.selectedCostume">
+                                                                <option disabled value="undefined">{{$t('choose-costume')}}</option>
+                                                                <option v-for="costume in props.row.user_metadata.costumes" v-bind:key="costume.name" v-bind:value="costume.name">
+                                                                    {{costume.name}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <b-button v-if="props.column.field === 'add-user-button'" v-on:click="signUpUserToEvent(eventDate.signedUpUsers, props.row, props.row.selectedCostume)" variant="secondary"><i aria-hidden="true" class="fa fa-plus"></i> {{$t('sign-up')}}
+                                                        </b-button>
                                                     </template>
+                                                    <div slot="emptystate">
+                                                        {{$t('no-results')}}
+                                                    </div>
                                                 </vue-good-table>
                                             </template>
                                         </b-collapse>
@@ -476,23 +486,18 @@ export default {
             columns: [
                 {
                     label: '',
-                    tdClass: 'text-right',
                     field: 'picture'
                 },
                 {
                     label: this.$t('name'),
-                    tdClass: 'text-right',
-                    field: 'user_metadata.username',
-                    filterable: true
+                    field: 'user_metadata.username'
                 },
                 {
                     label: '',
-                    tdClass: 'text-right',
                     field: 'add-user'
                 },
                 {
                     label: '',
-                    tdClass: 'text-right',
                     field: 'add-user-button'
                 }
             ],

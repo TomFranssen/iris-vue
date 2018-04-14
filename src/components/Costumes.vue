@@ -10,7 +10,9 @@
                 styleClass="table table-bordered condensed"
             >
                 <template slot="table-row" slot-scope="props">
-                    <td class="text-left">{{ props.row.name }}</td>
+                    <div class="text-left">
+                        {{props.row.name}}
+                    </div>
                 </template>
             </vue-good-table>
         </template>

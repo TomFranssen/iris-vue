@@ -48,6 +48,7 @@ const translations = {
         'add-costume': 'Add costume',
         'remove': 'Remove',
         'choose-your-costume': 'Choose your costume',
+        'choose-costume': 'Choose costume',
         'save-costume': 'Save costume',
         'costumes': 'Costumes',
         'signup-date': 'Sign-up date',
@@ -134,7 +135,16 @@ const translations = {
         'copied-text': 'You just copied:',
         'copied-failed-text': 'Something went wrong with copying',
         'add-user': 'Add user',
-        'add-more-signups': 'Add more sign ups'
+        'add-more-signups': 'Add more sign ups',
+        'next': 'Next',
+        'previous': 'Previous',
+        'per-page': 'Per Page',
+        'of': 'of',
+        'all': 'All',
+        'search-for-name': 'Search for name',
+        'no-results': 'No results',
+        'users-loading': 'Users are loading',
+        'search': 'Search'
     },
     'nl-NL': {
         'info': 'Info',
@@ -185,6 +195,7 @@ const translations = {
         'add-costume': 'Kostuum toevoegen',
         'remove': 'Verwijderen',
         'choose-your-costume': 'Kies je kostuum',
+        'choose-costume': 'Kies kostuum',
         'save-costume': 'Kostuum opslaan',
         'costumes': 'Kostuums',
         'signup-date': 'Inschrijfdatum',
@@ -272,7 +283,16 @@ const translations = {
         'copied-text': 'Je hebt gekopieerd:',
         'copied-failed-text': 'Er is iets mis gegaan met kopieeëren',
         'add-user': 'Voeg gebruiker toe',
-        'add-more-signups': 'Meer inschrijven toevoegen'
+        'add-more-signups': 'Meer inschrijven toevoegen',
+        'next': 'Volgende',
+        'previous': 'Vorige',
+        'per-page': 'Per pagina',
+        'of': 'van',
+        'all': 'Alles',
+        'search-for-name': 'Zoek op naam',
+        'no-results': 'Geen resultaat',
+        'users-loading': 'Gebruikers worden ingeladen',
+        'search': 'Zoeken'
     },
     'de-DE': {
         'info': 'Info',

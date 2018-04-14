@@ -69,7 +69,6 @@ export default {
                 state.profile['https://iris.501st.nl/user_metadata'] &&
                 state.profile['https://iris.501st.nl/user_metadata'].costumes
             ) {
-                console.log(state.profile['https://iris.501st.nl/user_metadata'].costumes.length > 0)
                 return state.profile['https://iris.501st.nl/user_metadata'].costumes.length > 0
             }
         },
