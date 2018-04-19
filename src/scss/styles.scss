@@ -173,3 +173,19 @@ table {
         }
     }
 }
+
+@media only screen and (max-width: 557px) {
+    .form-row {
+        .col-sm-3 {
+            label {
+                margin-top: 6px;
+            }
+        }
+    }
+}
+
+tr {
+    &.clickable {
+        cursor: pointer;
+    }
+}

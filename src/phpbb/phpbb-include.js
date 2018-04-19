@@ -34,31 +34,41 @@
                 <div class="col-sm-4">
                     <h3>Date and Time</h3>
                     <strong>Start date:</strong> {{formatDate eventDates.0.date}}<br>
-                    <strong>Begin time:</strong> {{startTime.0.HH}}:{{startTime.0.mm}}<br>
+                    <strong>Begin time:</strong> {{startTime}}<br>
                     {{#each eventDates}}
                         {{#if @last}} <strong>End date:</strong> {{formatDate date}}<br>{{/if}}
                     {{/each}}
-                    <strong>End Time:</strong> {{endTime.0.HH}}:{{endTime.0.mm}}<br>
+                    <strong>End Time:</strong> {{endTime}}<br>
                     <strong>Registration deadline:</strong> {{formatDate maxSignupDate}}<br>
-                    <strong>Collection time:</strong> {{gatherTime.0.HH}}:{{gatherTime.0.mm}}<br>
+                    <strong>Collection time:</strong> {{gatherTime}}<br>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4" style="word-break: break-all;">
                     <h3 class="extra-margin-top-xs">Location</h3>
                     <strong>Address:</strong> {{street}} {{houseNumber}}<br>
                     <strong>City:</strong> {{city}}<br>
-                    <strong>Website:</strong> {{websiteUrl}}</a><br>
+                    {{#if websiteUrl}}
+                    <strong>Website:</strong><br>{{websiteUrl}}</a><br>
+                    {{/if}}
+                    {{#if facebookEvent}}
+                    <strong>Facebook Event:</strong><br>{{facebookEvent}}</a><br>
+                    {{/if}}
                     <strong>Event coordinator:</strong> {{eventCoordinator}}<br>
                 </div>
                 <div class="col-sm-4">
                     <h3 class="extra-margin-top-xs">Details</h3>
-                    <strong>Public:</strong> {{#if publiclyAccessible}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
-                    <strong>Guests:</strong> {{#if canRegisterGuests}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
+                    <strong>Public accessible event:</strong> {{#if publiclyAccessible}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
+
                     <strong>Dressingroom:</strong> {{#if dressingroomAvailable}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
                     <strong>Travel Restitution:</strong> {{#if travelRestitution}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
                     <strong>Parking:</strong> {{#if parking}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
                     <strong>Parking Restitution:</strong> {{#if parkingRestitution}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
-                    <strong>Lunch:</strong> {{#if lunch}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
-                    <strong>Drinks:</strong> {{#if drinks}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}} <br>
+                    <strong>Food:</strong> {{#if food}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
+                    <strong>Drinks:</strong>
+                    {{#if drinks}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}
+                    <h3 class="extra-margin-top-xs" style="margin-top: 15px;">Rules</h3>
+                    <strong>Blasters Allowed:</strong>
+                    {{#if blastersAllowed}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}<br>
+                    <strong>Guests allowed:</strong> {{#if canRegisterGuests}}<i class="fa fa-check"><span class="sr-only">yes</span></i>{{else}}<i class="fa fa-times"><span class="sr-only">no</span></i>{{/if}}
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -72,7 +82,7 @@
         {{#each eventDates}}
             <div class="col-xs-12 col-sm-6 no-padding-xs" style="padding-left:0px !important;">
                 <div class="jumbotron" style="padding: 20px;">
-                    <h3>{{formatDate date}}</h3>
+                    <h3>{{formatDate date day="numeric" month="long" year="numeric"}}</h3>
                     <ul class="list-unstyled">
                         {{#each signedUpUsers}}
                             <li>
@@ -97,48 +107,49 @@
                 </div>
             </div>
         {{/each}}
-    </div> 
+    </div>
 </div>
 
 <script>
-head.load("//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js", "https://cdn.jsdelivr.net/npm/handlebars-intl@1.1.2/dist/handlebars-intl.min.js", "https://cdn.jsdelivr.net/npm/handlebars-intl@1.1.2/dist/locale-data/nl.js");
+head.load('//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js', 'https://cdn.jsdelivr.net/npm/handlebars-intl@1.1.2/dist/handlebars-intl.min.js', 'https://cdn.jsdelivr.net/npm/handlebars-intl@1.1.2/dist/locale-data/nl.js')
 head.ready(function () {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://dutchgarrison.herokuapp.com/api/public/event?id={IDENTIFIER}');
-    xhr.onload = function() {
-        if (xhr.status === 200) {    
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', 'https://dutchgarrison.herokuapp.com/api/public/event?id={IDENTIFIER}')
+    xhr.onload = function () {
+        if (xhr.status === 200) {
             var intlData = {
                 locales: 'nl-NL'
             }
 
-            HandlebarsIntl.registerWith(Handlebars);
+            HandlebarsIntl.registerWith(Handlebars)
 
-            Handlebars.registerHelper('googlemapsimage', function(street, houseNumber, postcode, city) {
-              return '<img style="border-radius: 6px;" src="https://maps.googleapis.com/maps/api/staticmap?center=' + street + '+' + houseNumber + '+' + postcode + '+' + city +'&zoom=13&size=250x260&maptype=roadmap&markers=' + street + '+' + houseNumber + '+' + postcode + '+' + city + '&key=AIzaSyAYazeF-nhbaP3tkZTqsoipY7JOfXb7qAM" class="img-responsive" />';
-            });   
+            Handlebars.registerHelper('googlemapsimage', function (street, houseNumber, postcode, city) {
+                return '<img style="border-radius: 6px;" src="https://maps.googleapis.com/maps/api/staticmap?center=' + street + '+' + houseNumber + '+' + postcode + '+' + city + '&zoom=13&size=250x260&maptype=roadmap&markers=' + street + '+' + houseNumber + '+' + postcode + '+' + city + '&key=AIzaSyAYazeF-nhbaP3tkZTqsoipY7JOfXb7qAM" class="img-responsive" />'
+            })
 
-            Handlebars.registerHelper('avatarimage', function(avatar) {
-              return new Handlebars.SafeString(
-                '<img style="width: 35px; margin-bottom: 5px;" src="' + avatar + '" class="img-responsive" />'
-              );
-            });
+            Handlebars.registerHelper('avatarimage', function (avatar) {
+                return new Handlebars.SafeString(
+                    '<img style="width: 35px; margin-bottom: 5px;" src="' + avatar + '" class="img-responsive" />'
+                )
+            })
 
-            el = document.getElementById("event-{IDENTIFIER}");
-            var source = document.getElementById("entry-template").innerHTML;
-            var template = Handlebars.compile(source);
+            el = document.getElementById('event-{IDENTIFIER}')
+            var source = document.getElementById('entry-template').innerHTML
+            var template = Handlebars.compile(source)
             var html = template(JSON.parse(xhr.responseText), {
                 data: {intl: intlData}
-            });
+            })
 
-            el.innerHTML = html;
+            el.innerHTML = html
+        } else {
+            alert('Request failed.  Returned status of ' + xhr.status)
         }
-        else {
-            alert('Request failed.  Returned status of ' + xhr.status);
-        }
-    };
-    xhr.send();
-});
+    }
+    xhr.send()
+})
 </script>
 
-<div id="event-{IDENTIFIER}"></div>
-
+<div id="event-{IDENTIFIER}">
+    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+    <span>Loading event</span>
+</div>

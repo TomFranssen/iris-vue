@@ -144,7 +144,8 @@ const translations = {
         'search-for-name': 'Search for name',
         'no-results': 'No results',
         'users-loading': 'Users are loading',
-        'search': 'Search'
+        'search': 'Search',
+        'choose-city': 'Choose city'
     },
     'nl-NL': {
         'info': 'Info',
@@ -292,7 +293,8 @@ const translations = {
         'search-for-name': 'Zoek op naam',
         'no-results': 'Geen resultaat',
         'users-loading': 'Gebruikers worden ingeladen',
-        'search': 'Zoeken'
+        'search': 'Zoeken',
+        'choose-city': 'Kies plaats'
     },
     'de-DE': {
         'info': 'Info',

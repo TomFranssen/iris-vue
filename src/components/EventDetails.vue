@@ -159,10 +159,10 @@
                 <div v-if="event._id && $store.getters.isGec">
                     <h2 class="mt-3">{{$t('embed-in-forum')}}</h2>
                     <b-input-group>
-                        <b-form-input readonly v-model="'[iris]' + event._id + '[/iris]'"></b-form-input>
+                        <b-form-input readonly v-model="'[iris=' + event._id + '][/iris]'"></b-form-input>
                         <b-input-group-append>
                             <b-btn
-                                v-clipboard:copy="'[iris]' + event._id + '[/iris]'"
+                                v-clipboard:copy="'[iris=' + event._id + '][/iris]'"
                                 v-clipboard:success="onCopy"
                                 v-clipboard:error="onCopyError"
                             >{{$t('copy')}}</b-btn>
@@ -662,7 +662,8 @@ export default {
                 food: true,
                 drinks: true,
                 canRegisterGuests: true,
-                isArchived: false
+                isArchived: false,
+                blastersAllowed: true
             },
             columns: [
                 {
