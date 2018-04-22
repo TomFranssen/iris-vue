@@ -1,6 +1,16 @@
 <template>
     <div>
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
+
+        <div class="button-group">
+            <router-link v-if="$store.getters.isGec" class="mr-3 btn btn-primary" v-bind:to="'/event/' + event._id + '/edit'">
+                <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
+            </router-link>
+            <b-btn v-if="$store.getters.isGec" variant="primary" v-on:click="emailEvent">
+                <i class="fa fa-envelope" aria-hidden="true"></i> {{$t('send-notification')}}
+            </b-btn>
+        </div>
+
         <div class="clearfix mb-4">
             <div class="date-square float-left">
                 <div class="month" v-if="getFirstDate()">
@@ -9,14 +19,6 @@
                 <div class="day" v-if="getLastDate()">
                     {{ getLastDate() | moment('D') }}
                 </div>
-            </div>
-            <div class="button-group float-right">
-                <router-link v-if="$store.getters.isGec" class="float-right ml-3 btn btn-primary" v-bind:to="'/event/' + event._id + '/edit'">
-                    <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
-                </router-link>
-                <b-btn v-if="$store.getters.isGec" class="float-right" variant="primary" v-on:click="emailEvent">
-                    <i class="fa fa-envelope" aria-hidden="true"></i> {{$t('send-notification')}}
-                </b-btn>
             </div>
             <h1>
                 {{event.name}}
