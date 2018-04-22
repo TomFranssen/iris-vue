@@ -112,7 +112,11 @@ export default {
         },
         getPrivateSignedUpEvents () {
             getPrivateSignedUpEvents().then((events) => {
-                this.rows = events
+                this.rows = events.sort(function (a, b) {
+                    a = new Date(a.eventDates[0].date)
+                    b = new Date(b.eventDates[0].date)
+                    return a > b ? -1 : a < b ? 1 : 0
+                }).reverse() // Sort events on date
                 this.populateLocationFilterOptions()
             })
         },

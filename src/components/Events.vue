@@ -9,8 +9,7 @@
                 @on-row-click="showEventDetails"
                 styleClass="table condensed table-bordered table-striped text-nowrap"
                 :sort-options="{
-                    enabled: true,
-                    initialSortBy: {field: getFirstDate(this), type: 'asc'}
+                    enabled: true
                 }"
             >
                 <template slot="table-row" slot-scope="props">
@@ -75,6 +74,12 @@ export default {
         },
         getPrivateEvents () {
             getPrivateEvents().then((events) => {
+                this.rows = events.sort(function (a, b) {
+                    a = new Date(a.eventDates[0].date)
+                    b = new Date(b.eventDates[0].date)
+                    return a > b ? -1 : a < b ? 1 : 0
+                }).reverse() // Sort events on date
+
                 this.rows = events
                 this.populateLocationFilterOptions()
             })
