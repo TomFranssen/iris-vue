@@ -239,7 +239,7 @@
                             </b-checkbox>
                         </b-col>
                     </b-row>
-                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('rules')}}</h2>
+                    <h2 class="mt-4">{{$t('rules')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -264,7 +264,7 @@
                             </b-checkbox>
                         </b-col>
                     </b-row>
-                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('end-info')}}</h2>
+                    <h2 class="mt-4">{{$t('end-info')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox

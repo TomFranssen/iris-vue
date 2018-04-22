@@ -67,12 +67,14 @@
                 </div>
             </div>
             <div v-else>
-                <h1>
-                    {{$t('welcome')}}
-                </h1>
-                <b-alert show variant="danger">
-                    {{$t('no-costumes')}}
-                </b-alert>
+                <div v-if="$store.state.profile.email_verified === true">
+                    <h1>
+                        {{$t('welcome')}}
+                    </h1>
+                    <b-alert show variant="danger">
+                        {{$t('no-costumes')}}
+                    </b-alert>
+                </div>
             </div>
         </div>
     </div>

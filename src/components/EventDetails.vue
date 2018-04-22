@@ -206,8 +206,9 @@
                     </p>
                     <div class="progress" v-if="hasSignedUpUsers(eventDate)">
                         <div
-                            class="progress-bar progress-bar-striped progress-bar-animated"
+                            class="progress-bar bg-success progress-bar-striped"
                             role="progressbar"
+                            variant="success"
                             v-bind:style="{ width: getProgressBarWidth(eventDate) + '%'}"
                         >{{getProgressBarWidth(eventDate)}}%</div>
                     </div>
