@@ -22,16 +22,11 @@
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
-                        <b-col sm="3">
+                        <b-col sm="12">
                             <label for="description">{{$t('description')}}:</label>
                         </b-col>
-                        <b-col sm="9">
-                            <b-form-textarea
-                                id="description"
-                                v-model="event.description"
-                                :rows="3"
-                                :max-rows="6">
-                            </b-form-textarea>
+                        <b-col sm="12">
+                            <wysiwyg v-model="event.description" placeholder="" />
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
@@ -322,14 +317,14 @@
                             <b-row class="form-row">
                                 <b-col sm="3"><label>{{$t('available-spots')}}</label></b-col>
                                 <b-col sm="9">
-                                    <b-form-input v-validate="'required'" v-model.number="eventDate.availableSpots" v-bind:name="'eventdate-availablespots-' + index" id="available-spots" size="sm" type="number"></b-form-input>
+                                    <b-form-input v-validate="'required'" v-model.number="eventDate.availableSpots" v-bind:name="'eventdate-availablespots-' + index" size="sm" type="number"></b-form-input>
                                     <p class="text-danger" v-if="errors.has('eventdate-availablespots-' + index)">{{ errors.first('eventdate-availablespots-' + index) }}</p>
                                 </b-col>
                             </b-row>
                             <b-row class="form-row">
                                 <b-col>
                                     <b-checkbox
-                                        v-validate="'required'" id="open"
+                                        v-validate="'required'"
                                         v-model="eventDate.open"
                                         value="true"
                                         unchecked-value="false"

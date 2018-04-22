@@ -27,11 +27,14 @@
                 </div>
             </h1>
         </div>
-        <div>
-            <p>{{event.description}}</p>
-        </div>
+        <b-row class="mb-6">
+            <b-col md="8">
+                <div class="event-description mb-5" v-html="event.description"></div>
+            </b-col>
+        </b-row>
+
         <b-row class="mb-3 mail-content">
-            <b-col md="12" lg="5">
+            <b-col md="12" lg="4">
                 <h2>{{$t('basic-info')}}</h2>
                 <i class="fa fa-calendar" aria-hidden="true"></i>
                 <span class="sr-only">
@@ -80,7 +83,7 @@
                 </address>
             </b-col>
 
-            <b-col md="6" lg="3">
+            <b-col md="6" lg="4">
                 <div>
                     <h2>{{$t('details')}}</h2>
                     <ul class="fa-ul" style="list-style: none; padding: 0;">
@@ -159,7 +162,7 @@
                 <div v-if="event._id && $store.getters.isGec">
                     <h2 class="mt-3">{{$t('embed-in-forum')}}</h2>
                     <b-input-group>
-                        <b-form-input readonly v-model="'[iris=' + event._id + '][/iris]'"></b-form-input>
+                        <b-form-input readonly v-bind:value="'[iris=' + event._id + '][/iris]'"></b-form-input>
                         <b-input-group-append>
                             <b-btn
                                 v-clipboard:copy="'[iris=' + event._id + '][/iris]'"

@@ -189,3 +189,10 @@ tr {
         cursor: pointer;
     }
 }
+
+.event-description {
+    table {
+        @extend .table;
+        @extend .table-bordered;
+    }
+}

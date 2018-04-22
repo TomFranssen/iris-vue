@@ -18,6 +18,9 @@ import Noty from 'noty'
 import 'noty/lib/noty.css'
 import 'vue-instant/dist/vue-instant.css'
 import './registerServiceWorker'
+import wysiwyg from 'vue-wysiwyg'
+import 'vue-wysiwyg/dist/vueWysiwyg.css'
+
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
 
@@ -38,6 +41,13 @@ Vue.use(VueGoodTable)
 Vue.use(VueInstant)
 Vue.use(VueClipboard)
 Vue.use(require('vue-moment'))
+Vue.use(wysiwyg, {
+    hideModules: {
+        'underline': true,
+        'code': true,
+        'image': true
+    }
+})
 
 function toast ({title, message, type, timeout, cb}) {
     if (type === VueNotifications.types.warn) type = 'warning'
