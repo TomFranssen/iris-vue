@@ -30,7 +30,7 @@
             </h1>
         </div>
         <b-row class="mb-6">
-            <b-col md="8">
+            <b-col md="12" lg="8">
                 <div class="event-description mb-5" v-html="event.description"></div>
             </b-col>
         </b-row>
