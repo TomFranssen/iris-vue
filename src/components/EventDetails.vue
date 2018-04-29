@@ -23,8 +23,8 @@
             <h1>
                 {{event.name}}
                 <div>
-                    <small class="text-muted" v-for="allegiance in event.allegiances" v-bind:key="allegiance">
-                        {{allegiance}}
+                    <small class="text-muted">
+                        Dutch Garrison
                     </small>
                 </div>
             </h1>

@@ -40,6 +40,8 @@ h1 {
     width: 50px;
     text-transform: uppercase;
     margin-right: .5rem;
+    position: relative;
+    top: 4px;
     .month {
         color: $red;
     }

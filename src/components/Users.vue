@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-breadcrumb :items="breadcrumbs"/>
-        <h1>{{$t('users')}}</h1>
+        <h1>{{$t('users')}} <small class="text-muted">({{rows.length}})</small></h1>
         <template>
             <vue-good-table
                 :columns="columns"
