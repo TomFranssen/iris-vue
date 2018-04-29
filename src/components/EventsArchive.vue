@@ -6,13 +6,10 @@
             <vue-good-table
                 :columns="columns"
                 :rows="rows"
-                :sortable="false"
-                :defaultSortBy="{field: getFirstDate, type: 'asc'}"
-                :onClick="showEventDetails"
+                @on-row-click="showEventDetails"
                 styleClass="table condensed table-bordered table-striped text-nowrap"
-                v-bind:search-options="{
-                    enabled: true,
-                    placeholder: $t('search-for-name')
+                :sort-options="{
+                    enabled: true
                 }"
             >
 
@@ -86,13 +83,18 @@ export default {
         },
         populateLocationFilterOptions: function () {
             let locations = []
+            function onlyUnique (value, index, self) {
+                return self.indexOf(value) === index
+            }
+
             for (let row of this.rows) {
                 locations.push(row.city)
-            }
-            this.columns[1].filterOptions = locations
+            };
+            this.columns[1].filterOptions.filterDropdownItems = locations.filter(onlyUnique)
         },
         showEventDetails: function (row, index) {
-            this.$router.push('event/' + row._id)
+            console.log(row)
+            this.$router.push('event/' + row.row._id)
         }
     },
     data () {
@@ -112,15 +114,22 @@ export default {
                     label: this.$t('name'),
                     field: 'name',
                     tdClass: 'text-left',
-                    filterable: true
+                    filterOptions: {
+                        enabled: true,
+                        placeholder: this.$t('search-for-name'),
+                        filterDropdownItems: []
+                    }
                 },
                 {
                     label: this.$t('location'),
                     tdClass: 'text-left',
                     field: 'city',
                     filterable: true,
-                    filterDropdown: true,
-                    filterOptions: []
+                    filterOptions: {
+                        enabled: true,
+                        placeholder: this.$t('choose-city'),
+                        filterDropdownItems: []
+                    }
                 },
                 {
                     label: this.$t('days'),
