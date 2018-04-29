@@ -25,10 +25,11 @@
     "vue-clipboard2": "^0.1.0",
     "vue-good-table": "^2.3.0",
     "vue-i18n": "^7.6.0",
-    "vue-instant": "^1.0.2",
     "vue-moment": "^3.2.0",
     "vue-notifications": "^0.9.0",
     "vue-router": "^3.0.1",
+    "vue-select": "^2.4.0",
+    "vue-wysiwyg": "^1.7.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

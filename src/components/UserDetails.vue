@@ -39,7 +39,7 @@
             <b-row class="form-row">
                 <b-col cols="5" md="4" lg="2">{{$t('costumes')}}:</b-col>
                 <b-col>
-                    <div v-for="costume in user.user_metadata.costumes" v-bind:key="costume.name">
+                    <div v-for="(costume, index) in user.user_metadata.costumes" v-bind:key="index">
                         {{costume.name}}
                     </div>
                 </b-col>
@@ -73,19 +73,7 @@
                 <b-row class="form-row" v-for="(costume, index) in user.user_metadata.costumes" v-bind:key="index">
                     <b-col cols="5" md="4" lg="2"><label>{{$t('costume')}} {{index + 1}}</label></b-col>
                     <b-col>
-                        <vue-instant
-                            v-on:input="changed()"
-                            v-model="costume.name"
-                            v-bind:suggestion-attribute="suggestionAttribute"
-                            v-bind:disabled="false"
-                            v-bind:show-autocomplete="true"
-                            v-bind:autofocus="false"
-                            v-bind:suggestions="suggestions"
-                            v-bind:name="'costume-'"
-                            v-bind:placeholder="$t('start-typing')"
-                            type="google"
-                        >
-                        </vue-instant>
+                        <v-select label="name" v-model="user.user_metadata.costumes[index]" v-bind:options="costumes"></v-select>
                         <p class="text-danger" v-if="errors.has('costume-' + index)">{{ errors.first('costume-' + index + 1) }}</p>
                     </b-col>
                     <b-col cols="12" sm="4" md="3" lg="2" class="mb-2 mt-2 mb-sm-0 mt-sm-0">
@@ -125,17 +113,6 @@ export default {
     name: 'user-details',
     props: ['id'],
     methods: {
-        changed: function () {
-            const that = this
-            this.suggestions = []
-            function filterCostume (costume) {
-                const value = that.value.toLowerCase()
-
-                return (costume.name.toLowerCase().indexOf(value) !== -1)
-            }
-
-            this.suggestions = this.costumes.filter(filterCostume)
-        },
         getPrivateCostumes () {
             getPrivateCostumes().then((costumes) => {
                 this.costumes = costumes
@@ -146,7 +123,7 @@ export default {
                 this.$set(this.user.user_metadata, 'costumes', [])
             }
             this.user.user_metadata.costumes.push({
-                name: ''
+                name: this.$t('start-typing')
             })
         },
         removeCostume: function (index) {

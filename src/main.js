@@ -11,15 +11,14 @@ import translations from './i18n/i18n'
 import VueI18n from 'vue-i18n'
 import VueGoodTable from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.css'
-import VueInstant from 'vue-instant'
 import VueClipboard from 'vue-clipboard2'
 import VueNotifications from 'vue-notifications'
 import Noty from 'noty'
 import 'noty/lib/noty.css'
-import 'vue-instant/dist/vue-instant.css'
 import './registerServiceWorker'
 import wysiwyg from 'vue-wysiwyg'
 import 'vue-wysiwyg/dist/vueWysiwyg.css'
+import vSelect from 'vue-select'
 
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
@@ -36,9 +35,9 @@ Vue.use(VeeValidate, {
 })
 Vue.use(BootstrapVue)
 Vue.use(Vuex)
+Vue.component('v-select', vSelect)
 Vue.use(VueI18n)
 Vue.use(VueGoodTable)
-Vue.use(VueInstant)
 Vue.use(VueClipboard)
 Vue.use(require('vue-moment'))
 Vue.use(wysiwyg, {
