@@ -41,12 +41,24 @@ export function getProfile () {
                         console.log(err)
                     }
                 }
-                if (profileData) {
+                if (!profileData.email_verified) {
+                    alert('Je hebt een e-mail grekegen om je e-mailadres te valideren. Zodra je e-mail is gevalideerd kan je opnieuw inloggen.')
+                    logout()
+                    reject(Error('Email not verified'))
+                } else if (profileData['https://iris.501st.nl/app_metadata'].authorization.groups.length === 0) {
+                    alert('Je account moet nog worden goedgekeurd door de GWM voordat je toegang krijgt tot IRIS. Neem contact op met de GWM.')
+                    logout()
+                    reject(Error('No groups configured'))
+                } else if (!profileData['https://iris.501st.nl/user_metadata'].costumes) {
+                    alert('Je hebt nog geen kostuums aan je account gekoppeld, vraag de GWM om deze voor je in te regelen.')
+                    logout()
+                    reject(Error('No costumes configured'))
+                } else if (profileData) {
                     resolve(profileData)
                 } else {
-                    reject(Error('Cannot get profile data'))
-                    console.log('Logging out!')
+                    console.log('Logging out because cannot get profile data!')
                     logout()
+                    reject(Error('Cannot get profile data'))
                 }
             })
         })

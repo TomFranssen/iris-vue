@@ -59,10 +59,6 @@ import { getPrivateEvents } from '../utils/events-api'
 export default {
     name: 'events',
     methods: {
-        getFirstDate: function (rowObject) {
-            console.log(rowObject)
-            // return rowObject.eventDates[0].date
-        },
         getDaysCount: function (rowObject) {
             return rowObject.eventDates.length
         },
@@ -86,10 +82,14 @@ export default {
         },
         populateLocationFilterOptions: function () {
             let locations = []
+            function onlyUnique (value, index, self) {
+                return self.indexOf(value) === index
+            }
+
             for (let row of this.rows) {
                 locations.push(row.city)
             };
-            this.columns[1].filterOptions.filterDropdownItems = locations // make array values unique
+            this.columns[1].filterOptions.filterDropdownItems = locations.filter(onlyUnique)
         },
         showEventDetails: function (row, index) {
             this.$router.push('event/' + row.row._id)

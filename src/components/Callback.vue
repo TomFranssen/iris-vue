@@ -12,13 +12,13 @@ export default {
         const redirectUrl = localStorage.getItem('redirectUrl')
         setAccessToken()
         setIdToken()
+        this.getProfile()
 
         if (redirectUrl) {
             this.$router.replace(redirectUrl)
         } else {
             this.$router.replace('/')
         }
-        this.getProfile()
     },
     methods: {
         getProfile () {

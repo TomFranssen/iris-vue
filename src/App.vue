@@ -6,7 +6,12 @@
                 <router-view></router-view>
             </div>
         </template>
-        <footer class="container mt-5">©{{ new Date().getFullYear() }} IRIS</footer>
+        <footer class="container mt-5">
+            ©{{ new Date().getFullYear() }} IRIS -
+            <router-link v-bind:to="'/privacy'">
+                Privacy
+            </router-link>
+        </footer>
     </div>
 </template>
 
@@ -38,6 +43,3 @@ export default {
     }
 }
 </script>
-
-<style>
-</style>

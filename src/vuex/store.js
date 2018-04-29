@@ -4,7 +4,7 @@ export default {
     state: {
         profile: {
             'email': '',
-            'email_verified': undefined,
+            'email_verified': true,
             'family_name': '',
             'gender': '',
             'given_name': '',
@@ -35,6 +35,8 @@ export default {
             if (isLoggedIn()) {
                 getProfile().then((profile) => {
                     commit('setProfile', profile)
+                }).catch(function (e) {
+                    console.log(e)
                 })
             }
         }

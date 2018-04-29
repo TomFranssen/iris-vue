@@ -34,8 +34,8 @@ const translations = {
         'available-spots': 'Available spots',
         'open-for-registration': 'Open for registration',
         'add-day': 'Add extra day',
-        'signups': 'Sign-ups',
-        'no-signups': 'No member sign-ups',
+        'signups': 'Sign ups',
+        'no-signups': 'No member sign ups',
         'events': 'Events',
         'log-in': 'Login',
         'profile': 'Profile',
@@ -145,7 +145,10 @@ const translations = {
         'no-results': 'No results',
         'users-loading': 'Users are loading',
         'search': 'Search',
-        'choose-city': 'Choose city'
+        'choose-city': 'Choose city',
+        'my-sign-ups': 'My sign-ups',
+        'signed-up-for-no-events': 'Signed up for no events yet',
+        'view-events': 'View events'
     },
     'nl-NL': {
         'info': 'Info',
@@ -232,7 +235,7 @@ const translations = {
         'do-you-want-to-change-user': 'Wil je deze gebruiker aanpassen?',
         'user-saved': 'Gebruiker opgeslagen!',
         'account': 'Account',
-        'verify-email-text': 'Je hebt een e-mail ontvangen om je e-mailadres te controleren. Herlaad deze pagina zodra je e-mailadres is gevalideerd.',
+        'verify-email-text': 'Je hebt een e-mail ontvangen om je e-mailadres te valideren. Zodra je e-mailadres is gevalideerd kan je opnieuw inloggen.',
         'do-you-want-to-save-event': 'Wil je dit evenement opslaan?',
         'event-saved': 'Evenement opgeslagen',
         'fill-in-all-fields': 'Vul a.u.b. alle velden in.',
@@ -294,7 +297,10 @@ const translations = {
         'no-results': 'Geen resultaat',
         'users-loading': 'Gebruikers worden ingeladen',
         'search': 'Zoeken',
-        'choose-city': 'Kies plaats'
+        'choose-city': 'Kies plaats',
+        'my-sign-ups': 'Mijn inschrijven',
+        'signed-up-for-no-events': 'Je bent nog niet voor evenementen ingeschreven',
+        'view-events': 'Bekijk evenementen'
     },
     'de-DE': {
         'info': 'Info',

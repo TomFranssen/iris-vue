@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import EventAdd from '@/components/EventAdd'
 import EventEdit from '@/components/EventEdit'
 import Events from '@/components/Events'
+import YourEvents from '@/components/YourEvents'
 import EventsArchive from '@/components/EventsArchive'
 import EventDetails from '@/components/EventDetails'
 import Home from '@/components/Home'
@@ -11,6 +12,7 @@ import Users from '@/components/Users'
 import Users501st from '@/components/Users501st'
 import UserDetails from '@/components/UserDetails'
 import Costumes from '@/components/Costumes'
+import Privacy from '@/components/Privacy'
 import NotFound from '@/components/NotFound'
 import Callback from '@/components/Callback'
 import { requireAuth } from '../utils/auth'
@@ -42,6 +44,12 @@ export default new Router({
             path: '/events',
             name: 'Events',
             component: Events,
+            beforeEnter: requireAuth
+        },
+        {
+            path: '/your-events',
+            name: 'YourEvents',
+            component: YourEvents,
             beforeEnter: requireAuth
         },
         {
@@ -85,6 +93,11 @@ export default new Router({
             name: 'Costumes',
             component: Costumes,
             beforeEnter: requireAuth
+        },
+        {
+            path: '/privacy',
+            name: 'Privacy',
+            component: Privacy
         },
         {
             path: '/callback',

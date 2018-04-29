@@ -185,7 +185,7 @@
                             <div class="text-capitalize jumbotron-heading">
                                 {{eventDate.date | humanreadableDate}}
                             </div>
-                            <small class="text-muted" v-if="signupPossible(eventDate)">
+                            <small class="text-muted mt-3" v-if="signupPossible(eventDate)">
                                 {{getSpotsLeft(eventDate)}} {{$t('spots-left')}}
                             </small>
                         </h2>
@@ -265,8 +265,8 @@
                             </div>
                         </template>
                     </vue-good-table>
-                    <div class="mt-2" v-if="eventDate.cancelledUsers.length > 0">
-                        {{$t('sign-outs')}}:
+                    <div class="mt-2 mb-3" v-if="eventDate.cancelledUsers.length > 0">
+                        <strong>{{$t('sign-outs')}}:</strong>&nbsp;
                         <span class="add-comma-after" v-for="cancelledUser in eventDate.cancelledUsers" v-bind:key="cancelledUser.username">
                             <span v-if="cancelledUser.username">{{cancelledUser.username}}</span>
                         </span>
@@ -278,7 +278,7 @@
                             {{eventDate.notPossibleReason}}
                         </b-alert>
                         <div class="row" v-if="signupPossible(eventDate)">
-                            <div class="col mt-3">
+                            <div class="col mt-2">
                                 <b-button v-b-modal="'choose-costume-' + index" size="lg" variant="primary">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                     {{$t('sign-up')}}
@@ -331,8 +331,8 @@
                         </div>
                     </div>
                     <div v-if="event.canRegisterGuests">
-                        <div class="mt-2" v-if="eventDate.guests && eventDate.guests.length > 0">
-                            {{$t('guests')}}:
+                        <div class="mt-4" v-if="eventDate.guests && eventDate.guests.length > 0">
+                            <strong>{{$t('guests')}}:</strong>&nbsp;
                             <span class="add-comma-after" v-for="guest in eventDate.guests" v-bind:key="guest">{{guest}}</span>
                         </div>
                         <b-button v-b-modal="'add-guest-' + index" size="sm mt-2">
@@ -465,7 +465,7 @@ export default {
                 return false
             }
 
-            if (eventDate.availableSpots <= eventDate.signedUpUsers.length) {
+            if (eventDate.availableSpots <= (eventDate.signedUpUsers.length + eventDate.guests.length)) {
                 eventDate.notPossibleReason = this.$t('reason-no-spots-left')
                 return false
             }
@@ -489,7 +489,7 @@ export default {
         },
         hasSignedUpUsers: function (eventDate) {
             if (eventDate && eventDate.signedUpUsers) {
-                if (eventDate.signedUpUsers.length > 0) {
+                if (eventDate.signedUpUsers.length > 0 || eventDate.guests.length) {
                     return true
                 }
             }
@@ -517,9 +517,14 @@ export default {
             return isLoggedIn()
         },
         getPrivateEvent () {
-            getPrivateEvent(this.$route.params.id).then((event) => {
-                this.event = event
-            })
+            getPrivateEvent(this.$route.params.id)
+                .then((event) => {
+                    if (event.eventDates) {
+                        this.event = event
+                    } else {
+                        this.$router.push('/')
+                    }
+                })
         },
         showModal () {
             this.$refs.myModalRef.show()
@@ -651,7 +656,8 @@ export default {
                         availableSpots: 0,
                         open: true,
                         signedUpUsers: [],
-                        cancelledUsers: []
+                        cancelledUsers: [],
+                        guests: []
                     }
                 ],
                 gatherTime: '',
@@ -709,7 +715,6 @@ export default {
         }
     },
     mounted () {
-        console.log(this.$route.params.id)
         if (this.$route.params.id && this.$route.params.id !== 'undefined') {
             this.getPrivateEvent()
         } else {

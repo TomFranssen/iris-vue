@@ -1,26 +1,3 @@
-<!-- http://forum.501stdev.nl/viewtopic.php?f=7&t=4512&p=103420#p103420 -->
-<style>
-    .less-padding {
-        padding: 30px 20px;
-    }
-    .fa-check {
-        color: green;
-    }
-    .fa-times {
-        color: red;
-    }
-  @media (max-width: 767px) {
-        .no-padding-xs {
-            padding: 0;
-        }
-        .google-maps-container img {
-            width: 100%;
-        }
-        .extra-margin-top-xs {
-            margin-top:20px;
-        }
-    }
-</style>
 
 <div id="entry-template" style="display: none;">
     <div class="jumbotron" style="padding: 20px;">
@@ -153,3 +130,26 @@ head.ready(function () {
     <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
     <span>Loading event</span>
 </div>
+
+<style>
+    .less-padding {
+        padding: 30px 20px;
+    }
+    .fa-check {
+        color: green;
+    }
+    .fa-times {
+        color: red;
+    }
+  @media (max-width: 767px) {
+        .no-padding-xs {
+            padding: 0;
+        }
+        .google-maps-container img {
+            width: 100%;
+        }
+        .extra-margin-top-xs {
+            margin-top:20px;
+        }
+    }
+</style>

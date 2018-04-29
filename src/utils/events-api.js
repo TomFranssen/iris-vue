@@ -52,6 +52,6 @@ function getPrivateEvent (id) {
     })
         .then(response => response.data)
         .catch(error => {
-            console.error(error)
+            return error
         })
 }
