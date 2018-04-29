@@ -298,7 +298,7 @@ const translations = {
         'users-loading': 'Gebruikers worden ingeladen',
         'search': 'Zoeken',
         'choose-city': 'Kies plaats',
-        'my-sign-ups': 'Mijn inschrijven',
+        'my-sign-ups': 'Mijn inschrijvingen',
         'signed-up-for-no-events': 'Je bent nog niet voor evenementen ingeschreven',
         'view-events': 'Bekijk evenementen'
     },
