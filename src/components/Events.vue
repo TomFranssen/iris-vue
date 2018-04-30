@@ -70,13 +70,16 @@ export default {
         },
         getPrivateEvents () {
             getPrivateEvents().then((events) => {
+                // Sort events on date first and then on name
                 this.rows = events.sort(function (a, b) {
-                    a = new Date(a.eventDates[0].date)
-                    b = new Date(b.eventDates[0].date)
-                    return a > b ? -1 : a < b ? 1 : 0
-                }).reverse() // Sort events on date
-
-                this.rows = events
+                    let adate = new Date(a.eventDates[0].date)
+                    let bdate = new Date(b.eventDates[0].date)
+                    let rv = adate - bdate
+                    if (rv === 0) {
+                        rv = a.name.localeCompare(b.name)
+                    }
+                    return rv
+                })
                 this.populateLocationFilterOptions()
             })
         },
