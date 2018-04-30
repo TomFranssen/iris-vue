@@ -106,29 +106,25 @@
                     <b-row class="form-row">
                         <b-col sm="3"><label for="street">{{$t('street')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" name="street" v-model.trim="event.street" id="street" size="sm" type="text"></b-form-input>
-                            <p class="text-danger" v-if="errors.has('street')">{{ errors.first('street') }}</p>
+                            <b-form-input name="street" v-model.trim="event.street" id="street" size="sm" type="text"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="housenumber">{{$t('housenumber')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" name="housenumber" v-model.trim="event.houseNumber" id="housenumber" size="sm" type="text"></b-form-input>
-                            <p class="text-danger" v-if="errors.has('housenumber')">{{ errors.first('housenumber') }}</p>
+                            <b-form-input name="housenumber" v-model.trim="event.houseNumber" id="housenumber" size="sm" type="text"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="postcode">{{$t('postcode')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" name="postcode" v-model.trim="event.postcode" id="postcode" size="sm" type="text"></b-form-input>
-                            <p class="text-danger" v-if="errors.has('postcode')">{{ errors.first('postcode') }}</p>
+                            <b-form-input name="postcode" v-model.trim="event.postcode" id="postcode" size="sm" type="text"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="city">{{$t('city')}}:</label></b-col>
                         <b-col sm="9">
-                            <b-form-input v-validate="'required'" name="city" v-model.trim="event.city" id="city" size="sm" type="text"></b-form-input>
-                            <p class="text-danger" v-if="errors.has('city')">{{ errors.first('city') }}</p>
+                            <b-form-input name="city" v-model.trim="event.city" id="city" size="sm" type="text"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="form-row">

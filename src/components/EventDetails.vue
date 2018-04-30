@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <address>
+                <address v-if="event.street && event.houseNumber && event.postcode && event.city">
                     <div class="map">
                         <div class="card">
                             <a v-bind:href="getGoogleMapsDirectionsUrl()">

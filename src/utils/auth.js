@@ -41,7 +41,13 @@ export function getProfile () {
                         console.log(err)
                     }
                 }
-                if (!profileData.email_verified) {
+                if (!profileData) {
+                    console.log('Logging out because cannot get profile data!')
+                    logout()
+                    reject(Error('Cannot get profile data'))
+                    return false
+                }
+                if (profileData && !profileData.email_verified) {
                     alert('Je hebt een e-mail grekegen om je e-mailadres te valideren. Zodra je e-mail is gevalideerd kan je opnieuw inloggen.')
                     logout()
                     reject(Error('Email not verified'))

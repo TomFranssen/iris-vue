@@ -73,7 +73,7 @@
                 <b-row class="form-row" v-for="(costume, index) in user.user_metadata.costumes" v-bind:key="index">
                     <b-col cols="5" md="4" lg="2"><label>{{$t('costume')}} {{index + 1}}</label></b-col>
                     <b-col>
-                        <v-select label="name" v-model="user.user_metadata.costumes[index]" v-bind:options="costumes"></v-select>
+                        <v-select placeholder="test" label="name" v-model="user.user_metadata.costumes[index]" v-bind:options="costumes"></v-select>
                         <p class="text-danger" v-if="errors.has('costume-' + index)">{{ errors.first('costume-' + index + 1) }}</p>
                     </b-col>
                     <b-col cols="12" sm="4" md="3" lg="2" class="mb-2 mt-2 mb-sm-0 mt-sm-0">
@@ -123,7 +123,7 @@ export default {
                 this.$set(this.user.user_metadata, 'costumes', [])
             }
             this.user.user_metadata.costumes.push({
-                name: this.$t('start-typing')
+                name: ''
             })
         },
         removeCostume: function (index) {
