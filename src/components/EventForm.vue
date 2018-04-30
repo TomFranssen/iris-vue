@@ -455,10 +455,13 @@
             <b-row class="form-row mt-4 mb-5">
                 <b-col>
                     <b-button v-if="edit" v-on:click="saveEvent" size="lg" variant="primary">
-                        {{$t('save-event')}}
+                        <i class="fa fa-save" aria-hidden="true"></i> {{$t('save-event')}}
                     </b-button>
                     <b-button v-if="!edit" v-on:click="saveEvent" size="lg" variant="primary">
-                        {{$t('add-event')}}
+                        <i class="fa fa-save" aria-hidden="true"></i> {{$t('add-event')}}
+                    </b-button>
+                    <b-button v-on:click="deleteEvent" size="lg" class="ml-3" variant="secondary">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> {{$t('delete-event')}}
                     </b-button>
                 </b-col>
             </b-row>
@@ -613,6 +616,19 @@ export default {
                 alert(self.$t('fill-in-all-fields'))
                 this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
             })
+        },
+        deleteEvent: function () {
+            const self = this
+            Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+
+            if (confirm(self.$t('do-you-want-to-delete-event'))) {
+                Axios.delete(
+                    `${process.env.VUE_APP_API_URL}/api/private/event`,
+                    {params: {id: this.event._id}}
+                ).then(() => {
+                    this.$router.replace('/events')
+                })
+            }
         }
     },
     mounted () {

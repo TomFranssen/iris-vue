@@ -148,7 +148,9 @@ const translations = {
         'choose-city': 'Choose city',
         'my-sign-ups': 'My sign-ups',
         'signed-up-for-no-events': 'Signed up for no events yet',
-        'view-events': 'View events'
+        'view-events': 'View events',
+        'delete-event': 'Delete event',
+        'do-you-want-to-delete-event': 'Are you sure you want to delete this event?'
     },
     'nl-NL': {
         'info': 'Info',
@@ -300,7 +302,9 @@ const translations = {
         'choose-city': 'Kies plaats',
         'my-sign-ups': 'Mijn inschrijvingen',
         'signed-up-for-no-events': 'Je bent nog niet voor evenementen ingeschreven',
-        'view-events': 'Bekijk evenementen'
+        'view-events': 'Bekijk evenementen',
+        'delete-event': 'Verwijder evenement',
+        'do-you-want-to-delete-event': 'Weet je zeker dat je dit evenement wilt verwijderen?'
     },
     'de-DE': {
         'info': 'Info',
