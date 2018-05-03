@@ -142,24 +142,26 @@
                 </div>
             </b-col>
             <b-col md="6" lg="4">
-                <h2>{{$t('more-info')}}</h2>
-                <div v-if="event.websiteUrl">
-                    <a v-bind:href="event.websiteUrl" class="card-link">
-                        {{event.websiteUrl}}
-                    </a>
-                    <i class="fa fa-external-link" aria-hidden="true"></i>
-                </div>
-                <div v-if="event.forumUrl">
-                    <a v-bind:href="event.forumUrl" class="card-link">
-                        {{$t('view-event-on-forum')}}
-                    </a>
-                    <i class="fa fa-external-link" aria-hidden="true"></i>
-                </div>
-                <div v-if="event.facebookEvent">
-                    <a v-bind:href="event.facebookEvent" class="card-link">
-                        {{$t('view-event-on-facebook')}}
-                    </a>
-                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                <div v-if="event.websiteUrl || event.forumUrl || event.facebookEvent">
+                    <h2>{{$t('more-info')}}</h2>
+                    <div v-if="event.websiteUrl">
+                        <a v-bind:href="event.websiteUrl" class="card-link">
+                            {{event.websiteUrl}}
+                        </a>
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </div>
+                    <div v-if="event.forumUrl">
+                        <a v-bind:href="event.forumUrl" class="card-link">
+                            {{$t('view-event-on-forum')}}
+                        </a>
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </div>
+                    <div v-if="event.facebookEvent">
+                        <a v-bind:href="event.facebookEvent" class="card-link">
+                            {{$t('view-event-on-facebook')}}
+                        </a>
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </div>
                 </div>
                 <div v-if="event._id && $store.getters.isGec">
                     <h2 class="mt-3">{{$t('embed-in-forum')}}</h2>
