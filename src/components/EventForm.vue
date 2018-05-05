@@ -380,6 +380,7 @@
                                                         <div v-if="props.column.field === 'add-user' && props.row.user_metadata && props.row.user_metadata.costumes">
                                                             <select class="form-control" v-model="props.row.selectedCostume">
                                                                 <option disabled value="undefined">{{$t('choose-costume')}}</option>
+                                                                <option v-bind:value="$t('to-be-defined')">{{$t('to-be-defined')}}</option>
                                                                 <option v-for="costume in props.row.user_metadata.costumes" v-bind:key="costume.name" v-bind:value="costume.name">
                                                                     {{costume.name}}
                                                                 </option>

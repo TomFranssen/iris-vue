@@ -1,1 +1,11 @@
-http://forum.501stdev.nl/viewtopic.php?f=7&t=4512&p=103420#p103420
+jQuery('.postbody').each(function () {
+	var that = jQuery(this);
+    var text = that.text();
+	var pattern = /(\[iris\=).{24}(\]\[\/iris\])/;
+	var matches = text.match(pattern);
+	if ($.isArray(matches)) {
+		console.log(matches[0])
+    text = text.replace("lollypops", "marshmellows");
+    $(this).text(text);
+	}
+})
