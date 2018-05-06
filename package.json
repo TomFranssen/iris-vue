@@ -65,5 +65,10 @@
       "vue-cli-service lint",
       "git add"
     ]
+  },
+  "vue": {
+    "pwa": {
+      "themeColor": "#4661ab"
+    }
   }
 }
