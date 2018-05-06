@@ -347,8 +347,8 @@
                                 </b-col>
                                 <b-col md="9">
                                     <div>
-                                        <b-btn v-b-toggle="'collapse-'" class="m-1">{{$t('add-more-signups')}}</b-btn>
-                                        <b-collapse class="mt-4" v-bind:id="'collapse-'">
+                                        <b-btn v-b-toggle="'collapse-' + index" class="m-1">{{$t('add-more-signups')}}</b-btn>
+                                        <b-collapse class="mt-4" v-bind:id="'collapse-' + index">
                                             <template>
                                                 <vue-good-table
                                                     v-bind:columns="columns"
