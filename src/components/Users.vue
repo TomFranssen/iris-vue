@@ -48,6 +48,9 @@
                         {{getCostumeCount(props.row)}}
                     </div>
                     <div v-if="props.column.field === 'email-verified'">
+                        <span v-if="props.row.identities[0].isSocial">
+                            <span v-bind:class="'fa fa-' + props.row.identities[0].connection"></span>&nbsp;
+                        </span>
                         <span v-if="props.row.email_verified" class="fa fa-check"><span class="sr-only">✅</span></span>
                         <span v-else class="fa fa-times"><span class="sr-only">❌</span></span>
                     </div>

@@ -123,6 +123,15 @@ select {
             height: 60px;
         }
     }
+    .fa-check {
+        color: green;
+    }
+    .fa-facebook {
+        color: #4267b2;
+    }
+    .fa-times {
+        color: red;
+    }
 }
 
 .jumbotron {
@@ -197,3 +206,5 @@ tr {
         @extend .table-bordered;
     }
 }
+
+

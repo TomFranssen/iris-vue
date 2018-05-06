@@ -88,11 +88,18 @@ export default {
             function onlyUnique (value, index, self) {
                 return self.indexOf(value) === index
             }
-
             for (let row of this.rows) {
-                locations.push(row.city)
+                if (row.city) {
+                    locations.push(row.city)
+                }
             };
-            this.columns[1].filterOptions.filterDropdownItems = locations.filter(onlyUnique)
+            locations = locations.filter(onlyUnique)
+            locations = locations.sort(function (a, b) {
+                if (a < b) return -1
+                else if (a > b) return 1
+                return 0
+            })
+            this.columns[1].filterOptions.filterDropdownItems = locations
         },
         showEventDetails: function (row, index) {
             this.$router.push('event/' + row.row._id)
