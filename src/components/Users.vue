@@ -14,8 +14,8 @@
                 }"
                 v-bind:paginationOptions="{
                     enabled: true,
-                    perPage: 20,
-                    perPageDropdown: [20, 50],
+                    perPage: 100,
+                    perPageDropdown: [20, 50, 100],
                     dropdownAllowAll: true,
                     nextLabel: $t('next'),
                     prevLabel: $t('previous'),
@@ -46,6 +46,16 @@
                     </div>
                     <div v-if="props.column.field === 'costumes'">
                         {{getCostumeCount(props.row)}}
+                    </div>
+                    <div v-if="props.column.field === 'email-verified'">
+                        <span v-if="props.row.email_verified" class="fa fa-check"><span class="sr-only">✅</span></span>
+                        <span v-else class="fa fa-times"><span class="sr-only">❌</span></span>
+                    </div>
+                    <div v-if="props.column.field === 'groups'">
+                        <div v-if="props.row.app_metadata && props.row.app_metadata.authorization">
+                            <span class="add-comma-after"  v-bind:key="group" v-for="group in props.row.app_metadata.authorization.groups">
+                            {{group}}</span>
+                        </div>
                     </div>
                 </template>
                 <div slot="emptystate">
@@ -129,7 +139,20 @@ export default {
                 {
                     label: this.$t('costumes'),
                     tdClass: 'text-right',
-                    field: 'costumes'
+                    field: 'costumes',
+                    filterable: true
+                },
+                {
+                    label: this.$t('has-email-verified'),
+                    tdClass: 'text-right',
+                    field: 'email-verified',
+                    filterable: true
+                },
+                {
+                    label: this.$t('groups'),
+                    tdClass: 'text-right',
+                    field: 'groups',
+                    filterable: true
                 }
             ],
             rows: []

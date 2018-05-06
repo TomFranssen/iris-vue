@@ -151,7 +151,8 @@ const translations = {
         'view-events': 'View events',
         'delete-event': 'Delete event',
         'do-you-want-to-delete-event': 'Are you sure you want to delete this event?',
-        'to-be-defined': 'To be defined later'
+        'to-be-defined': 'To be defined later',
+        'has-email-verified': 'E-mail verified'
     },
     'nl-NL': {
         'info': 'Info',
@@ -306,7 +307,8 @@ const translations = {
         'view-events': 'Bekijk evenementen',
         'delete-event': 'Verwijder evenement',
         'do-you-want-to-delete-event': 'Weet je zeker dat je dit evenement wilt verwijderen?',
-        'to-be-defined': 'Later te bepalen'
+        'to-be-defined': 'Later te bepalen',
+        'has-email-verified': 'E-mail geverifieërd'
     },
     'de-DE': {
         'info': 'Info',
