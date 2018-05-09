@@ -41,7 +41,7 @@
         <h2 class="mt-4 mb-2">
             {{$t('members')}}
             <small class="text-muted">
-                ({{info.unit.unitSize}}
+                ({{info.unit.unitSize}})
             </small>
         </h2>
 

@@ -79,6 +79,14 @@ var irisTemplate = `
                     {{/each}}
                 </ul>
                 <p>
+                    <small>
+                    Guests:
+                    {{#each guests}}
+                        {{this}}, 
+                    {{/each}}
+                    </small>
+                </p>
+                <p>
                     <a target="_blank" class="btn btn-primary" href="http://iris.501st.nl/event/{{_id}}" role="button">View event in IRIS <i class="fa fa-external-link" aria-hidden="true"></i></a>
                 </p>
                 <div class="clearfix"></div>

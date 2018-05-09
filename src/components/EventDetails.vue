@@ -332,11 +332,13 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="mt-4" v-if="eventDate.guests && eventDate.guests.length > 0">
+                        <strong>{{$t('guests')}}:</strong>&nbsp;
+                        <span class="add-comma-after" v-for="guest in eventDate.guests" v-bind:key="guest">{{guest}}</span>
+                    </div>
                     <div v-if="event.canRegisterGuests">
-                        <div class="mt-4" v-if="eventDate.guests && eventDate.guests.length > 0">
-                            <strong>{{$t('guests')}}:</strong>&nbsp;
-                            <span class="add-comma-after" v-for="guest in eventDate.guests" v-bind:key="guest">{{guest}}</span>
-                        </div>
+
                         <b-button v-b-modal="'add-guest-' + index" size="sm mt-2">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             {{$t('add-guest')}}
