@@ -23,16 +23,13 @@
     </div>
 </template>
 <script>
-import { isLoggedIn, login, logout } from '../utils/auth'
+import { isLoggedIn, login } from '../utils/auth'
 
 export default {
     name: 'Home',
     methods: {
         handleLogin () {
             login()
-        },
-        handleLogout () {
-            logout()
         },
         isLoggedIn () {
             return isLoggedIn()

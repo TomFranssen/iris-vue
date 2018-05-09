@@ -1,10 +1,13 @@
 <template>
     <div>
         Welcome to IRIS
+        <p>
+            <b-button @click="handleLogout()">{{$t('log-out')}}</b-button>
+        </p>
     </div>
 </template>
 <script>
-import { setIdToken, setAccessToken } from '../utils/auth'
+import { setIdToken, setAccessToken, logout } from '../utils/auth'
 
 export default {
     name: 'Callback',
@@ -23,6 +26,10 @@ export default {
     methods: {
         getProfile () {
             this.$store.dispatch('getProfile')
+        },
+        handleLogout () {
+            logout()
+            this.$router.push('/')
         }
     }
 }
