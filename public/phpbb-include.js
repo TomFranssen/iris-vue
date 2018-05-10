@@ -78,6 +78,7 @@ var irisTemplate = `
                     <p>No signups yet!</p>
                     {{/each}}
                 </ul>
+                {{#if guests}}
                 <p>
                     <small>
                     Guests:
@@ -86,6 +87,7 @@ var irisTemplate = `
                     {{/each}}
                     </small>
                 </p>
+                {{/if}}
                 <p>
                     <a target="_blank" class="btn btn-primary" href="http://iris.501st.nl/event/{{_id}}" role="button">View event in IRIS <i class="fa fa-external-link" aria-hidden="true"></i></a>
                 </p>

@@ -19,6 +19,7 @@ import './registerServiceWorker'
 import wysiwyg from 'vue-wysiwyg'
 import 'vue-wysiwyg/dist/vueWysiwyg.css'
 import vSelect from 'vue-select'
+import VueAnalytics from 'vue-analytics'
 
 require('./scss/styles.scss')
 require('../node_modules/font-awesome/scss/font-awesome.scss')
@@ -45,6 +46,18 @@ Vue.use(wysiwyg, {
         'underline': true,
         'code': true,
         'image': true
+    }
+})
+Vue.use(VueAnalytics, {
+    id: 'UA-89584068-1',
+    autoTracking: {
+        screenview: true,
+        exception: true
+    },
+    debug: {
+        enabled: false, // default value
+        trace: false, // default value
+        sendHitTask: true // default value
     }
 })
 
