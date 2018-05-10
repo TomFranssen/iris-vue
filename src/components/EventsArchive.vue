@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
-        <h1>{{$t('events-archive')}}</h1>
+        <h1>{{$t('events-archive')}} <small class="text-muted">({{rows.length}})</small></h1>
         <template>
             <vue-good-table
                 :columns="columns"

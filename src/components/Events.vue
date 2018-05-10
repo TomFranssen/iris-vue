@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
-        <h1>{{$t('events')}}</h1>
+        <h1>{{$t('events')}} <small class="text-muted">({{rows.length}})</small></h1>
         <div v-if="$store.getters.hasCostume">
             <vue-good-table
                 :columns="columns"
