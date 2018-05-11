@@ -50,15 +50,7 @@ Vue.use(wysiwyg, {
 })
 Vue.use(VueAnalytics, {
     id: 'UA-89584068-1',
-    autoTracking: {
-        screenview: true,
-        exception: true
-    },
-    debug: {
-        enabled: false, // default value
-        trace: false, // default value
-        sendHitTask: true // default value
-    }
+    router
 })
 
 function toast ({title, message, type, timeout, cb}) {
