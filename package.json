@@ -24,7 +24,7 @@
     "vue": "^2.5.13",
     "vue-analytics": "^5.10.4",
     "vue-clipboard2": "^0.1.0",
-    "vue-good-table": "^2.3.0",
+    "vue-good-table": "^2.4.8",
     "vue-i18n": "^7.6.0",
     "vue-moment": "^3.2.0",
     "vue-notifications": "^0.9.0",

@@ -23,12 +23,12 @@
                         {{getDaysCount(props.row)}}
                     </div>
                     <div v-if="props.column.field === 'sign-ups'">
-                        <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
+                        <div v-for="(eventDate, index) in props.row.eventDates" v-bind:key="index">
                             {{eventDate.signedUpUsers.length + eventDate.guests.length}} / {{eventDate.availableSpots}}
                         </div>
                     </div>
                     <div v-if="props.column.field === 'dates'">
-                        <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
+                        <div v-for="(eventDate, index) in props.row.eventDates" v-bind:key="index">
                             {{eventDate.date  | moment("dddd D-M-YYYY") }}
                         </div>
                     </div>
@@ -103,6 +103,9 @@ export default {
         },
         showEventDetails: function (row, index) {
             this.$router.push('event/' + row.row._id)
+        },
+        sortDays: function (x, y, col, rowX, rowY) {
+            return (rowX.eventDates.length < rowY.eventDates.length ? -1 : (rowX.eventDates.length > rowY.eventDates.length ? 1 : 0))
         }
     },
     data () {
@@ -139,7 +142,8 @@ export default {
                 {
                     label: this.$t('days'),
                     tdClass: 'text-center',
-                    field: 'days'
+                    field: 'days',
+                    sortFn: this.sortDays
                 },
                 {
                     label: this.$t('signups'),
