@@ -154,6 +154,7 @@ export default {
             })
         },
         saveUser: function () {
+            Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
             const self = this
             this.$validator.validateAll().then((result) => {
                 if (result) {
