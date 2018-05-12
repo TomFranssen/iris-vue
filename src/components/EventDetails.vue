@@ -163,7 +163,7 @@
                         <i class="fa fa-external-link" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div v-if="event._id && $store.getters.isGec">
+                <div v-if="event._id && $store.getters.isGec && embedInForumIsVisible">
                     <h2 class="mt-3">{{$t('embed-in-forum')}}</h2>
                     <b-input-group>
                         <b-form-input readonly v-bind:value="'[iris=' + event._id + '][/iris]'"></b-form-input>
@@ -619,27 +619,34 @@ export default {
         emailEvent () {
             var that = this
             if (confirm(that.$t('email-sure'))) {
-                Axios.post(`${process.env.VUE_APP_API_URL}/api/private/email`, {
-                    id: that.$data.event._id,
-                    html: document.querySelectorAll('.mail-content')[0].innerHTML
-                })
-                    .then(function (response) {
-                        if (response.status === 200) {
-                            that.showSuccessSignup({
-                                message: that.$t('mail-success')
-                            })
-                        } else {
-                            alert(response.data.message)
-                        }
+                that.$data.embedInForumIsVisible = false
+
+                setTimeout(function () {
+                    Axios.post(`${process.env.VUE_APP_API_URL}/api/private/email`, {
+                        id: that.$data.event._id,
+                        html: document.querySelectorAll('.mail-content')[0].innerHTML
                     })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
+                        .then(function (response) {
+                            if (response.status === 200) {
+                                that.showSuccessSignup({
+                                    message: that.$t('mail-success')
+                                })
+                            } else {
+                                alert(response.data.message)
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        }).then(function () {
+                            that.$data.embedInForumIsVisible = true
+                        })
+                }, 1000)
             }
         }
     },
     data () {
         return {
+            embedInForumIsVisible: true,
             breadcrumbs: [{
                 text: 'Home',
                 to: '/'
