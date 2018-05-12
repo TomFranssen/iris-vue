@@ -9,6 +9,7 @@ import EventDetails from '@/components/EventDetails'
 import Home from '@/components/Home'
 import Profile from '@/components/Profile'
 import Users from '@/components/Users'
+import Logout from '@/components/Logout'
 import Users501st from '@/components/Users501st'
 import UserDetails from '@/components/UserDetails'
 import Costumes from '@/components/Costumes'
@@ -26,6 +27,11 @@ export default new Router({
             path: '/',
             name: 'Home',
             component: Home
+        },
+        {
+            path: '/logout',
+            name: 'Logout',
+            component: Logout
         },
         {
             path: '/profile',
