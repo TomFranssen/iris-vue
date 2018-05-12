@@ -95,6 +95,9 @@ export default {
         showEventDetails: function (row, index) {
             console.log(row)
             this.$router.push('event/' + row.row._id)
+        },
+        sortDays: function (x, y, col, rowX, rowY) {
+            return (rowX.eventDates.length < rowY.eventDates.length ? -1 : (rowX.eventDates.length > rowY.eventDates.length ? 1 : 0))
         }
     },
     data () {
@@ -134,7 +137,8 @@ export default {
                 {
                     label: this.$t('days'),
                     tdClass: 'text-center',
-                    field: 'days'
+                    field: 'days',
+                    sortFn: this.sortDays
                 },
                 {
                     label: this.$t('signups'),
