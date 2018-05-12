@@ -93,7 +93,6 @@ export default {
             this.columns[1].filterOptions.filterDropdownItems = locations.filter(onlyUnique)
         },
         showEventDetails: function (row, index) {
-            console.log(row)
             this.$router.push('event/' + row.row._id)
         },
         sortDays: function (x, y, col, rowX, rowY) {

@@ -104,6 +104,28 @@ export default {
         },
         showUserDetails: function (row, index) {
             this.$router.push('user/' + row.row.user_id.replace('|', '-'))
+        },
+        sortCostumeCount: function (x, y, col, rowX, rowY) {
+            rowX.user_metadata = rowX.user_metadata || {}
+            rowY.user_metadata = rowY.user_metadata || {}
+            rowX.user_metadata.costumes = rowX.user_metadata.costumes || {}
+            rowY.user_metadata.costumes = rowY.user_metadata.costumes || {}
+
+            const rowXcostumes = rowX.user_metadata.costumes.length ? rowX.user_metadata.costumes.length : 0
+            const rowYcostumes = rowY.user_metadata.costumes.length ? rowY.user_metadata.costumes.length : 0
+
+            return (rowXcostumes < rowYcostumes ? -1 : (rowXcostumes > rowYcostumes ? 1 : 0))
+        },
+        sortLegionId: function (x, y, col, rowX, rowY) {
+            rowX.user_metadata = rowX.user_metadata || {}
+            rowY.user_metadata = rowY.user_metadata || {}
+            rowX.user_metadata.legion_id = rowX.user_metadata.legion_id || 0
+            rowY.user_metadata.legion_id = rowY.user_metadata.legion_id || 0
+
+            const rowXlegionId = parseInt(rowX.user_metadata.legion_id ? rowX.user_metadata.legion_id : 0)
+            const rowYlegionId = parseInt(rowY.user_metadata.legion_id ? rowY.user_metadata.legion_id : 0)
+
+            return (rowXlegionId < rowYlegionId ? -1 : (rowXlegionId > rowYlegionId ? 1 : 0))
         }
     },
     data () {
@@ -137,13 +159,15 @@ export default {
                     label: this.$t('501st-legion-id'),
                     tdClass: 'text-right',
                     field: 'legion-id',
-                    filterable: true
+                    filterable: true,
+                    sortFn: this.sortLegionId
                 },
                 {
                     label: this.$t('costumes'),
                     tdClass: 'text-right',
                     field: 'costumes',
-                    filterable: true
+                    filterable: true,
+                    sortFn: this.sortCostumeCount
                 },
                 {
                     label: this.$t('has-email-verified'),
