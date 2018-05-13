@@ -173,13 +173,15 @@ export default {
                     label: this.$t('has-email-verified'),
                     tdClass: 'text-right',
                     field: 'email-verified',
-                    filterable: true
+                    filterable: true,
+                    sortable: false
                 },
                 {
                     label: this.$t('groups'),
                     tdClass: 'text-right',
                     field: 'groups',
-                    filterable: true
+                    filterable: true,
+                    sortable: false
                 }
             ],
             rows: []
