@@ -153,7 +153,8 @@ const translations = {
         'do-you-want-to-delete-event': 'Are you sure you want to delete this event?',
         'to-be-defined': 'To be defined later',
         'has-email-verified': 'E-mail verified',
-        'getting-logged-out': 'You are now getting logged out'
+        'getting-logged-out': 'You are now getting logged out',
+        'of-the': 'of the'
     },
     'nl-NL': {
         'info': 'Info',
@@ -310,7 +311,8 @@ const translations = {
         'do-you-want-to-delete-event': 'Weet je zeker dat je dit evenement wilt verwijderen?',
         'to-be-defined': 'Later te bepalen',
         'has-email-verified': 'E-mail geverifieërd',
-        'getting-logged-out': 'Je wordt nu uitgelogd'
+        'getting-logged-out': 'Je wordt nu uitgelogd',
+        'of-the': 'van de'
     },
     'de-DE': {
         'info': 'Info',

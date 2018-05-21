@@ -69,7 +69,8 @@
   },
   "vue": {
     "pwa": {
-      "themeColor": "#4461aa"
+      "themeColor": "#4461aa",
+      "name": "IRIS"
     }
   }
 }

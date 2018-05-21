@@ -188,7 +188,7 @@
                                 {{eventDate.date | humanreadableDate}}
                             </div>
                             <small class="text-muted mt-3" v-if="signupPossible(eventDate)">
-                                {{getSpotsLeft(eventDate)}} {{$t('spots-left')}}
+                                {{getSpotsLeft(eventDate)}} {{$t('of-the')}} {{eventDate.availableSpots}} {{$t('spots-left')}}
                             </small>
                         </h2>
                         <div v-if="isSignedUp(eventDate)">
