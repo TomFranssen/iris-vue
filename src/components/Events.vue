@@ -13,9 +13,9 @@
                 }"
             >
                 <template slot="table-row" slot-scope="props">
-                    <div v-if="props.column.field === 'name'">
+                    <a class="event-table-name-link" v-if="props.column.field === 'name'"  v-bind:href="'event/' + props.row._id" v-on:click.stop>
                         {{props.row.name}}
-                    </div>
+                    </a>
                     <div v-if="props.column.field === 'city'">
                         {{props.row.city}}
                     </div>
