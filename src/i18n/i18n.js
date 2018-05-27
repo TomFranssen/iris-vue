@@ -154,7 +154,8 @@ const translations = {
         'to-be-defined': 'To be defined later',
         'has-email-verified': 'E-mail verified',
         'getting-logged-out': 'You are now getting logged out',
-        'of-the': 'of the'
+        'of-the': 'of the',
+        'max-signup-date-passed': 'Max sign-up date has passed'
     },
     'nl-NL': {
         'info': 'Info',
@@ -312,7 +313,8 @@ const translations = {
         'to-be-defined': 'Later te bepalen',
         'has-email-verified': 'E-mail geverifieërd',
         'getting-logged-out': 'Je wordt nu uitgelogd',
-        'of-the': 'van de'
+        'of-the': 'van de',
+        'max-signup-date-passed': 'Maximale inschrijfdatum is verlopen'
     },
     'de-DE': {
         'info': 'Info',

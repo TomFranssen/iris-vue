@@ -464,6 +464,11 @@ export default {
                 }
             }
 
+            if (moment().diff(moment(this.$data.event.maxSignupDate), 'days') > 0) {
+                eventDate.notPossibleReason = this.$t('max-signup-date-passed')
+                return false
+            }
+
             if (!eventDate.open) {
                 eventDate.notPossibleReason = this.$t('reason-not-open')
                 return false
