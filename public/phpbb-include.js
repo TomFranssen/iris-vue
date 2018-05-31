@@ -86,13 +86,13 @@ var irisTemplate = '<div id="entry-template" style="display: none;">' +
 '                    </small>' +
 '                </p>' +
 '                {{/if}}' +
-'                <p>' +
-'                    <a target="_blank" class="btn btn-primary" href="https://iris.501st.nl/event/{{_id}}" role="button">View event in IRIS <i class="fa fa-external-link" aria-hidden="true"></i></a>' +
-'                </p>' +
 '                <div class="clearfix"></div>' +
 '            </div>' +
 '        </div>' +
 '        {{/each}}' +
+'        <p>' +
+'           <a target="_blank" class="btn btn-primary" href="https://iris.501st.nl/event/{{_id}}" role="button">View event in IRIS <i class="fa fa-external-link" aria-hidden="true"></i></a>' +
+'        </p>' +
 '    </div>' +
 '</div>'
 
