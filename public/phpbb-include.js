@@ -90,9 +90,9 @@ var irisTemplate = '<div id="entry-template" style="display: none;">' +
 '            </div>' +
 '        </div>' +
 '        {{/each}}' +
-'        <p>' +
+'        <div class="col-xs-12">' +
 '           <a target="_blank" class="btn btn-primary" href="https://iris.501st.nl/event/{{_id}}" role="button">View event in IRIS <i class="fa fa-external-link" aria-hidden="true"></i></a>' +
-'        </p>' +
+'        </div>' +
 '    </div>' +
 '</div>'
 
