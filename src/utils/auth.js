@@ -5,10 +5,10 @@ import Router from 'vue-router'
 const ID_TOKEN_KEY = 'id_token'
 const ACCESS_TOKEN_KEY = 'access_token'
 
-const CLIENT_ID = '1ySh5N0sOXxMkcAslnuhRfxO5BloY56t'
-const CLIENT_DOMAIN = '501st.eu.auth0.com'
+const CLIENT_ID = process.env.VUE_APP_AUTH0_CLIENT_ID
+const CLIENT_DOMAIN = process.env.VUE_APP_AUTH0_CLIENT_DOMAIN
 const SCOPE = 'openid profile email groups permissions roles'
-const AUDIENCE = 'https://iris.501st.nl'
+const AUDIENCE = process.env.VUE_APP_AUTH0_AUDIENCE
 
 const auth = new auth0.WebAuth({
     clientID: CLIENT_ID,
@@ -117,13 +117,17 @@ function getParameterByName (name) {
 // Get and store access_token in local storage
 export function setAccessToken () {
     let accessToken = getParameterByName('access_token')
-    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+    if (accessToken) {
+        localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+    }
 }
 
 // Get and store id_token in local storage
 export function setIdToken () {
     let idToken = getParameterByName('id_token')
-    localStorage.setItem(ID_TOKEN_KEY, idToken)
+    if (idToken) {
+        localStorage.setItem(ID_TOKEN_KEY, idToken)
+    }
 }
 
 export function isLoggedIn () {

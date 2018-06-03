@@ -7,7 +7,7 @@
     </div>
 </template>
 <script>
-import { setIdToken, setAccessToken, logout } from '../utils/auth'
+import { setIdToken, setAccessToken, getIdToken, getAccessToken, logout } from '../utils/auth'
 
 export default {
     name: 'Callback',
@@ -17,7 +17,7 @@ export default {
         setIdToken()
         this.getProfile()
 
-        if (redirectUrl) {
+        if (redirectUrl && getIdToken && getAccessToken) {
             this.$router.replace(redirectUrl)
         } else {
             this.$router.replace('/')
