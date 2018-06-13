@@ -90,38 +90,38 @@
                     <h2>{{$t('details')}}</h2>
                     <ul class="fa-ul" style="list-style: none; padding: 0;">
                         <li>
-                            <span v-if="event.publiclyAccessible" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.publiclyAccessible" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             {{$t('publicly-accessible')}}
                         </li>
                         <li>
-                            <span v-if="event.dressingroomAvailable" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.dressingroomAvailable" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             {{$t('dressingroom-available')}}
                         </li>
                         <li>
-                            <span v-if="event.travelRestitution" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.travelRestitution" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             {{$t('travel-restitution')}}
                         </li>
                         <li>
-                            <span v-if="event.parking" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.parking" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             {{$t('parking-available')}}
                         </li>
                         <li>
-                            <span v-if="event.parkingRestitution" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.parkingRestitution" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             {{$t('parking-restitution')}}
                         </li>
                         <li>
-                            <span v-if="event.food" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.food" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             {{$t('food-available')}}
                         </li>
                         <li>
-                            <span v-if="event.drinks" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.drinks" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             <i class="fa-li fa" v-bind:class="{ 'fa-check': event.drinks, 'fa-times': !event.drinks }"></i>
                             {{$t('drinks-available')}}
                         </li>
@@ -129,13 +129,13 @@
                     <h2>{{$t('rules')}}</h2>
                     <ul class="fa-ul" style="list-style: none; padding: 0;">
                         <li>
-                            <span v-if="event.canRegisterGuests" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.canRegisterGuests" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             {{$t('guests-allowed')}}
                         </li>
                         <li>
-                            <span v-if="event.blastersAllowed" class="fa-li fa fa-check"><span class="sr-only">✅</span></span>
-                            <span v-else class="fa-li fa fa-times"><span class="sr-only">❌</span></span>
+                            <span v-if="event.blastersAllowed" class="fa-li fa fa-check"><span class="sr-only"><img src="../assets/icons/check.svg" width="20" height="20" alt="Yes" /></span></span>
+                            <span v-else class="fa-li fa fa-times"><span class="sr-only"><img src="../assets/icons/close.svg" width="20" height="20" alt="No" /></span></span>
                             {{$t('blasters-allowed')}}
                         </li>
                     </ul>
