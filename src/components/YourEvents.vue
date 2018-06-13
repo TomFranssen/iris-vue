@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-            {{$t('your-signups')}}
+            {{$t('my-sign-ups')}}
         </h1>
         <vue-good-table
             v-if="rows.length > 0"
