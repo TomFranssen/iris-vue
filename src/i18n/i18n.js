@@ -155,7 +155,13 @@ const translations = {
         'has-email-verified': 'E-mail verified',
         'getting-logged-out': 'You are now getting logged out',
         'of-the': 'of the',
-        'max-signup-date-passed': 'Max sign-up date has passed'
+        'max-signup-date-passed': 'Max sign-up date has passed',
+        'more-info-about': 'For more information about',
+        'parking-location': 'Parking location',
+        'last-minute': 'Last minute information and changes',
+        'after-troop': 'After troop drinks and parties',
+        'carpool': 'Carpool options and travel restitution',
+        'more-activities': 'More details about the event'
     },
     'nl-NL': {
         'info': 'Info',
@@ -314,7 +320,13 @@ const translations = {
         'has-email-verified': 'E-mail geverifieërd',
         'getting-logged-out': 'Je wordt nu uitgelogd',
         'of-the': 'van de',
-        'max-signup-date-passed': 'Maximale inschrijfdatum is verlopen'
+        'max-signup-date-passed': 'Maximale inschrijfdatum is verlopen',
+        'more-info-about': 'Voor meer informatie over:',
+        'parking-location': 'Parkeergelegenheid',
+        'last-minute': 'Last minute informatie en wijzigingen',
+        'after-troop': 'After troop etentjes en borrels',
+        'carpool': 'Carpool opties en kilometervergoeding',
+        'more-activities': 'Meer informatie over het evenement'
     },
     'de-DE': {
         'info': 'Info',

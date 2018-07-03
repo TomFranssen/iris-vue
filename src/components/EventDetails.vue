@@ -30,8 +30,26 @@
             </h1>
         </div>
         <b-row class="mb-6">
-            <b-col md="12" lg="8">
+            <b-col md="8">
                 <div class="event-description mb-5" v-html="event.description"></div>
+            </b-col>
+            <b-col md="4" class="mb-4">
+                <div>
+                    <h3>
+                        {{$t('more-info-about')}}
+                    </h3>
+                    <ul>
+                        <li>{{$t('parking-location')}}</li>
+                        <li>{{$t('last-minute')}}</li>
+                        <li>{{$t('after-troop')}}</li>
+                        <li>{{$t('carpool')}}</li>
+                        <li>{{$t('more-activities')}}</li>
+                    </ul>
+                    <a v-bind:href="event.forumUrl" class="btn btn-primary">
+                        {{$t('view-event-on-forum')}}
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </a>
+                </div>
             </b-col>
         </b-row>
 
@@ -337,40 +355,6 @@
                         <strong>{{$t('guests')}}:</strong>&nbsp;
                         <span class="add-comma-after" v-for="guest in eventDate.guests" v-bind:key="guest">{{guest}}</span>
                     </div>
-                    <div v-if="event.canRegisterGuests">
-
-                        <b-button v-b-modal="'add-guest-' + index" size="sm mt-2">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                            {{$t('add-guest')}}
-                        </b-button>
-
-                        <b-modal v-bind:ref="'modal-guest-' + index" v-bind:id="'add-guest-' + index" v-bind:title="$t('add-guest')">
-                            <b-row class="form-row">
-                                <b-col sm="5">
-                                    <label v-bind:for="'add-guest-name' + index" >
-                                        {{$t('name')}}:
-                                    </label>
-                                </b-col>
-                                <b-col sm="7">
-                                    <form action="#">
-                                        <b-form-input
-                                            name="'add-guest-name' + index"
-                                            v-model.trim="eventDate.addGuestName"
-                                            id="'add-guest-name' + index"
-                                            size="sm"
-                                            type="text"
-                                        >
-                                        </b-form-input>
-                                    </form>
-                                </b-col>
-                            </b-row>
-                            <div slot="modal-footer" class="w-100">
-                                <b-btn size="sm" class="float-right" variant="primary" v-on:click="signUpGuest(index, eventDate.addGuestName)">
-                                    {{$t('add-guest')}}
-                                </b-btn>
-                            </div>
-                        </b-modal>
-                    </div>
                 </b-col>
             </b-row>
         </div>
@@ -582,28 +566,6 @@ export default {
                     alert('Please correctly fill in all the fields')
                 }
             })
-        },
-        signUpGuest: function (index, guestName) {
-            const that = this
-            const signUpData = {
-                eventId: this.$data.event._id,
-                eventDatesIndex: index,
-                guestName
-            }
-
-            if (signUpData && signUpData.guestName) {
-                Axios.put(`${process.env.VUE_APP_API_URL}/api/private/event/signupguest`, signUpData)
-                    .then(function (response) {
-                        that.hideSignUpModalGuest(index)
-                        that.showSuccessSignup({
-                            message: that.$t('sign-up-success')
-                        })
-                        that.getPrivateEvent()
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
-            }
         },
         signOut: function (props, eventDataIndex, modalIndex) {
             const that = this
