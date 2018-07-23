@@ -45,7 +45,11 @@
                         <li>{{$t('carpool')}}</li>
                         <li>{{$t('more-activities')}}</li>
                     </ul>
-                    <a v-bind:href="event.forumUrl" class="btn btn-primary">
+                    <a v-if="event.forumUrl" v-bind:href="event.forumUrl" class="btn btn-primary">
+                        {{$t('view-event-on-forum')}}
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </a>
+                    <a v-else href="https://forum.501st.nl/" class="btn btn-primary">
                         {{$t('view-event-on-forum')}}
                         <i class="fa fa-external-link" aria-hidden="true"></i>
                     </a>
