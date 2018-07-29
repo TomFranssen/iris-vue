@@ -49,6 +49,7 @@ const translations = {
         'remove': 'Remove',
         'choose-your-costume': 'Choose your costume',
         'choose-costume': 'Choose costume',
+        'choose-this-costume': 'Choose this costume',
         'save-costume': 'Save costume',
         'costumes': 'Costumes',
         'signup-date': 'Sign-up date',
@@ -161,7 +162,8 @@ const translations = {
         'last-minute': 'Last minute information and changes',
         'after-troop': 'After troop drinks and parties',
         'carpool': 'Carpool options and travel restitution',
-        'more-activities': 'More details about the event'
+        'more-activities': 'More details about the event',
+        'change-costume': 'Change costume'
     },
     'nl-NL': {
         'info': 'Info',
@@ -213,6 +215,7 @@ const translations = {
         'remove': 'Verwijderen',
         'choose-your-costume': 'Kies je kostuum',
         'choose-costume': 'Kies kostuum',
+        'choose-this-costume': 'Kies dit kostuum',
         'save-costume': 'Kostuum opslaan',
         'costumes': 'Kostuums',
         'signup-date': 'Inschrijfdatum',
@@ -326,7 +329,8 @@ const translations = {
         'last-minute': 'Last minute informatie en wijzigingen',
         'after-troop': 'After troop etentjes en borrels',
         'carpool': 'Carpool opties en kilometervergoeding',
-        'more-activities': 'Meer informatie over het evenement'
+        'more-activities': 'Meer informatie over het evenement',
+        'change-costume': 'Verander kostuum'
     },
     'de-DE': {
         'info': 'Info',

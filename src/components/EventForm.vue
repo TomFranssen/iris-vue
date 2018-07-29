@@ -473,6 +473,7 @@
 import Axios from 'axios'
 import { getPrivateUsers } from '../utils/users-api'
 const MAX_DAYS = 20
+
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
 export default {

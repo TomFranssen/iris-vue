@@ -53,6 +53,7 @@
                         {{$t('view-event-on-forum')}}
                         <i class="fa fa-external-link" aria-hidden="true"></i>
                     </a>
+
                 </div>
             </b-col>
         </b-row>
@@ -259,7 +260,8 @@
                                 {{props.row.costume}}
                             </div>
                             <div v-if="props.column.field === 'sign-out'">
-                                <b-btn class="float-right" v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + index + '-' + props.row.originalIndex">{{$t('sign-out')}}</b-btn>
+
+                                <b-btn class="float-right ml-1 mb-1" v-if="props.row.userId === profile.sub" v-b-modal="'sign-out-modal-' + index + '-' + props.row.originalIndex"><i class="fa fa-sign-out" aria-hidden="true"></i> {{$t('sign-out')}}</b-btn>
                                 <b-modal v-bind:ref="'sign-out-modal' + index + '-' + props.row.originalIndex" v-bind:id="'sign-out-modal-' + index + '-' + props.row.originalIndex"  v-bind:title="$t('sign-out')">
                                     <p>{{$t('sign-out-agreement')}}</p>
                                     <b-row class="form-row">
@@ -286,6 +288,44 @@
                                         </b-btn>
                                     </div>
                                 </b-modal>
+
+                                <b-btn class="float-right" v-if="props.row.userId === profile.sub" v-b-modal="'change-costume-modal-' + index + '-' + props.row.originalIndex"><i class="fa fa-male" aria-hidden="true"></i> {{$t('change-costume')}}</b-btn>
+                                <b-modal v-bind:ref="'change-costume-modal' + index + '-' + props.row.originalIndex" v-bind:id="'change-costume-modal-' + index + '-' + props.row.originalIndex"  v-bind:title="$t('change-costume')">
+                                    <b-row class="form-row">
+                                        <b-col sm="5">
+                                            <label v-bind:for="'selected-costume-' + index" >
+                                                {{$t('choose-your-costume')}}:
+                                            </label>
+                                        </b-col>
+                                        <b-col sm="7">
+                                            <form action="#" v-if="profileCostumes">
+                                                <b-form-select
+                                                    v-bind:id="'selected-costume-' + index"
+                                                    v-bind:name="'selected-costume-' + index"
+                                                    v-bind:value="props.row.costume"
+                                                    v-bind:options="profileCostumes"
+                                                    class="mb-3"
+                                                    v-on:change="setChangedCostume(props.row, $event)"
+                                                >
+                                                    <template slot="first">
+                                                        <option v-bind:value="''" disabled>{{$t('choose-your-costume')}}</option>
+                                                    </template>
+                                                </b-form-select>
+
+                                                <p class="text-danger" v-if="errors.has('selected-costume-' + index)">
+                                                    {{ $t(errors.first('selected-costume-' + index)) }}
+                                                </p>
+                                            </form>
+                                        </b-col>
+                                    </b-row>
+
+                                    <div slot="modal-footer" class="w-100">
+                                        <b-btn size="sm" class="float-right" variant="primary" v-on:click="changeCostume(props, index, props.row.originalIndex)">
+                                            {{$t('choose-this-costume')}}
+                                        </b-btn>
+                                    </div>
+                                </b-modal>
+
                             </div>
                         </template>
                     </vue-good-table>
@@ -372,6 +412,7 @@ import { isLoggedIn } from '../utils/auth'
 import { getPrivateEvent } from '../utils/events-api'
 import EventForm from './EventForm.vue'
 import AddToCalendar from './AddToCalendar.vue'
+
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
 moment.locale('nl')
@@ -415,6 +456,9 @@ export default {
         }
     },
     methods: {
+        setChangedCostume: function (row, value) {
+            row.changedCustome = value
+        },
         onCopy: function (e) {
             alert(this.$t('copied-text') + e.text)
         },
@@ -537,6 +581,11 @@ export default {
                 this.$refs[`sign-out-modal${index}-${modalIndex}`][0].hide()
             }
         },
+        hideChangeCostumeModal (index, modalIndex) {
+            if (this.$refs[`change-costume-modal${index}-${modalIndex}`][0]) {
+                this.$refs[`change-costume-modal${index}-${modalIndex}`][0].hide()
+            }
+        },
         signUp (index) {
             const that = this
             const signUpData = {
@@ -584,6 +633,22 @@ export default {
             Axios.post(`${process.env.VUE_APP_API_URL}/api/private/event/signout`, signOutData)
                 .then(function () {
                     that.hideSignOutModal(eventDataIndex, modalIndex)
+                    that.getPrivateEvent()
+                })
+        },
+        changeCostume: function (props, eventDataIndex, modalIndex) {
+            const that = this
+            const changeCostumeData = {
+                eventId: this.$data.event._id,
+                eventDateIndex: eventDataIndex,
+                userId: props.row.userId,
+                changedCustome: props.row.changedCustome
+            }
+
+            Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+            Axios.post(`${process.env.VUE_APP_API_URL}/api/private/event/change-costume`, changeCostumeData)
+                .then(function () {
+                    that.hideChangeCostumeModal(eventDataIndex, modalIndex)
                     that.getPrivateEvent()
                 })
         },

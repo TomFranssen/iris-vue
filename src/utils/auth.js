@@ -26,7 +26,7 @@ export function login () {
 export function getProfile () {
     const accessToken = localStorage.getItem('access_token')
 
-    if (!accessToken) {
+    if (!accessToken || accessToken === 'undefined') {
         console.log('Access token must exist to fetch profile')
     }
 
@@ -92,7 +92,12 @@ export function requireAuth (to, from, next) {
 }
 
 export function getIdToken () {
-    return localStorage.getItem(ID_TOKEN_KEY)
+    const token = localStorage.getItem(ID_TOKEN_KEY)
+    if (token && token !== 'null') {
+        return localStorage.getItem(ID_TOKEN_KEY)
+    } else {
+        return undefined
+    }
 }
 
 export function getAccessToken () {

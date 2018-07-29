@@ -107,6 +107,7 @@
 import Axios from 'axios'
 import { getPrivateUser } from '../utils/users-api'
 import { getPrivateCostumes } from '../utils/costume-api'
+
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
 export default {
