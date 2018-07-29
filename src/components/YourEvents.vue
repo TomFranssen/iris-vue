@@ -26,12 +26,12 @@
                     {{getDaysCount(props.row)}}
                 </div>
                 <div v-if="props.column.field === 'sign-ups'">
-                    <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
+                    <div v-for="(eventDate, index) in props.row.eventDates" v-bind:key="eventDate.date + index">
                         {{eventDate.signedUpUsers.length + eventDate.guests.length}} / {{eventDate.availableSpots}}
                     </div>
                 </div>
                 <div v-if="props.column.field === 'dates'">
-                    <div v-for="eventDate in props.row.eventDates" v-bind:key="eventDate.date">
+                    <div v-for="(eventDate, index) in props.row.eventDates" v-bind:key="eventDate.date + index">
                         {{eventDate.date  | moment("dddd D-M-YYYY") }}
                     </div>
                 </div>
