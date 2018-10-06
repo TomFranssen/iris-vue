@@ -58,7 +58,7 @@ var irisTemplate = '<div id="entry-template" style="display: none;">' +
 '        {{#each eventDates}}' +
 '        <div class="col-xs-12 col-sm-6 no-padding-xs" style="padding-left:0px !important;">' +
 '            <div class="jumbotron" style="padding: 20px;">' +
-'                <h3>{{formatDate date day="numeric" month="long" year="numeric"}}</h3>' +
+'                <h3>{{formatDate date day="numeric" month="long" year="numeric"}} {{#if dayName}} - {{dayName}}{{/if}}</h3>' +
 '                <ul class="list-unstyled">' +
 '                    {{#each signedUpUsers}}' +
 '                    <li>' +
