@@ -209,6 +209,9 @@
                         <h2 class="float-sm-leftt">
                             <div class="text-capitalize jumbotron-heading">
                                 {{eventDate.date | humanreadableDate}}
+                                <span v-if="eventDate.dayName">
+                                    - {{eventDate.dayName}}
+                                </span>
                             </div>
                             <small class="text-muted mt-3" v-if="signupPossible(eventDate)">
                                 {{getSpotsLeft(eventDate)}} {{$t('of-the')}} {{eventDate.availableSpots}} {{$t('spots-left')}}

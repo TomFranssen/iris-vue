@@ -295,6 +295,12 @@
                                 </b-col>
                             </b-row>
                             <b-row class="form-row">
+                                <b-col sm="3"><label v-bind:for="'day-name-' + index">{{$t('day-name')}}</label></b-col>
+                                <b-col sm="9">
+                                    <b-form-input v-bind:placeholder="'(' + $t('optitional') + ')'" v-model="eventDate.dayName" v-bind:name="'day-name-' + index" v-bind:id="'day-name-' + index"></b-form-input>
+                                </b-col>
+                            </b-row>
+                            <b-row class="form-row">
                                 <b-col sm="3"><label>{{$t('date')}}</label></b-col>
                                 <b-col sm="9">
                                     <input

@@ -163,7 +163,9 @@ const translations = {
         'after-troop': 'After troop drinks and parties',
         'carpool': 'Carpool options and travel restitution',
         'more-activities': 'More details about the event',
-        'change-costume': 'Change costume'
+        'change-costume': 'Change costume',
+        'day-name': 'Day name',
+        'optitional': 'optitional'
     },
     'nl-NL': {
         'info': 'Info',
@@ -330,7 +332,9 @@ const translations = {
         'after-troop': 'After troop etentjes en borrels',
         'carpool': 'Carpool opties en kilometervergoeding',
         'more-activities': 'Meer informatie over het evenement',
-        'change-costume': 'Verander kostuum'
+        'change-costume': 'Verander kostuum',
+        'day-name': 'Dag naam',
+        'optitional': 'optitioneel'
     },
     'de-DE': {
         'info': 'Info',
