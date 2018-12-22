@@ -53,10 +53,10 @@ Vue.use(VueAnalytics, {
     router
 })
 
-function toast ({title, message, type, timeout, cb}) {
+function toast ({ title, message, type, timeout, cb }) {
     if (type === VueNotifications.types.warn) type = 'warning'
     timeout = 6000
-    return new Noty({text: message, timeout, type}).show()
+    return new Noty({ text: message, timeout, type }).show()
 }
 
 const options = {

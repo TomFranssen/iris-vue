@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getAccessToken } from './auth'
 
-export {getPrivateEvents, getPrivateEvent, getPrivateSignedUpEvents, getPrivateArchivedEvents}
+export { getPrivateEvents, getPrivateEvent, getPrivateSignedUpEvents, getPrivateArchivedEvents }
 
 function getPrivateEvents () {
     const url = `${process.env.VUE_APP_API_URL}/api/private/events`

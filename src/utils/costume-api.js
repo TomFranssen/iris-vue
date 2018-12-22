@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getAccessToken } from './auth'
 
-export {getPrivateCostumes}
+export { getPrivateCostumes }
 
 function getPrivateCostumes () {
     const url = `${process.env.VUE_APP_API_URL}/api/private/costumes`

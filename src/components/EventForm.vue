@@ -632,7 +632,7 @@ export default {
             if (confirm(self.$t('do-you-want-to-delete-event'))) {
                 Axios.delete(
                     `${process.env.VUE_APP_API_URL}/api/private/event`,
-                    {params: {id: this.event._id}}
+                    { params: { id: this.event._id } }
                 ).then(() => {
                     this.$router.replace('/events')
                 })

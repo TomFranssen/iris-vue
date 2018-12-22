@@ -31,7 +31,7 @@ export default {
         }
     },
     actions: {
-        getProfile ({commit}) {
+        getProfile ({ commit }) {
             if (isLoggedIn()) {
                 getProfile().then((profile) => {
                     commit('setProfile', profile)

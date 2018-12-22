@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getAccessToken } from './auth'
 
-export {getPrivateUsers, getPrivateUser, get501stUsers}
+export { getPrivateUsers, getPrivateUser, get501stUsers }
 
 function getPrivateUsers () {
     const url = `${process.env.VUE_APP_API_URL}/api/private/users`
