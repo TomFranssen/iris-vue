@@ -210,4 +210,13 @@ tr {
 .event-table-name-link {
     color: inherit;
 }
-
+.group-icon {
+    width: 85px;
+    .fa {
+        font-size: 25px;
+        visibility: hidden;
+        &.visible {
+            visibility: visible;
+        }
+    }
+}

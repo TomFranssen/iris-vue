@@ -165,7 +165,8 @@ const translations = {
         'more-activities': 'More details about the event',
         'change-costume': 'Change costume',
         'day-name': 'Day name',
-        'optitional': 'optitional'
+        'optitional': 'optitional',
+        'group': 'Group'
     },
     'nl-NL': {
         'info': 'Info',
@@ -334,7 +335,8 @@ const translations = {
         'more-activities': 'Meer informatie over het evenement',
         'change-costume': 'Verander kostuum',
         'day-name': 'Dag naam',
-        'optitional': 'optitioneel'
+        'optitional': 'optitioneel',
+        'group': 'Groep'
     },
     'de-DE': {
         'info': 'Info',

@@ -24,7 +24,15 @@
                 {{event.name}}
                 <div>
                     <small class="text-muted">
-                        Dutch Garrison
+                        <span v-if="event.groupDutchGarrison">
+                            Dutch Garrison
+                        </span>
+                        <span v-if="event.groupDutchGarrison && event.groupDuneSeaBase">
+                            /
+                        </span>
+                        <span v-if="event.groupDuneSeaBase">
+                            Dune Sea Base
+                        </span>
                     </small>
                 </div>
             </h1>

@@ -14,8 +14,8 @@
                 }"
                 v-bind:paginationOptions="{
                     enabled: true,
-                    perPage: 100,
-                    perPageDropdown: [20, 50, 100],
+                    perPage: 200,
+                    perPageDropdown: [20, 50, 100, 200],
                     dropdownAllowAll: true,
                     nextLabel: $t('next'),
                     prevLabel: $t('previous'),

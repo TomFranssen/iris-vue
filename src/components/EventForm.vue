@@ -102,6 +102,33 @@
                     </b-row>
                 </b-col>
                 <b-col lg>
+                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('group')}}</h2>
+
+                    <b-row class="form-row">
+                        <b-col>
+                            <b-checkbox
+                                id="group-dutch-garrison"
+                                v-model="event.groupDutchGarrison"
+                                value="true"
+                                unchecked-value="false"
+                            >
+                                Dutch Garrison
+                            </b-checkbox>
+                        </b-col>
+                    </b-row>
+                    <b-row class="form-row mb-3">
+                        <b-col>
+                            <b-checkbox
+                                id="group-dune-sea-base"
+                                v-model="event.groupDuneSeaBase"
+                                value="true"
+                                unchecked-value="false"
+                            >
+                                Dune Sea Base
+                            </b-checkbox>
+                        </b-col>
+                    </b-row>
+
                     <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('location')}}</h2>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="street">{{$t('street')}}:</label></b-col>
@@ -387,6 +414,8 @@
                                                             <select class="form-control" v-model="props.row.selectedCostume">
                                                                 <option disabled value="undefined">{{$t('choose-costume')}}</option>
                                                                 <option v-bind:value="$t('to-be-defined')">{{$t('to-be-defined')}}</option>
+                                                                <option value="Handler">Handler</option>
+                                                                <option value="Stand Duty">Stand Duty</option>
                                                                 <option v-for="costume in props.row.user_metadata.costumes" v-bind:key="costume.name" v-bind:value="costume.name">
                                                                     {{costume.name}}
                                                                 </option>
