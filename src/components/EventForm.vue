@@ -102,8 +102,7 @@
                     </b-row>
                 </b-col>
                 <b-col lg>
-                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('group')}}</h2>
-
+                    <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('signups-allowed-for')}}</h2>
                     <b-row class="form-row">
                         <b-col>
                             <b-checkbox
@@ -111,8 +110,10 @@
                                 v-model="event.groupDutchGarrison"
                                 value="true"
                                 unchecked-value="false"
+                                v-bind:disabled="!$store.getters.isGwm && owner === 'dg'"
                             >
                                 Dutch Garrison
+                                <span class="text-muted" v-if="owner === 'dg'">({{$t('owner')}})</span>
                             </b-checkbox>
                         </b-col>
                     </b-row>
@@ -123,12 +124,25 @@
                                 v-model="event.groupDuneSeaBase"
                                 value="true"
                                 unchecked-value="false"
+                                v-bind:disabled="!$store.getters.isGwm && owner === 'dsb'"
                             >
                                 Dune Sea Base
+                                <span class="text-muted" v-if="owner === 'dsb'">({{$t('owner')}})</span>
                             </b-checkbox>
                         </b-col>
                     </b-row>
 
+                    <b-row v-if="$store.getters.isGwm" class="form-row">
+                        <b-col sm="3"><label for="new-owner">{{$t('choose-new-owner')}}:</label></b-col>
+                        <b-col sm="9">
+                            <b-form-select id="new-owner" v-model="newOwner" class="mb-3">
+                                <option disabled selected value="">{{$t('choose-new-owner')}}</option>
+                                <option value="dg">Dutch Garrison</option>
+                                <option value="dsb">Dune Sea Base</option>
+                            </b-form-select>
+                            <p class="text-muted">{{$t('new-owner-text')}}</p>
+                        </b-col>
+                    </b-row>
                     <h2 class="mt-3 mt-sm-3 mt-md-0">{{$t('location')}}</h2>
                     <b-row class="form-row">
                         <b-col sm="3"><label for="street">{{$t('street')}}:</label></b-col>
@@ -514,6 +528,7 @@ Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getIte
 export default {
     data () {
         return {
+            newOwner: '',
             columns: [
                 {
                     label: '',
@@ -546,6 +561,19 @@ export default {
             },
             set: function (newValue) {
                 this.event.maxSignupDate = newValue + 'T00:00:00.000Z'
+            }
+        },
+        owner: {
+            get: function () {
+                if (this.event.owner && this.event.owner !== '') {
+                    return this.event.owner
+                }
+                if (this.$store.getters.isDgGec) {
+                    return 'dg'
+                }
+                if (this.$store.getters.isDsbGec) {
+                    return 'dsb'
+                }
             }
         }
     },
@@ -626,6 +654,10 @@ export default {
             const self = this
             let promiseEvent
             Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+
+            // Add owner that is either DG or DSB
+            this.event.owner = this.newOwner || this.owner
+
             this.$validator.validateAll().then((result) => {
                 if (result) {
                     if (confirm(self.$t('do-you-want-to-save-event'))) {

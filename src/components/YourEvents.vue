@@ -16,6 +16,10 @@
             }"
         >
             <template slot="table-row" slot-scope="props">
+                <div v-if="props.column.field === 'group'" class="group-icon text-center">
+                    <i v-bind:class="{'visible': props.row.groupDutchGarrison}" class="fa fa-empire mr-2"></i>
+                    <i v-bind:class="{'visible': props.row.groupDuneSeaBase}" class="fa fa-rebel"></i>
+                </div>
                 <div v-if="props.column.field === 'name'">
                     {{props.row.name}}
                 </div>
@@ -96,6 +100,11 @@ export default {
     data () {
         return {
             columns: [
+                {
+                    label: this.$t('group'),
+                    field: 'group',
+                    tdClass: 'group-icon'
+                },
                 {
                     label: this.$t('name'),
                     field: 'name',

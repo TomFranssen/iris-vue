@@ -72,11 +72,10 @@ export default {
                 state.profile['https://iris.501st.nl/app_metadata'].authorization &&
                 state.profile['https://iris.501st.nl/app_metadata'].authorization.groups
             ) {
-                console.log(state.profile['https://iris.501st.nl/app_metadata'])
                 return state.profile['https://iris.501st.nl/app_metadata'].authorization.groups.indexOf('Dune Sea Base') >= 0
             }
         },
-        isGec: state => {
+        isDgGec: state => {
             if (
                 state &&
                 state.profile &&
@@ -85,6 +84,17 @@ export default {
                 state.profile['https://iris.501st.nl/app_metadata'].authorization.groups
             ) {
                 return state.profile['https://iris.501st.nl/app_metadata'].authorization.groups.indexOf('Dutch Garrison GEC') >= 0
+            }
+        },
+        isDsbGec: state => {
+            if (
+                state &&
+                state.profile &&
+                state.profile['https://iris.501st.nl/app_metadata'] &&
+                state.profile['https://iris.501st.nl/app_metadata'].authorization &&
+                state.profile['https://iris.501st.nl/app_metadata'].authorization.groups
+            ) {
+                return state.profile['https://iris.501st.nl/app_metadata'].authorization.groups.indexOf('Dune Sea Base GEC') >= 0
             }
         },
         hasCostume: state => {

@@ -2,13 +2,15 @@
     <div>
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
 
-        <div class="button-group">
-            <router-link v-if="$store.getters.isGec" class="mr-3 btn btn-primary" v-bind:to="'/event/' + event._id + '/edit'">
-                <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
-            </router-link>
-            <b-btn v-if="$store.getters.isGec" variant="primary" v-on:click="emailEvent">
-                <i class="fa fa-envelope" aria-hidden="true"></i> {{$t('send-notification')}}
-            </b-btn>
+        <div v-if="$store.getters.isGwm || $store.getters.isDgGec || $store.getters.isDsbGec" class="button-group">
+            <div v-if="$store.getters.isGwm || (event.owner === 'dg' && $store.getters.isDgGec) || (event.owner === 'dsb' && $store.getters.isDsbGec)">
+                <router-link  class="mr-3 btn btn-primary" v-bind:to="'/event/' + event._id + '/edit'">
+                    <i class="fa fa-edit" aria-hidden="true"></i> {{$t('edit-event')}}
+                </router-link>
+                <b-btn variant="primary" v-on:click="emailEvent">
+                    <i class="fa fa-envelope" aria-hidden="true"></i> {{$t('send-notification')}}
+                </b-btn>
+            </div>
         </div>
 
         <div class="clearfix mb-4">
@@ -26,12 +28,14 @@
                     <small class="text-muted">
                         <span v-if="event.groupDutchGarrison">
                             Dutch Garrison
+                            <span v-if="event.owner === 'dg'">({{$t('owner')}})</span>
                         </span>
                         <span v-if="event.groupDutchGarrison && event.groupDuneSeaBase">
                             /
                         </span>
                         <span v-if="event.groupDuneSeaBase">
                             Dune Sea Base
+                            <span v-if="event.owner === 'dsb'">({{$t('owner')}})</span>
                         </span>
                     </small>
                 </div>
@@ -194,7 +198,7 @@
                         <i class="fa fa-external-link" aria-hidden="true"></i>
                     </div>
                 </div>
-                <div v-if="event._id && $store.getters.isGec && embedInForumIsVisible">
+                <div v-if="event._id && ($store.getters.isDgGec || $store.getters.isDsbGec) && embedInForumIsVisible">
                     <h2 class="mt-3">{{$t('embed-in-forum')}}</h2>
                     <b-input-group>
                         <b-form-input readonly v-bind:value="'[iris=' + event._id + '][/iris]'"></b-form-input>

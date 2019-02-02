@@ -1,7 +1,10 @@
 <template>
     <div class="add-event">
         <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
-        <event-form v-bind:event="event" v-bind:edit="false"></event-form>
+        <event-form
+            v-bind:event="event"
+            v-bind:edit="false"
+        ></event-form>
     </div>
 </template>
 
@@ -57,7 +60,9 @@ export default {
                 drinks: false,
                 canRegisterGuests: false,
                 isArchived: false,
-                blastersAllowed: false
+                blastersAllowed: false,
+                groupDutchGarrison: true,
+                groupDuneSeaBase: true
             }
         }
     }

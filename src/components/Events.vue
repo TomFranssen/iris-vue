@@ -51,7 +51,7 @@
                 </template>
             </vue-good-table>
             <div class="mt-4 button-group">
-                <router-link v-if="$store.getters.isGec" class="btn btn-primary mr-md-3" v-bind:to="'/add-event'">
+                <router-link v-if="$store.getters.isDgGec || $store.getters.isDsbGec" class="btn btn-primary mr-md-3" v-bind:to="'/add-event'">
                     <i class="fa fa-plus" aria-hidden="true"></i> {{$t('add-event')}}
                 </router-link>
                 <router-link class="btn btn-primary" v-bind:to="'/events-archive'">

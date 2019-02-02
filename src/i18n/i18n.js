@@ -166,7 +166,11 @@ const translations = {
         'change-costume': 'Change costume',
         'day-name': 'Day name',
         'optitional': 'optitional',
-        'group': 'Group'
+        'group': 'Group',
+        'owner': 'owner',
+        'choose-new-owner': 'Choose new owner',
+        'new-owner-text': 'The owner changes what GEC\'s can edit this event.',
+        'signups-allowed-for': 'Signups allowed for'
     },
     'nl-NL': {
         'info': 'Info',
@@ -336,7 +340,11 @@ const translations = {
         'change-costume': 'Verander kostuum',
         'day-name': 'Dag naam',
         'optitional': 'optitioneel',
-        'group': 'Groep'
+        'group': 'Groep',
+        'owner': 'eigenaar',
+        'choose-new-owner': 'Kies nieuwe eigenaar',
+        'new-owner-text': 'De eigenaar bepaald welke GEC\'s dit evenement kunnen bewerken.',
+        'signups-allowed-for': 'Inschrijven mogelijk voor'
     },
     'de-DE': {
         'info': 'Info',

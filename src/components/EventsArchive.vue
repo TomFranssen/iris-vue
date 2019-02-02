@@ -14,6 +14,10 @@
             >
 
                 <template slot="table-row" slot-scope="props">
+                    <div v-if="props.column.field === 'group'" class="group-icon text-center">
+                        <i v-bind:class="{'visible': props.row.groupDutchGarrison}" class="fa fa-empire mr-2"></i>
+                        <i v-bind:class="{'visible': props.row.groupDuneSeaBase}" class="fa fa-rebel"></i>
+                    </div>
                     <a class="event-table-name-link" v-if="props.column.field === 'name'"  v-bind:href="'event/' + props.row._id" v-on:click.stop>
                         {{props.row.name}}
                     </a>
@@ -90,7 +94,7 @@ export default {
             for (let row of this.rows) {
                 locations.push(row.city)
             };
-            this.columns[1].filterOptions.filterDropdownItems = locations.filter(onlyUnique)
+            this.columns[2].filterOptions.filterDropdownItems = locations.filter(onlyUnique)
         },
         showEventDetails: function (row, index) {
             this.$router.push('event/' + row.row._id)
@@ -112,6 +116,11 @@ export default {
                 active: true
             }],
             columns: [
+                {
+                    label: this.$t('group'),
+                    field: 'group',
+                    tdClass: 'group-icon'
+                },
                 {
                     label: this.$t('name'),
                     field: 'name',
