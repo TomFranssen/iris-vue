@@ -1,0 +1,32 @@
+db.getCollection('events').update(
+    { },
+    {
+        $set: { 'groupDutchGarrison': true }
+    },
+    {
+        'multi': true,
+        'upsert': false
+    }
+)
+
+db.getCollection('events').update(
+    { },
+    {
+        $set: { 'groupDuneSeaBase': false }
+    },
+    {
+        'multi': true,
+        'upsert': false
+    }
+)
+
+db.getCollection('events').update(
+    { },
+    {
+        $set: { 'owner': 'dg' }
+    },
+    {
+        'multi': true,
+        'upsert': false
+    }
+)
