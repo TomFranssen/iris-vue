@@ -521,6 +521,7 @@
 <script>
 import Axios from 'axios'
 import { getPrivateUsers } from '../utils/users-api'
+import { getPrivateEvent } from '../utils/events-api'
 const MAX_DAYS = 20
 
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
@@ -528,6 +529,7 @@ Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getIte
 export default {
     data () {
         return {
+            hasMutatedUsers: false,
             newOwner: '',
             columns: [
                 {
@@ -631,10 +633,12 @@ export default {
             this.$delete(this.event.eventDates, index)
         },
         removeSignedUpUser: function (eventDateIndex, signedUpUserIndex) {
+            this.hasMutatedUsers = true
             this.event.eventDates[eventDateIndex].signedUpUsers.splice(signedUpUserIndex, 1)
         },
         signUpUserToEvent: function (signedUpUsers, user, selectedCostume) {
             if (selectedCostume) {
+                this.hasMutatedUsers = true
                 const signUpData = {
                     signUpDate: new Date(),
                     username: user.user_metadata.username,
@@ -658,32 +662,51 @@ export default {
             // Add owner that is either DG or DSB
             this.event.owner = this.newOwner || this.owner
 
-            this.$validator.validateAll().then((result) => {
-                if (result) {
-                    if (confirm(self.$t('do-you-want-to-save-event'))) {
-                        if (this.edit) {
-                            promiseEvent = Axios.put(`${process.env.VUE_APP_API_URL}/api/private/event`, this.event)
-                        } else {
-                            promiseEvent = Axios.post(`${process.env.VUE_APP_API_URL}/api/private/event`, this.event)
-                        }
+            const newEvent = this.event
+            getPrivateEvent(this.$route.params.id).then((oldEvent) => {
+                if (oldEvent && oldEvent.eventDates) {
+                    for (let i = 0; i < oldEvent.eventDates.length; i++) {
+                        const idToCheck = oldEvent.eventDates[i]._id
+                        const signedUpUsersToCheck = oldEvent.eventDates[i].signedUpUsers.length
+                        const newFormEvent = newEvent.eventDates.find((current) => {
+                            return current._id === idToCheck
+                        })
 
-                        promiseEvent
-                            .then(function (response) {
-                                alert(self.$t('event-saved'))
-                                if (response.data.message) {
-                                    self.$router.push('events')
-                                } else {
-                                    console.log(response)
-                                }
-                            })
-                            .catch(function (error) {
-                                console.log(error)
-                            })
+                        if (newFormEvent.signedUpUsers.length !== signedUpUsersToCheck) {
+                            if (!this.hasMutatedUsers) {
+                                newFormEvent.signedUpUsers = oldEvent.eventDates[i].signedUpUsers
+                            }
+                        }
                     }
-                    return
                 }
-                alert(self.$t('fill-in-all-fields'))
-                this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
+
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        if (confirm(self.$t('do-you-want-to-save-event'))) {
+                            if (this.edit) {
+                                promiseEvent = Axios.put(`${process.env.VUE_APP_API_URL}/api/private/event`, this.event)
+                            } else {
+                                promiseEvent = Axios.post(`${process.env.VUE_APP_API_URL}/api/private/event`, this.event)
+                            }
+
+                            promiseEvent
+                                .then(function (response) {
+                                    alert(self.$t('event-saved'))
+                                    if (response.data.message) {
+                                        self.$router.push('events')
+                                    } else {
+                                        console.log(response)
+                                    }
+                                })
+                                .catch(function (error) {
+                                    console.log(error)
+                                })
+                        }
+                        return
+                    }
+                    alert(self.$t('fill-in-all-fields'))
+                    this.$el.querySelector('[data-vv-id=' + this.$validator.errors.items[0].id + ']').scrollIntoView()
+                })
             })
         },
         deleteEvent: function () {
