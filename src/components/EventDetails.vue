@@ -638,7 +638,7 @@ export default {
             }
 
             for (let costume of this.profileCostumes) {
-                if (costume.value === this.$data.selectedCostume) {
+                if (costume.value === this.$data.selectedCostume && costume.avatar) {
                     signUpData.avatar = costume.avatar
                 }
             }
