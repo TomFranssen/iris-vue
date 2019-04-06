@@ -14,7 +14,7 @@
             </span>
             <small class="text-muted">({{rows.length}})</small>
         </h1>
-        <div v-if="$store.getters.hasCostume">
+        <div>
             <vue-good-table
                 :columns="columns"
                 :rows="rows"
@@ -58,11 +58,6 @@
                     <i class="fa fa-archive" aria-hidden="true"></i> {{$t('view-archive')}}
                 </router-link>
             </div>
-        </div>
-        <div v-else>
-            <b-alert show variant="danger">
-                {{$t('no-costumes')}}
-            </b-alert>
         </div>
     </div>
 </template>

@@ -111,7 +111,6 @@
                 </b-row>
             </form>
         </div>
-
     </div>
 </template>
 
@@ -190,8 +189,10 @@ export default {
             const self = this
             this.$validator.validateAll().then((result) => {
                 if (result) {
+                    const clone = Object.assign({}, this.$data)
+                    delete clone.dgcostumes
                     if (confirm(this.$t('do-you-want-to-change-user'))) {
-                        Axios.patch(`${process.env.VUE_APP_API_URL}/api/private/user`, this.$data)
+                        Axios.patch(`${process.env.VUE_APP_API_URL}/api/private/user`, clone)
                             .then(function (response) {
                                 if (response.status === 200) {
                                     alert(self.$t('user-saved'))
