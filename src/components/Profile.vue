@@ -24,7 +24,16 @@
                 </div>
                 <div>
                     <h2 class="mt-3">
-                        {{$t('costumes')}}:
+                        {{$t('501st-costumes')}}:
+                    </h2>
+                    <div v-for="costume in myDgCostumes" v-bind:key="costume.costumeId">
+                        <img v-bind:src="costume.thumbnail" alt="">
+                        <h5 class="card-title">{{costume.costumeName}}</h5>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="mt-3">
+                        {{$t('extra-costumes')}}:
                     </h2>
                     <div v-for="costume in profile['https://iris.501st.nl/user_metadata'].costumes" v-bind:key="costume.name">
                         {{costume.name}}
@@ -34,9 +43,6 @@
                     <h2 class="mt-3">
                         {{$t('groups')}}:
                     </h2>
-                    <div v-for="group in profile['https://iris.501st.nl/app_metadata'].authorization.groups" v-bind:key="group">
-                        {{group}}
-                    </div>
                 </div>
                 <div>
                     <h2 class="mt-3">{{ $t("change-language") }}</h2>
@@ -51,10 +57,21 @@
 <script>
 import AppNav from './AppNav'
 import { isLoggedIn } from '../utils/auth'
+import { getDgCostumes } from '../utils/costume-api'
 
 export default {
     name: 'profile',
     computed: {
+        myDgCostumes () {
+            const legionId = this.$store.state.profile['https://iris.501st.nl/user_metadata'].legion_id
+            if (this.dgcostumes && this.dgcostumes.unit && this.dgcostumes) {
+                const user = this.dgcostumes.unit.members.find((member) => {
+                    return member.legionId.toString() === legionId
+                })
+                return user.costumes
+            }
+            return false
+        },
         profile () {
             return this.$store.state.profile
         },
@@ -75,11 +92,15 @@ export default {
             }
         }
     },
+    mounted () {
+        this.getDgCostumes()
+    },
     components: {
         AppNav
     },
     data () {
         return {
+            dgcostumes: [],
             breadcrumbs: [{
                 text: 'Home',
                 to: '/'
@@ -97,6 +118,11 @@ export default {
     methods: {
         isLoggedIn () {
             return isLoggedIn()
+        },
+        getDgCostumes () {
+            getDgCostumes().then((costumes) => {
+                this.dgcostumes = costumes
+            })
         }
     }
 }

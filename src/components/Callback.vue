@@ -19,6 +19,7 @@ export default {
 
         if (redirectUrl && getIdToken && getAccessToken) {
             this.$router.replace(redirectUrl)
+            localStorage.removeItem('redirectUrl')
         } else {
             this.$router.replace('/')
         }

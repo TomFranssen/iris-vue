@@ -427,6 +427,7 @@ import { isLoggedIn } from '../utils/auth'
 import { getPrivateEvent } from '../utils/events-api'
 import EventForm from './EventForm.vue'
 import AddToCalendar from './AddToCalendar.vue'
+import { getDgCostumes } from '../utils/costume-api'
 
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
@@ -449,6 +450,7 @@ export default {
             return this.$store.state.profile
         },
         profileCostumes () {
+            let my501stcostumes = []
             let costumeOptions = [
                 {
                     text: 'Handler',
@@ -459,18 +461,41 @@ export default {
                     value: 'Stand Duty'
                 }
             ]
+            const legionId = this.$store.state.profile['https://iris.501st.nl/user_metadata'].legion_id
+            if (this.dgcostumes && this.dgcostumes.unit && this.dgcostumes) {
+                const user = this.dgcostumes.unit.members.find((member) => {
+                    return member.legionId.toString() === legionId
+                })
+                my501stcostumes = user.costumes
+            }
+
+            for (let costume of my501stcostumes) {
+                costumeOptions.unshift({
+                    text: costume.costumeName,
+                    value: costume.costumeName,
+                    avatar: costume.photoURL
+                })
+            }
+
             if (this.$store.state.profile['https://iris.501st.nl/user_metadata'] !== undefined) {
-                for (let costume of this.$store.state.profile['https://iris.501st.nl/user_metadata'].costumes) {
-                    costumeOptions.unshift({
-                        text: costume.name,
-                        value: costume.name
-                    })
+                if (this.$store.state.profile['https://iris.501st.nl/user_metadata'] && this.$store.state.profile['https://iris.501st.nl/user_metadata'].costumes) {
+                    for (let costume of this.$store.state.profile['https://iris.501st.nl/user_metadata'].costumes) {
+                        costumeOptions.unshift({
+                            text: costume.name,
+                            value: costume.name
+                        })
+                    }
                 }
             }
             return costumeOptions
         }
     },
     methods: {
+        getDgCostumes () {
+            getDgCostumes().then((costumes) => {
+                this.dgcostumes = costumes
+            })
+        },
         setChangedCostume: function (row, value) {
             row.changedCustome = value
         },
@@ -611,6 +636,13 @@ export default {
                 avatar: this.$store.state.profile['https://iris.501st.nl/legion_thumbnail'],
                 userId: this.$store.state.profile.sub
             }
+
+            for (let costume of this.profileCostumes) {
+                if (costume.value === this.$data.selectedCostume) {
+                    signUpData.avatar = costume.avatar
+                }
+            }
+
             Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
             this.$validator.validateAll().then((result) => {
@@ -660,6 +692,12 @@ export default {
                 changedCustome: props.row.changedCustome
             }
 
+            for (let costume of this.profileCostumes) {
+                if (costume.value === props.row.changedCustome) {
+                    changeCostumeData.avatar = costume.avatar
+                }
+            }
+
             Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
             Axios.post(`${process.env.VUE_APP_API_URL}/api/private/event/change-costume`, changeCostumeData)
                 .then(function () {
@@ -697,6 +735,7 @@ export default {
     },
     data () {
         return {
+            dgcostumes: [],
             embedInForumIsVisible: true,
             breadcrumbs: [{
                 text: 'Home',
@@ -777,6 +816,7 @@ export default {
         }
     },
     mounted () {
+        this.getDgCostumes()
         if (this.$route.params.id && this.$route.params.id !== 'undefined') {
             this.getPrivateEvent()
         } else {

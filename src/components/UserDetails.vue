@@ -35,9 +35,21 @@
                 </b-col>
             </b-row>
         </div>
+
         <div>
             <b-row class="form-row">
-                <b-col cols="5" md="4" lg="2">{{$t('costumes')}}:</b-col>
+                <b-col cols="5" md="4" lg="2">{{$t('501st-costumes')}}:</b-col>
+                <b-col>
+                    <div class="costume-row mb-1 clearfix" v-for="costume in myDgCostumes" v-bind:key="costume.costumeId">
+                        <img class="float-left" v-bind:src="costume.thumbnail" alt="">
+                        <h5 class="card-title">{{costume.costumeName}}</h5>
+                    </div>
+                </b-col>
+            </b-row>
+        </div>
+        <div>
+            <b-row class="form-row">
+                <b-col cols="5" md="4" lg="2">{{$t('extra-costumes')}}:</b-col>
                 <b-col>
                     <div v-for="(costume, index) in user.user_metadata.costumes" v-bind:key="index">
                         {{costume.name}}
@@ -71,7 +83,7 @@
                     </b-col>
                 </b-row>
                 <b-row class="form-row" v-for="(costume, index) in user.user_metadata.costumes" v-bind:key="index">
-                    <b-col cols="5" md="4" lg="2"><label>{{$t('costume')}} {{index + 1}}</label></b-col>
+                    <b-col cols="5" md="4" lg="2"><label>{{$t('extra-costume')}} {{index + 1}}</label></b-col>
                     <b-col>
                         <v-select placeholder="test" label="name" v-model="user.user_metadata.costumes[index]" v-bind:options="costumes"></v-select>
                         <p class="text-danger" v-if="errors.has('costume-' + index)">{{ errors.first('costume-' + index + 1) }}</p>
@@ -106,14 +118,33 @@
 <script>
 import Axios from 'axios'
 import { getPrivateUser } from '../utils/users-api'
-import { getPrivateCostumes } from '../utils/costume-api'
+import { getPrivateCostumes, getDgCostumes } from '../utils/costume-api'
 
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
 export default {
     name: 'user-details',
     props: ['id'],
+    computed: {
+        myDgCostumes () {
+            const legionId = this.user.user_metadata.legion_id
+            if (this.dgcostumes && this.dgcostumes.unit && this.dgcostumes) {
+                const user = this.dgcostumes.unit.members.find((member) => {
+                    return member.legionId.toString() === legionId.toString()
+                })
+                if (user) {
+                    return user.costumes
+                }
+            }
+            return false
+        }
+    },
     methods: {
+        getDgCostumes () {
+            getDgCostumes().then((costumes) => {
+                this.dgcostumes = costumes
+            })
+        },
         getPrivateCostumes () {
             getPrivateCostumes().then((costumes) => {
                 this.costumes = costumes
@@ -185,6 +216,7 @@ export default {
     },
     data () {
         return {
+            dgcostumes: [],
             value: '',
             suggestionAttribute: 'name',
             suggestions: [],
@@ -210,6 +242,7 @@ export default {
         }
     },
     mounted () {
+        this.getDgCostumes()
         this.getPrivateUser()
         this.getPrivateCostumes()
     }
@@ -217,6 +250,13 @@ export default {
 </script>
 
 <style>
+    .costume-row {
+        display: flex;
+        align-items: center;
+    }
+    .costume-row img {
+        margin-right: 10px;
+    }
     .sbx-google__reset,
     .sbx-google__submit {
         display: none !important;

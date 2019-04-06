@@ -170,7 +170,10 @@ const translations = {
         'owner': 'owner',
         'choose-new-owner': 'Choose new owner',
         'new-owner-text': 'The owner changes what GEC\'s can edit this event.',
-        'signups-allowed-for': 'Signups allowed for'
+        'signups-allowed-for': 'Signups allowed for',
+        '501st-costumes': '501st costumes',
+        'extra-costumes': 'Extra costumes',
+        'extra-costume': 'Extra costume'
     },
     'nl-NL': {
         'info': 'Info',
@@ -344,7 +347,10 @@ const translations = {
         'owner': 'eigenaar',
         'choose-new-owner': 'Kies nieuwe eigenaar',
         'new-owner-text': 'De eigenaar bepaald welke GEC\'s dit evenement kunnen bewerken.',
-        'signups-allowed-for': 'Inschrijven mogelijk voor'
+        'signups-allowed-for': 'Inschrijven mogelijk voor',
+        '501st-costumes': '501st Kostuums',
+        'extra-costumes': 'Extra kostuums',
+        'extra-costume': 'Extra kostuum'
     },
     'de-DE': {
         'info': 'Info',
