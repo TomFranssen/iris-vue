@@ -566,7 +566,7 @@ export default {
         },
         getGoogleMapsStaticImageUrl () {
             const event = this.$data.event
-            return `https://maps.googleapis.com/maps/api/staticmap?center=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}&zoom=13&size=600x200&maptype=roadmap&markers=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}&key=AIzaSyAYazeF-nhbaP3tkZTqsoipY7JOfXb7qAM`
+            return `https://maps.googleapis.com/maps/api/staticmap?center=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}&zoom=13&size=600x200&maptype=roadmap&markers=${event.street}+${event.houseNumber}+${event.postcode}+${event.city}&key=${process.env.VUE_APP_GOOGLE_MAPS_ID}`
         },
         getFirstDate: function () {
             return this.$data.event.eventDates[0].date
