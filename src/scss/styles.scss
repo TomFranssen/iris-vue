@@ -162,6 +162,9 @@ select {
 .modal-dialog {
     white-space: normal !important;
 }
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
 
 table {
     &.no-head {
