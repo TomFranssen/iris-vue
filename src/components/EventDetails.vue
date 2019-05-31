@@ -450,7 +450,6 @@ export default {
             return this.$store.state.profile
         },
         profileCostumes () {
-            let my501stcostumes = []
             let costumeOptions = [
                 {
                     text: 'Handler',
@@ -461,21 +460,6 @@ export default {
                     value: 'Stand Duty'
                 }
             ]
-            const legionId = this.$store.state.profile['https://iris.501st.nl/user_metadata'].legion_id
-            if (this.dgcostumes && this.dgcostumes.unit && this.dgcostumes) {
-                const user = this.dgcostumes.unit.members.find((member) => {
-                    return member.legionId.toString() === legionId
-                })
-                my501stcostumes = user.costumes
-            }
-
-            for (let costume of my501stcostumes) {
-                costumeOptions.unshift({
-                    text: costume.costumeName,
-                    value: costume.costumeName,
-                    avatar: costume.photoURL
-                })
-            }
 
             if (this.$store.state.profile['https://iris.501st.nl/user_metadata'] !== undefined) {
                 if (this.$store.state.profile['https://iris.501st.nl/user_metadata'] && this.$store.state.profile['https://iris.501st.nl/user_metadata'].costumes) {
