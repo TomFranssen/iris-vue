@@ -61,7 +61,7 @@
         <h1>{{$t('signed-up-for-events')}}</h1>
 
         <div>
-            <ul v-if="signedupEvents" class="list-unstyled">
+            <ul v-if="signedupEvents.length > 0" class="list-unstyled">
               <li v-for="event in signedupEvents" v-bind:key="event._id">
                 <a v-bind:href="'/event/' + event._id">
                     {{ event.name }}
