@@ -58,6 +58,21 @@
             </b-row>
         </div>
 
+        <h1>{{$t('signed-up-for-events')}}</h1>
+
+        <div>
+            <ul v-if="signedupEvents" class="list-unstyled">
+              <li v-for="event in signedupEvents" v-bind:key="event._id">
+                <a v-bind:href="'/event/' + event._id">
+                    {{ event.name }}
+                </a>
+              </li>
+            </ul>
+            <div v-else>
+                {{$t('no-signups-for-member')}}
+            </div>
+        </div>
+
         <div v-if="$store.getters.isDgGec">
             <h1>{{$t('edit-user')}}</h1>
             <form action="">
@@ -118,6 +133,7 @@
 import Axios from 'axios'
 import { getPrivateUser } from '../utils/users-api'
 import { getPrivateCostumes, getDgCostumes } from '../utils/costume-api'
+import { getPrivateSignedUpEventsForUser } from '../utils/events-api'
 
 Axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
 
@@ -142,6 +158,19 @@ export default {
         getDgCostumes () {
             getDgCostumes().then((costumes) => {
                 this.dgcostumes = costumes
+            })
+        },
+        getPrivateSignedUpEventsForUser (userId) {
+            getPrivateSignedUpEventsForUser(userId).then((events) => {
+                this.signedupEvents = events.sort(function (a, b) {
+                    let adate = new Date(a.eventDates[0].date)
+                    let bdate = new Date(b.eventDates[0].date)
+                    let rv = adate - bdate
+                    if (rv === 0) {
+                        rv = a.name.localeCompare(b.name)
+                    }
+                    return rv
+                })
             })
         },
         getPrivateCostumes () {
@@ -182,6 +211,8 @@ export default {
                     user.user_metadata.legion_id = ''
                 }
                 this.user = user
+
+                this.getPrivateSignedUpEventsForUser(user.user_id)
             })
         },
         saveUser: function () {
@@ -217,6 +248,7 @@ export default {
     },
     data () {
         return {
+            signedupEvents: {},
             dgcostumes: [],
             value: '',
             suggestionAttribute: 'name',

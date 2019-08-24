@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getAccessToken } from './auth'
 
-export { getPrivateEvents, getPrivateEvent, getPrivateSignedUpEvents, getPrivateArchivedEvents }
+export { getPrivateEvents, getPrivateEvent, getPrivateSignedUpEvents, getPrivateArchivedEvents, getPrivateSignedUpEventsForUser }
 
 function getPrivateEvents () {
     const url = `${process.env.VUE_APP_API_URL}/api/private/events`
@@ -34,6 +34,20 @@ function getPrivateSignedUpEvents () {
     return axios.get(url, {
         headers: {
             Authorization: `Bearer ${getAccessToken()}`
+        }
+    })
+        .then(response => response.data)
+        .catch(error => {
+            console.error(error)
+        })
+}
+
+function getPrivateSignedUpEventsForUser (userId) {
+    const url = `${process.env.VUE_APP_API_URL}/api/private/signedupeventsforuser`
+    return axios.get(url, {
+        headers: {
+            Authorization: `Bearer ${getAccessToken()}`,
+            userId
         }
     })
         .then(response => response.data)

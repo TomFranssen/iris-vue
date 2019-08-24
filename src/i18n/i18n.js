@@ -172,7 +172,9 @@ const translations = {
         'signups-allowed-for': 'Signups allowed for',
         '501st-costumes': '501st costumes',
         'extra-costumes': 'Extra costumes',
-        'extra-costume': 'Extra costume'
+        'extra-costume': 'Extra costume',
+        'signed-up-for-events': 'Signed up for events',
+        'no-signups-for-member': 'No signups for this member'
     },
     'nl-NL': {
         'info': 'Info',
@@ -348,7 +350,9 @@ const translations = {
         'signups-allowed-for': 'Inschrijven mogelijk voor',
         '501st-costumes': '501st Kostuums',
         'extra-costumes': 'Extra kostuums',
-        'extra-costume': 'Extra kostuum'
+        'extra-costume': 'Extra kostuum',
+        'signed-up-for-events': 'Ingeschreven voor evenementen',
+        'no-signups-for-member': 'Geen inschrijvingen'
     },
     'de-DE': {
         'info': 'Info',
