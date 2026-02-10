@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "auth0-js": "^9.8.2",
-    "axios": "^0.18.1",
+    "axios": "^1.13.5",
     "babel-plugin-transform-runtime": "^6.23.0",
     "bootstrap-vue": "^2.0.0-rc.11",
     "eslint": "^4.19.1",
